@@ -1,0 +1,13 @@
+{% extends "base_backend.html" %}
+{% block content %}
+<div class="card">
+    <ul class="link-ul">
+        {% for article in articles %}
+        <li>
+            {{ article.title }}
+            <a href="/manage/article/{{ article.id}}/edit">Edit</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends "base_backend.html" %}
+{% block content %}
+
+<div class="card">
+    <h4>Edit Article</h4>
+    <hr/>
+    <form method="POST" action="/manage/article/edit" accept-charset="UTF-8">
+        <!--            <input name="_token" type="hidden" value="Nc8bQf5kM2DohNhqQ0ssWwAgrHdrrMRyINKlIM7T">-->
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+            <label for="title" class="mdl-textfield__label">Title:</label>
+            <input class="form-control mdl-textfield__input" name="title" type="text" id="title" required >
+        </div>
+
+        <div id="add_id" class="form-group">
+            <label for="MyID">Text:</label>
+            <textarea id="MyID" name="text"></textarea>
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="tags" class="mdl-textfield__label">Tags</label>
+            <input class="form-control mdl-textfield__input" name="tags" type="text" id="tags" required>
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="author" class="mdl-textfield__label">Author</label>
+            <input class="form-control mdl-textfield__input" name="author" type="text" id="author" required>
+        </div>
+
+        <div class="form-group" style="width:100px;display: inline-block;">
+            <select name="category">
+                <option value="algorithm">Algorithm</option>
+                <option value="acgn">ACGN</option>
+                <option value="code">Code</option>
+                <option value="daily">Daily</option>
+                <option value="essay">Essay</option>
+                <option value="web">Web</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div>Top?</div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="top_n">
+                <input class="mdl-radio__button" id="top_n" checked="checked" name="top" type="radio" value="0">No
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="top_y">
+                <input class="mdl-radio__button" id="top_y" name="top" type="radio" value="1">Yes
+            </label>
+        </div>
+
+        <div class="form-group">
+            <div>Open?</div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="open_n">
+                <input class="mdl-radio__button" id="open_n" checked="checked" name="open" type="radio" value="0">Show
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="open_y">
+                <input class="mdl-radio__button" id="open_y" name="open" type="radio" value="1">Hide
+            </label>
+        </div>
+
+        <div class="form-group">
+            <div>pic</div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pic_n" onclick="address(1)">
+                <input class="mdl-radio__button" id="pic_n" checked="checked" name="pic" type="radio" value="0">NO PIC
+            </label>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pic_y" onclick="address()">
+                <input class="mdl-radio__button" id="pic_y" name="pic" type="radio" value="1">HAVE PIC
+            </label>
+        </div>
+
+        <div id="p_address" class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+             style="display:none;">
+            <label for="pic_address" class="mdl-textfield__label">Picture Address</label>
+            <input class="form-control mdl-textfield__input" name="pic_address" type="text" id="pic_address">
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="id" class="mdl-textfield__label">迁移id</label>
+            <input class="form-control mdl-textfield__input" name="id" type="text" id="id" required>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <input class="btn btn-primary form-control  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                   type="submit" value="Add Article">
+        </div>
+
+        <script>
+              function address(s) {
+                if (s == 1) {
+                  document.querySelector("#p_address").setAttribute("style", "display:none;")
+                } else {
+                  document.querySelector("#p_address").setAttribute("style", "display:block;")
+                }
+              }
+
+
+
+        </script>
+
+
+    </form>
+
+</div>
+<link rel="stylesheet" href="/static/css/simplemde.min.css">
+<script src="/static/js/simplemde.min.js"></script>
+<style>
+  .editor-preview-active {
+    overflow: hidden;
+  }
+
+</style>
+<script>
+  var simplemde = new SimpleMDE({
+    autofocus: true,
+    element: document.getElementById("MyID"),
+    autosave: {
+      enabled: true,
+      uniqueId: "Chiaki_wlp3s0",
+      delay: 1000,
+    },
+    hideIcons: ["side-by-side", "fullscreen"],
+    showIcons: ["code", "table"],
+    toolbar: [{
+        name: "bold",
+        action: SimpleMDE.toggleBold,
+        className: "fa fa-bold",
+        title: "Bold",
+      }, {
+        name: "italic",
+        action: SimpleMDE.toggleItalic,
+        className: "fa fa-italic",
+        title: "Italic",
+      }, {
+        name: "strikethrough",
+        action: SimpleMDE.toggleStrikethrough,
+        className: "fa fa-strikethrough",
+        title: "Strikethrough",
+      },
+      "|", {
+        name: "code",
+        action: SimpleMDE.toggleCodeBlock,
+        className: "fa fa-code",
+        title: "Code",
+      }, {
+        name: "quote",
+        action: SimpleMDE.toggleBlockquote,
+        className: "fa fa-quote-left",
+        title: "Quote",
+      }, {
+        name: "unordered-list",
+        action: SimpleMDE.toggleUnorderedList,
+        className: "fa fa-list-ul",
+        title: "Generic List",
+      }, {
+        name: "ordered-list",
+        action: SimpleMDE.toggleOrderedList,
+        className: "fa fa-list-ol",
+        title: "Numbered List",
+      },
+      "|", {
+        name: "link",
+        action: SimpleMDE.drawLink,
+        className: "fa fa-link",
+        title: "Create Link",
+      }, {
+        name: "image",
+        action: SimpleMDE.drawImage,
+        className: "fa fa-picture-o",
+        title: "Insert Image",
+      }, {
+        name: "table",
+        action: SimpleMDE.drawTable,
+        className: "fa fa-table",
+        title: "Insert Table",
+      }, {
+        name: "horizontal-rule",
+        action: SimpleMDE.drawHorizontalRule,
+        className: "fa fa-minus",
+        title: "Insert Horizontal Line",
+      },
+      "|", {
+        name: "preview",
+        action: SimpleMDE.togglePreview,
+        className: "fa fa-eye no-disable",
+        title: "Toggle Preview",
+      },
+      "|", {
+        name: "guide",
+        action: function customFunction(editor) {
+          window.open("https://simplemde.com/markdown-guide", "_blank");
+        },
+        className: "fa fa-question-circle",
+        title: "Markdown Guide",
+      },
+      "|", // Separator
+    ],
+
+  });
+
+
+</script>
+{% endblock %}

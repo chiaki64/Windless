@@ -1,0 +1,28 @@
+{% extends "base_index.html" %}
+{% block content %}
+
+{% for article in articles %}
+<card class="card">
+    <card-title class="title mdl-color-text--grey-500">
+        <a href="/article/{{ article.id }}">{{ article.title }}</a>
+    </card-title>
+
+    <card-date class="date">
+        <i class="material-icons">event_note</i> {{ article.date }} &nbsp;
+        <i class="material-icons">person_outline</i> {{ article.author }} &nbsp;
+        <i class="material-icons">folder_open</i><a href="/category/{{ article.category }}">{{ article.category }}</a>
+    </card-date>
+
+    <hr>
+
+    <article>
+        {{ article.html }}
+    </article>
+
+    <card-link>
+        <a href="/article/{{ article.id }}">Continued Reading...</a>
+    </card-link>
+
+</card>
+{% endfor %}
+{% endblock %}

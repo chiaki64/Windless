@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Windless</title>
+  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">-->
+
+  <link rel="stylesheet" href="/static/css/material.min.css">
+  <link rel="stylesheet" href="/static/css/windless.css">
+  <script src="/static/js/windless.js"></script>
+</head>
+
+<body>
+  <layout class='layout mdl-layout mdl-js-layout mdl-layout--fixed-header'>
+    <!-- Component: Header -->
+    <header class="header mdl-layout__header mdl-layout__header--waterfall">
+      <header class="header-row">
+        <!-- Title -->
+        <span class="header-title mdl-layout-title">稗田千秋</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <spacer class="spacer"></spacer>
+        <!-- Search -->
+        <search class="search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+            <i class="material-icons">search</i>
+          </label>
+          <search-textfield class="mdl-textfield__expandable-holder">
+            <input class="mdl-textfield__input" type="text" id="search-field">
+          </search-textfield>
+        </search>
+
+        <!-- Navigation. We hide it in small screens. -->
+        <navigation class="navigation-container">
+          <nav class="navigation mdl-navigation">
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/">Home</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" id="btn_category">Category</a>
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="btn_category">
+              <a href="/category/algorithm">
+                <li class="mdl-menu__item">Algorithm</li>
+              </a>
+              <a href="/category/acgn">
+                <li class="mdl-menu__item">ACGN</li>
+              </a>
+              <a href="/category/code">
+                <li class="mdl-menu__item">Code</li>
+              </a>
+              <a href="/category/daily">
+                <li class="mdl-menu__item">Daily</li>
+              </a>
+              <a href="/category/essay">
+                <li class="mdl-menu__item">Essay</li>
+              </a>
+              <a href="/category/web">
+                <li class="mdl-menu__item">Web</li>
+              </a>
+            </ul>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/links">Links</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+          </nav>
+        </navigation>
+        <!-- Mobile Title -->
+        <span class="mobile-title mdl-layout-title"></span>
+        <!-- Button Gruop -->
+        <div class="header-button">
+          <button id="mbtn" class="mdl-button mdl-js-button mdl-button--icon" onclick="">
+            <i class="material-icons" id="micon">music_note</i>
+          </button>
+          <span class="mdl-tooltip" for="mbtn">音乐/Music</span>
+        </div>
+        <div class="header-button">
+          <button id="snow_btn" class="mdl-button mdl-js-button mdl-button--icon" onclick="">
+            <i class="material-icons" id="snow_icon">sync</i>
+          </button>
+          <span class="mdl-tooltip" for="snow_btn" id="snow_tooltip">主题/Theme</span>
+        </div>
+        <div class="header-button">
+          <button id="rss_btn" class="mdl-button mdl-js-button mdl-button--icon" onclick="window.location.href='/feed'">
+            <i class="material-icons" id="rss_icon">rss_feed</i>
+          </button>
+          <span class="mdl-tooltip" for="rss_btn" id="rss_tooltip">订阅/Feed</span>
+        </div>
+        <!-- More Button -->
+        <button class="header-menu-button mdl-button mdl-js-button mdl-button--icon" id="more-button">
+          <i class="material-icons">more_vert</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+          <a href="">
+            <li class="mdl-menu__item">Inventory</li>
+          </a>
+          <a href="/archive">
+            <li class="mdl-menu__item">Archive</li>
+          </a>
+          <a href="/booklist">
+            <li class="mdl-menu__item">BookList</li>
+          </a>
+          <a href="/auth/login">
+            <li class="mdl-menu__item">Login</li>
+          </a>
+        </ul>
+      </header>
+    </header>
+
+    <!-- Component: Drawer -->
+    <wind-drawer class="drawer mdl-layout__drawer">
+      <span class="mdl-layout-title">
+          <img class="drawer-avatar" src="/static/img/avatar_summer.jpg">
+          <h5 style="width:100%;margin-top:8px;text-align: center;">稗田千秋</h5>
+          <p id="status">当前离线</p>
+          <p>东方舰娘/伪前端/算法鶸<br>RPG MAKER/古典文学/代码洁癖</p>
+        </span>
+
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="/">Home</a>
+        <a class="mdl-navigation__link" href="/category/acgn">ACGN</a>
+        <a class="mdl-navigation__link" href="/category/algorithm">Algorithm</a>
+        <a class="mdl-navigation__link" href="/category/code">Code</a>
+        <a class="mdl-navigation__link" href="/category/daily">Daily</a>
+        <a class="mdl-navigation__link" href="/category/essay">Essay</a>
+        <a class="mdl-navigation__link" href="/category/web">Web</a>
+
+        <wind-separator class="drawer-separator"></wind-separator>
+
+        <a class="mdl-navigation__link" href="/links">Links</a>
+        <a class="mdl-navigation__link" href="/archive">Archive</a>
+        <a class="mdl-navigation__link" href="/rss">Feed</a>
+        <a class="mdl-navigation__link" href="/about">About</a>
+      </nav>
+
+      </div>
+    </wind-drawer>
+
+
+    <!-- Component: Container -->
+    <container class="container mdl-grid mdl-layout__content">
+
+      <card-content id="card-content" class="card-content mdl-cell mdl-cell--8-col">
+
+
+          {% block content %}
+          {% endblock %}
+
+          {% block disqus %}
+          {% endblock %}
+      </card-content>
+
+
+      <footer class="mdl-mini-footer">
+        <footer class="footer-default mdl-mini-footer">
+          <p>CopyRight © 2016 Chiaki.</p>
+          <p>Content licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY-NC-SA 4.0</a></p>
+          <p>Proudly powered by <a href="https://wind.moe/" title="稗田千秋" target="_blank" class="">Windless</a>.</p>
+        </footer>
+      </footer>
+
+
+    </container>
+
+
+  </layout>
+</body>
+<script src="/static/js/material.js"></script>
+<link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons">
+</html>

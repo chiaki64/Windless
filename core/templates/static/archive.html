@@ -1,0 +1,9 @@
+{% extends "base_index.html" %}
+{% block content %}
+
+<card class="card">
+    {% for info in archive %}
+        <div>{{ info.title }} - {{ info.category }}</div>
+    {% endfor %}
+</card>
+{% endblock %}
