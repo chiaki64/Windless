@@ -1,6 +1,6 @@
 dev: true
 info:
-  varsion: '0.2.0'
+  version: '0.2.0'
   author: 'Hieda no Chiaki'
 server:
   host: '0.0.0.0'
