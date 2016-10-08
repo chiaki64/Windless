@@ -1,9 +1,15 @@
 {% extends "base_index.html" %}
 {% block content %}
 <card class="card">
-Profile
-    <p>
-        字数： {{ word_count }}
-    </p>
+    <card-title class="title mdl-color-text--grey-500">About</card-title>
+    <card-date class="date">
+        <i class="material-icons">event_note</i> {{ profile.updated_date }}
+        <i class="material-icons">person_outline</i> {{ profile.name }}
+    </card-date>
+    <hr>
+    <article>
+        {{ profile.html }}
+        <br>字数： {{ word_count }}
+    </article>
 </card>
 {% endblock %}

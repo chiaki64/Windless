@@ -7,7 +7,8 @@
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="name" class="mdl-textfield__label">昵称</label>
-            <input class="form-control mdl-textfield__input" name="name" type="text" id="name" value="{{ profile.name }}" required>
+            <input class="form-control mdl-textfield__input" name="name" type="text" id="name"
+                   value="{{ profile.name }}" required>
         </div>
 
         <div class="form-group">
@@ -15,7 +16,7 @@
             <input type="file" name="avatar">
         </div>
 
-        <div id="add_id" class="form-group" style="margin-top:20px;">
+        <div class="form-group" style="margin-top:20px;">
             <textarea id="MyID" name="text"></textarea>
         </div>
 
@@ -35,6 +36,7 @@
   .editor-preview-active {
     overflow: hidden;
   }
+
 
 
 
@@ -128,9 +130,7 @@
     ],
 
   });
-
-
-
+  simplemde.value("{{ profile.text }}");
+  // TODO: 监听url改变修改头像
 </script>
-
 {% endblock %}

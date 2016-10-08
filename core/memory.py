@@ -4,9 +4,10 @@
 
 import asyncio
 import aioredis
-import datetime
 import json
-from eternity import memory_conf
+from utils import load_config
+
+config = load_config()
 
 
 class RedisFilter:
@@ -127,7 +128,7 @@ class RedisFilter:
 
     @staticmethod
     def prefix(table):
-        return memory_conf['database'] + ':' + table
+        return config['memory']['database'] + ':' + table
 
     # Other
     async def close(self):
@@ -138,12 +139,12 @@ async def fun():
     redis = await aioredis.create_redis(('localhost', 6379), loop=loop)
     redis = RedisFilter(redis)
 
-    await redis.lpush('Test', {'id': '1'}, isdict=True)
-    await redis.lpush('Test', {'id': '5'}, isdict=True)
-    await redis.lpush('Test', {'id': '3'}, isdict=True)
-    await redis.lpush('Test', {'id': '21'}, isdict=True)
-
-    print(await redis.lget('Test', isdict=True))
+    # await redis.lpush('Test', {'id': '1'}, isdict=True)
+    # await redis.lpush('Test', {'id': '5'}, isdict=True)
+    # await redis.lpush('Test', {'id': '3'}, isdict=True)
+    # await redis.lpush('Test', {'id': '21'}, isdict=True)
+    #
+    # print(await redis.lget('Test', isdict=True))
 
     print('finish')
     await redis.close()

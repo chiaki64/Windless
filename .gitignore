@@ -96,19 +96,10 @@ node_modules/
 cores/
 _core/
 rubbish/
+.idea/
+app/
+docs/
 
-将删除 .idea/.name
-将删除 .idea/Windless.iml
-将删除 .idea/encodings.xml
-将删除 .idea/jsLibraryMappings.xml
-将删除 .idea/misc.xml
-将删除 .idea/modules.xml
-将删除 .idea/workspace.xml
-将删除 app/
-将删除 core/static/
-将删除 core/templates/backend/update.html
-将删除 core/templates/backend/write.html
-将删除 core/tests/memory.py
-将删除 core/tests/test_redis.py
-将删除 core/tests/test_setting.py
-将删除 docs/
+# My Files
+test.py
+listen.py

@@ -20,7 +20,7 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
         self.restart = fn
 
     def on_any_event(self, event):
-        if event.src_path.endswith(".py"):
+        if event.src_path.endswith((".py", ".yaml")):
             log("Python source has changed:%s" % event.src_path)
             self.restart()
 
@@ -38,8 +38,6 @@ def kill_process():
 def start_process():
     global process, command
     log("Start process %s ..." % command)
-    # subprocess.Popen(['sudo', '.', '/home/chiaki/Public/Python/env/windless/bin/activate'], stdin=sys.stdin,
-    #                  stdout=sys.stdout, stderr=sys.stderr)
     process = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
 
 
@@ -76,10 +74,6 @@ if __name__ == '__main__':
         exit(0)
     if argv[0] != "python3":
         argv.insert(0, "python3")
-        # argv.insert(0, '&&')
-        # argv.insert(0, '/home/chiaki/Public/Python/env/windless/bin/activate')
-        # argv.insert(0, '.')
-        # argv.insert(0, 'sudo')
     command = argv
     # 监听路径
     path = os.path.abspath(".")

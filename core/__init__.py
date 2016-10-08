@@ -5,7 +5,7 @@
 # pytest -s
 
 # sudo docker exec -it 9c5621253095  /bin/bash
-#  sudo docker ps -a
+# sudo docker ps -a
 # sudo docker-compose up -d
 # sudo docker rm -f $(sudo docker ps -aq)
 

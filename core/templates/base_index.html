@@ -91,7 +91,7 @@
           <a href="/archive">
             <li class="mdl-menu__item">Archive</li>
           </a>
-          <a href="/booklist">
+          <a href="/book">
             <li class="mdl-menu__item">BookList</li>
           </a>
           <a href="/auth/login">
@@ -136,13 +136,15 @@
 
       <card-content id="card-content" class="card-content mdl-cell mdl-cell--8-col">
 
-
           {% block content %}
           {% endblock %}
 
           {% block disqus %}
           {% endblock %}
       </card-content>
+
+      {% block link %}
+          {% endblock %}
 
 
       <footer class="mdl-mini-footer">

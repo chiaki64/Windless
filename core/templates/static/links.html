@@ -1,36 +1,36 @@
 {% extends "base_index.html" %}
-{% block content %}
+{% block link %}
 <script>
-    var cls = document.querySelector('#card-content').className;
-    cls += ' card';
-    document.querySelector('#card-content').className = cls;
-
-
-
+    var _p = document.querySelector('.container')
+    var _e = document.querySelector('#card-content')
+    _p.removeChild(_e)
 </script>
-<div style="width:100%">
-    <ul class="links">
-        <li style="clear: both;float: none;width:100%;margin:0 0 0 -10px;">
-            <div class="title mdl-color-text--grey-500">
-                Friends Links
-            </div>
-            <hr>
-        </li>
-        {% for friend in friends %}
-        <li>
-            <img src="{{ friend.avatar }}">
-            <a href="{{ friend.url }}" target="_blank">
-                <p id="chiaki" class="nickname">{{ friend.name }}</p>
-                <p>{{ friend.desc }}</p>
-            </a>
-            <div class="mdl-tooltip" for="chiaki">
-                {{ friend.url }}
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+<card-content class="card card-content mdl-cell mdl-cell--8-col" style="padding:0">
 
-</div>
+    <div style="width:100%">
+        <ul class="links">
+            <li style="clear: both;float: none;width:100%;margin:0 0 0 -10px;">
+                <div class="title mdl-color-text--grey-500" style="padding-top:20px;">
+                    Friends Links
+                </div>
+                <hr>
+            </li>
+            {% for friend in friends %}
+            <li>
+                <img src="{{ friend.avatar }}">
+                <a href="{{ friend.url }}" target="_blank">
+                    <p id="chiaki" class="nickname">{{ friend.name }}</p>
+                    <p>{{ friend.desc }}</p>
+                </a>
+                <div class="mdl-tooltip" for="chiaki">
+                    {{ friend.url }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</card-content>
 <!-- 需要评论框-->
 {% endblock %}
 
@@ -58,6 +58,7 @@
                 s.setAttribute('data-timestamp', +new Date());
                 (d.head || d.body).appendChild(s);
             })();
+
 
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
