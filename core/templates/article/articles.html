@@ -1,6 +1,5 @@
 {% extends "base_index.html" %}
 {% block content %}
-
 {% for article in articles %}
 <card class="card">
     <card-title class="title mdl-color-text--grey-500">
@@ -24,5 +23,14 @@
     </card-link>
 
 </card>
+
+<script>
+     var cate = {'essay': '随笔', 'daily': '日常', 'code': '代码', 'algorithm': '算法', 'acgn': 'ACGN','web':'Web'};
+     if (location.href.indexOf("category") > 0) {
+         var nt = location.href.split("category/")[1].toLowerCase();
+         document.title = cate[nt] + " - Wind.moe";
+     }
+</script>
+
 {% endfor %}
 {% endblock %}

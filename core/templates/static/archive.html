@@ -1,9 +1,23 @@
 {% extends "base_index.html" %}
 {% block content %}
 
-<card class="card">
+<card class="card archive">
+    <card-title class="title mdl-color-text--grey-500">Archive</card-title>
+    <card-date class="date">
+        {{ profile.name }} - {{ profile.updated_date }}
+    </card-date>
+    <hr>
+    <br>
     {% for info in archive %}
-        <div>{{ info.title }} - {{ info.category }}</div>
+        <strong>{{ info }}</strong>
+    <ul>
+        {% for article in archive[info] %}
+            <li>{{ article.day }}  &nbsp;<a href="/article/{{ article.id }}">{{ article.title }}</a></li>
+        {% endfor %}
+        </ul>
     {% endfor %}
 </card>
+<script>
+    document.title = "归档 - Wind.moe"
+</script>
 {% endblock %}
