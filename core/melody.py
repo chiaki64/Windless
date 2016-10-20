@@ -5,6 +5,7 @@
 import asyncio
 import jinja2
 import os
+import sys
 import uvloop
 import aioredis
 import aiohttp_jinja2
@@ -27,10 +28,12 @@ async def init(loop):
     policy = auth.CookieTktAuthentication(os.urandom(
         32) if not dev else config.get('tk'), 7200, include_ip=True)
     # Middleware
-    middlewares = [session_middleware(EncryptedCookieStorage(os.urandom(
+    middlewares = [
+        session_middleware(EncryptedCookieStorage(os.urandom(
         32) if not dev else config.get('tk'))),
                    auth.auth_middleware(policy),
-                   error_middleware]
+                   error_middleware
+    ]
     if dev:
         middlewares.append(toolbar_middleware_factory)
     # 初始化
@@ -44,6 +47,8 @@ async def init(loop):
     else:
         redis_ip = os.environ["REDIS_PORT_6379_TCP_ADDR"]
         template_addr = '/code/core/templates'
+
+    print(dev, redis_ip)
 
     redis = await aioredis.create_redis((redis_ip, config['memory']['port']), loop=loop)
     app.redis = RedisFilter(redis)
@@ -72,10 +77,13 @@ async def init(loop):
     print('Server started at http://%s:%s...' % (config['server']['host'], config['server']['port']))
     return _srv, _handler, app
 
+    # return app
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 loop = asyncio.get_event_loop()
 srv, handler, app = loop.run_until_complete(init(loop))
+# print(sys.argv)
+# web.run_app(app, host=config['server']['host'], port=config['server']['port'])
 try:
     loop.run_forever()
 except (KeyboardInterrupt, SystemExit):

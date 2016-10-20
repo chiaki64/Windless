@@ -32,7 +32,7 @@ async def handler_not_found(request, msg='Page Not Found!'):
 
 
 async def word_count(redis):
-    # 简单的字数统计，待修改
+    # TODO:简单的字数统计
     li = await redis.get_list('Article')
     length = 0
     for i in li:

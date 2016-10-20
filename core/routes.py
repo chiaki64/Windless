@@ -12,7 +12,7 @@ routes = [
     # Static
     ('GET', '/links', views.LinkView, 'links'),
     ('GET', '/archive', views.ArchiveView, 'archive'),
-    ('GET', '/book', views.BookView, 'book'),
+    # ('GET', '/book', views.BookView, 'book'),
     ('GET', '/about', views.ProfileView, 'about'),
     ('GET', '/feed', views.rss_view, 'rss'),
     # Account

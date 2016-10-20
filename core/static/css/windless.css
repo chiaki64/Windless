@@ -11,7 +11,8 @@ body {
   padding: 0;
 }
 body::before {
-  background-image: url('/static/img/background.jpg');
+  /* background-image: url('/static/img/background.jpg'); */
+  background-image: url(https://dn-wind-moe.qbox.me/static/img/manage_background.webp);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -597,6 +598,6 @@ pre img {
 }
 .archive ul {
   list-style-type: none;
-  padding-left: 20px;
+  padding-left: 40px;
 }
 

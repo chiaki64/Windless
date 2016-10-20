@@ -56,8 +56,17 @@ class ArchiveView(AbsWebView):
     @aiohttp_jinja2.template('static/archive.html')
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
-        print(data)
-        return {'archive': data}
+        dit = {}
+        for i in data:
+            date = time.strftime('%Y年%m月|%d日', time.localtime(i['created_time']))
+            month = date.split('|')[0]
+            if month not in dit:
+                dit[month] = []
+            i['day'] = date.split('|')[1]
+            dit[month].append(i)
+        print(dit)
+        return {'archive': dit,
+                'profile': await self.redis.get('Profile')}
 
 
 class LinkView(AbsWebView):
@@ -82,10 +91,10 @@ class ProfileView(AbsWebView):
         }
 
 
-class BookView(AbsWebView):
-    @aiohttp_jinja2.template('static/book.html')
-    async def get(self):
-        pass
+# class BookView(AbsWebView):
+#    @aiohttp_jinja2.template('static/book.html')
+#    async def get(self):
+#        pass
 
 
 class LoginView(AbsWebView):
@@ -115,7 +124,35 @@ class LogoutView(AbsWebView):
 class BackendIndexView(AbsWebView):
     @aiohttp_jinja2.template('backend/index.html')
     async def get(self):
-        pass
+        # 数据监控 服务器数据、文章情况等
+        import psutil
+        import platform
+        system = platform.uname().system
+        release = platform.uname().release
+        cpu_used = psutil.cpu_percent()
+        memory_used = psutil.virtual_memory().percent
+
+        article_count = await self.redis.count('Article')
+        publish_count = (await self.redis.get('Archive'))['list'].__len__()
+        category = ['algorithm', 'acgn', 'code', 'daily', 'essay', 'web']
+        category_count = {}
+        for cat in category:
+            category_count[cat] = (await self.redis.lget('Category.' + cat)).__len__()
+
+        print(category_count)
+        return {
+            'system': {
+                'version': system,
+                'release': release,
+                'cpu_used': cpu_used,
+                'memory_used': memory_used
+            },
+            'articles': {
+                'count': article_count,
+                'publish': publish_count,
+                'category': category_count
+            }
+        }
 
 
 @auth.auth_required
@@ -128,16 +165,22 @@ class BackendArticleEditView(AbsWebView):
         data = await self.request.post()
         # important
         data = dict({}, **data)
+        # 处理迁移文章
+        if data['id'] == '':
+            data['id'] = None
+
         data['html'] = misaka.html(data['text'])
         data['created_time'] = time.time()
-        data['date'] = time.strftime('%b.%d %Y', time.localtime(data['created_time']))
+
+        if data['time'] == '':
+            data['date'] = time.strftime('%b.%d %Y', time.localtime(data['created_time']))
+        else:
+            data['date'] = time.strftime('%b.%d %Y', time.localtime(int(data['time'].strip())))
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
         # 删除分割线
         data['html'] = data['html'].replace('<hr>', '', 1)
-        # 处理迁移文章
-        if data['id'] == '':
-            data['id'] = None
+
         id = await self.redis.set('Article', data, id=data['id'])
         # 保存到Category
         await self.redis.lpush('Category.' + data['category'], id)
@@ -160,7 +203,9 @@ class BackendArticleUpdateView(AbsWebView):
     async def get(self):
         article_id = self.request.match_info['id']
         data = await self.redis.get('Article', article_id)
-        data['text'] = data['text'].replace('\r\n', '\\n')
+        print(data['text'])
+
+        data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n')
         return {'article': data}
 
     async def post(self):
@@ -235,7 +280,7 @@ class BackendProfileView(AbsWebView):
 class BackendConfigView(AbsWebView):
     @aiohttp_jinja2.template('backend/config.html')
     async def get(self):
-        return {}
+        pass
 
 
 @auth.auth_required
@@ -286,4 +331,13 @@ async def rss_view(request):
 class APIHandler:
     # API View
     def __init__(self):
+        pass
+
+    def index(self):
+        pass
+
+    def category(self):
+        pass
+
+    def article(self):
         pass
