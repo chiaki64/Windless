@@ -20,12 +20,11 @@ pathtools==0.1.2
 py==1.4.31
 pyasn1==0.1.9
 pycparser==2.14
-PyRSS2Gen==1.1
 pytest==3.0.3
 PyYAML==3.12
-qiniu==7.0.8
 requests==2.11.1
 six==1.10.0
 ticket-auth==0.1.4
 uvloop==0.5.3
 watchdog==0.8.3
+psutil==4.3.1
