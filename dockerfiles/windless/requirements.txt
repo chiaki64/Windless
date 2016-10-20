@@ -14,7 +14,6 @@ httptools==0.0.9
 idna==2.1
 Jinja2==2.8
 MarkupSafe==0.23
-misaka==2.0.0
 multidict==2.1.1
 pathtools==0.1.2
 py==1.4.31

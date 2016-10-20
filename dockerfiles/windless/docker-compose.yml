@@ -13,5 +13,4 @@ windless:
         - redis:redis
     ports:
         - "127.0.0.1:8080:8080"
-    command:
-        python /code/core/listen.py
+    command: bash /code/dockerfiles/windless/run.sh

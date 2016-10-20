@@ -1,3 +1,4 @@
+-i http://pypi.douban.com/simple
 aiohttp==1.0.2
 aiohttp-auth==0.1.1
 aiohttp-debugtoolbar==0.1.2
@@ -15,18 +16,16 @@ idna==2.1
 Jinja2==2.8
 MarkupSafe==0.23
 misaka==2.0.0
-multidict==2.1.1
+multidict==2.1.2
 pathtools==0.1.2
 py==1.4.31
 pyasn1==0.1.9
 pycparser==2.14
-PyRSS2Gen==1.1
 pytest==3.0.3
 PyYAML==3.12
-qiniu==7.0.8
 requests==2.11.1
 six==1.10.0
 ticket-auth==0.1.4
 uvloop==0.5.3
 watchdog==0.8.3
-gunicorn
+psutil==4.3.1
