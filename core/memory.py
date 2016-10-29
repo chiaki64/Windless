@@ -5,7 +5,7 @@
 import asyncio
 import aioredis
 import json
-from utils import load_config
+from utils.shortcuts import load_config
 
 config = load_config()
 

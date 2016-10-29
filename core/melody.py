@@ -5,7 +5,6 @@
 import asyncio
 import jinja2
 import os
-import sys
 import uvloop
 import aioredis
 import aiohttp_jinja2
@@ -17,7 +16,8 @@ from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
-from utils import error_middleware, load_config
+from utils.middlewares import error_middleware
+from utils.shortcuts import load_config
 
 config = load_config()
 dev = config.get('dev')
@@ -83,8 +83,6 @@ async def init(loop):
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 loop = asyncio.get_event_loop()
 srv, handler, app = loop.run_until_complete(init(loop))
-# print(sys.argv)
-# web.run_app(app, host=config['server']['host'], port=config['server']['port'])
 try:
     loop.run_forever()
 except (KeyboardInterrupt, SystemExit):
