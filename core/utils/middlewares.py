@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from aiohttp import web
-from .shortcuts import (http_400_response, http_404_response)
+from .response import (http_400_response, http_404_response)
 
 
 async def error_middleware(app, handler):

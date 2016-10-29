@@ -10,9 +10,10 @@ from aiohttp import web
 from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
-from utils.shortcuts import (http_400_response,
-                             load_config,
-                             word_count)
+from utils.response import http_400_response
+from utils.shortcuts import (load_config,
+                             word_count,
+                             create_backup)
 
 config = load_config()
 
@@ -134,8 +135,8 @@ class BackendIndexView(AbsWebView):
         release = platform.uname().release
         cpu_used = psutil.cpu_percent()
         memory_used = psutil.virtual_memory().percent
+        article_count = await self.redis.count('Article')
         try:
-            article_count = await self.redis.count('Article')
             publish_count = (await self.redis.get('Archive'))['list'].__len__()
         except TypeError:
             publish_count = 0
@@ -199,6 +200,8 @@ class BackendArticleEditView(AbsWebView):
             }, isdict=True)
         # 更新字数统计
         await self.redis.set('Data.WordCount', await word_count(self.redis), many=False)
+        # 备份
+        await create_backup(self.redis)
         return web.HTTPFound('/')
 
 

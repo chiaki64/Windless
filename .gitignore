@@ -99,7 +99,9 @@ rubbish/
 .idea/
 app/
 docs/
+core/backup/
 
 # My Files
 test.py
 core/monitor.py
+dump.rdb

@@ -1,22 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import json
+import time
 import yaml
-import aiohttp_jinja2
-from aiohttp import web
-
-
-async def http_400_response(error_reason):
-    return web.json_response({
-        'status': 'error',
-        'content': error_reason
-    }, status=400)
-
-
-async def http_404_response(request, msg='Page Not Found!'):
-    res = aiohttp_jinja2.render_template('error/404.html', request, {'msg': msg})
-    res.set_status(404)
-    return res
 
 
 async def word_count(redis):
@@ -49,3 +36,25 @@ def load_config(path=''):
     return dict(default, **config)
 
 
+async def create_backup(redis, *, env=True):
+
+    articles = await redis.get_list('Article', isauth=True)
+    links = await redis.lget('Link', isdict=True)
+    profile = await redis.get('Profile')
+
+    data = {
+        'articles': articles,
+        'links': links,
+        'profile': profile
+    }
+
+    name = time.strftime('%Y_%m_%d_%H%M%S', time.localtime(time.time()))
+    import os
+    print(os.path.abspath(os.curdir))
+    if env:
+        file = open('./backup/windless_' + name + '.json', 'w')
+    else:
+        file = open('/code/core/backup/' + name + '.json', 'w')
+    data = json.dumps(data)
+    file.write(data)
+    file.close()
