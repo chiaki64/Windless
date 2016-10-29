@@ -31,6 +31,13 @@ async def handler_not_found(request, msg='Page Not Found!'):
     return res
 
 
+async def http_400_response(error_reason):
+    return web.json_response({
+        'status': 'error',
+        'content': error_reason
+    }, status=400)
+
+
 async def word_count(redis):
     # TODO:简单的字数统计
     li = await redis.get_list('Article')
@@ -43,6 +50,7 @@ async def word_count(redis):
 
 
 def load_config(path=''):
+    import socket
     try:
         default = yaml.load(open('./eternity_default.yaml'))
     except FileNotFoundError:
@@ -53,5 +61,13 @@ def load_config(path=''):
     except TypeError:
         config = {}
     config['tk'] = b'\x9f?\x05\xb90\x01R\xb9\xc0\xa5V`\xb3\xaa\xf3\xa0]\xceN\xb0C\xcc\x9d=~\xa5U\xc2W\x88\xd2\xc4'
+    if config['env']['hostname'] == socket.gethostname():
+        config['dev'] = True
+    else:
+        config['dev'] = False
     return dict(default, **config)
+
+
+class InvalidPage(Exception):
+    pass
 

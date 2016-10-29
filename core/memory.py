@@ -146,6 +146,8 @@ async def fun():
     #
     # print(await redis.lget('Test', isdict=True))
 
+    print(await redis.get_list('Article', keys=[1, 2]))
+
     print('finish')
     await redis.close()
 

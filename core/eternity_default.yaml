@@ -1,6 +1,7 @@
-dev: true
+env:
+  hostname: 'default'
 info:
-  version: '0.2.0'
+  version: '0.2.1'
   author: 'Hieda no Chiaki'
 server:
   host: '0.0.0.0'
@@ -18,3 +19,8 @@ blog:
   name: 'Windless'
   link: 'https://wind.moe'
   description: 'Windless是稗田千秋的个人博客,记录随笔,代码,日常,ACGN等内容'
+mail:
+  host: 'smtp.qq.com'
+  port: 465
+  account: 'r18@wind.moe'
+  password: '_(:з」∠)_'
