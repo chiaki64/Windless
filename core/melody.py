@@ -5,7 +5,6 @@
 import asyncio
 import jinja2
 import os
-import sys
 import uvloop
 import aioredis
 import aiohttp_jinja2
@@ -84,8 +83,6 @@ async def init(loop):
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 loop = asyncio.get_event_loop()
 srv, handler, app = loop.run_until_complete(init(loop))
-# print(sys.argv)
-# web.run_app(app, host=config['server']['host'], port=config['server']['port'])
 try:
     loop.run_forever()
 except (KeyboardInterrupt, SystemExit):
