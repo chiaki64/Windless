@@ -45,7 +45,7 @@ async def word_count(redis):
     for i in li:
         length += len(i['text'])
     s = str(round(length / 1000, 2)) + 'k'
-    print(s)
+    # print(s)
     return s
 
 

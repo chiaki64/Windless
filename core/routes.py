@@ -4,6 +4,8 @@
 
 import views
 
+api_handle = views.APIHandler()
+
 routes = [
     # Article
     ('GET', '/', views.IndexView, 'index'),
@@ -26,5 +28,6 @@ routes = [
     ('*', '/manage/profile', views.BackendProfileView, '_profile'),
     ('*', '/manage/links', views.BackendLinksView, '_links'),
     ('*', '/manage/config', views.BackendConfigView, '_config'),
-
+    # API
+    ('GET', '/api/article', api_handle.paginate, 'api_article')
 ]

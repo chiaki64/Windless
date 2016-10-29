@@ -1,14 +1,14 @@
 redis:
     image: redis
-#    volumes:
-#        - /home/data/redis:/data
+    volumes:
+        - {{ Your Redis Data Path }}:/data
     ports:
         - "127.0.0.1:6379:6379"
 
 windless:
     image: windless/server:v1
     volumes:
-        - /run/media/chiaki/0000678400004823/GitHub/Windless:/code
+        - {{ Your Windless Path }}:/code
     links:
         - redis:redis
     ports:

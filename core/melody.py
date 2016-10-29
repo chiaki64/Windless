@@ -48,7 +48,7 @@ async def init(loop):
         redis_ip = os.environ["REDIS_PORT_6379_TCP_ADDR"]
         template_addr = '/code/core/templates'
 
-    print(dev, redis_ip)
+    print('Redis server ip: %s' % redis_ip)
 
     redis = await aioredis.create_redis((redis_ip, config['memory']['port']), loop=loop)
     app.redis = RedisFilter(redis)
@@ -64,6 +64,7 @@ async def init(loop):
         print('Add route %s %s => %s' % (route[0], route[1], route[2].__name__))
         app.router.add_route(route[0], route[1], route[2], name=route[3])
 
+    # For Dev only
     app.router.add_static('/static/',
                           path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
                           name='static')

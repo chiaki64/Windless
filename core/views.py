@@ -9,7 +9,7 @@ import misaka
 from aiohttp import web
 from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
-from utils import word_count, load_config
+from utils import word_count, load_config, http_400_response, InvalidPage
 
 config = load_config()
 
@@ -131,15 +131,17 @@ class BackendIndexView(AbsWebView):
         release = platform.uname().release
         cpu_used = psutil.cpu_percent()
         memory_used = psutil.virtual_memory().percent
-
-        article_count = await self.redis.count('Article')
-        publish_count = (await self.redis.get('Archive'))['list'].__len__()
+        try:
+            article_count = await self.redis.count('Article')
+            publish_count = (await self.redis.get('Archive'))['list'].__len__()
+        except TypeError:
+            publish_count = 0
         category = ['algorithm', 'acgn', 'code', 'daily', 'essay', 'web']
         category_count = {}
         for cat in category:
             category_count[cat] = (await self.redis.lget('Category.' + cat)).__len__()
 
-        print(category_count)
+        # print(category_count)
         return {
             'system': {
                 'version': system,
@@ -333,11 +335,45 @@ class APIHandler:
     def __init__(self):
         pass
 
-    def index(self):
-        pass
+    async def paginate(self, request):
+        need_paginate = request.GET.get('paging')
+        # 如果请求的参数里面没有paging=true的话 就返回全部参数
+        if need_paginate != 'true':
+            data = await request.app.redis.get_list('Article')
+            return web.json_response({'articles': data})
 
-    def category(self):
-        pass
+        page_size = request.GET.get('limit', None)
+        if not page_size:
+            return await http_400_response('Parameter limit is required')
+        try:
+            page_size = int(page_size)
+            if page_size < 1:
+                return await http_400_response('Invalid limit parameter')
+        except (ValueError, TypeError):
+            return await http_400_response('Invalid limit parameter')
 
-    def article(self):
-        pass
+        data = await request.app.redis.get_list('Article')
+        count = len(data)
+
+        page = int(request.GET.get('page', None))
+        try:
+            left = (page - 1) * page_size
+            right = page * page_size
+            if left + 1 > count:
+                raise InvalidPage
+            elif count < right:
+                right = count
+        except InvalidPage:
+            return await http_400_response('Invalid page parameter')
+
+        publish_data = await request.app.redis.lget('Archive', isdict=True)
+        keys_array = [i['id'] for i in publish_data]
+        keys = [keys_array[i] for i in range(left, right)]
+        result = await request.app.redis.get_list('Article', keys=keys)
+
+        return web.json_response({
+            'page': page,
+            'count': count,
+            'limit': page_size,
+            'results': result
+        })
