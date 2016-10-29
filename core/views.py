@@ -9,7 +9,10 @@ import misaka
 from aiohttp import web
 from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
-from utils import word_count, load_config, http_400_response, InvalidPage
+from utils.exception import InvalidPage
+from utils.shortcuts import (http_400_response,
+                             load_config,
+                             word_count)
 
 config = load_config()
 

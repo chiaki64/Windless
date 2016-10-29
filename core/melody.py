@@ -17,7 +17,8 @@ from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
-from utils import error_middleware, load_config
+from utils.middlewares import error_middleware
+from utils.shortcuts import load_config
 
 config = load_config()
 dev = config.get('dev')

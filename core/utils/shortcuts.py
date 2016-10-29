@@ -6,36 +6,17 @@ import aiohttp_jinja2
 from aiohttp import web
 
 
-async def error_middleware(app, handler):
-    async def middleware_handler(request):
-        try:
-            response = await handler(request)
-            if response.status == 404:
-                return await handler_not_found(request)
-            elif response.status == 403:
-                return web.HTTPFound('/auth/login')
-            return response
-        except web.HTTPException as ex:
-            if ex.status == 404:
-                return await handler_not_found(request)
-            elif ex.status == 403:
-                return web.HTTPFound('/auth/login')
-            raise
-
-    return middleware_handler
-
-
-async def handler_not_found(request, msg='Page Not Found!'):
-    res = aiohttp_jinja2.render_template('error/404.html', request, {'msg': msg})
-    res.set_status(404)
-    return res
-
-
 async def http_400_response(error_reason):
     return web.json_response({
         'status': 'error',
         'content': error_reason
     }, status=400)
+
+
+async def http_404_response(request, msg='Page Not Found!'):
+    res = aiohttp_jinja2.render_template('error/404.html', request, {'msg': msg})
+    res.set_status(404)
+    return res
 
 
 async def word_count(redis):
@@ -67,7 +48,4 @@ def load_config(path=''):
         config['dev'] = False
     return dict(default, **config)
 
-
-class InvalidPage(Exception):
-    pass
 
