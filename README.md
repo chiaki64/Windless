@@ -8,6 +8,7 @@
   - 进一步封装 aioredis 以适应所需数据操作
   - 使用 Docker 简化安装
   - ~~使用 GitHook 自动化部署~~
+  - ~~使用 Vue 2.0 作为前端框架~~
 
 ## Getting started
 
