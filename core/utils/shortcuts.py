@@ -54,7 +54,8 @@ async def create_backup(redis, *, env=True):
     if env:
         file = open('./backup/windless_' + name + '.json', 'w')
     else:
-        file = open('/code/core/backup/' + name + '.json', 'w')
+        file = open('/code/core/backup/windless_' + name + '.json', 'w')
     data = json.dumps(data)
     file.write(data)
     file.close()
+

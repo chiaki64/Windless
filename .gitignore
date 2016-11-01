@@ -105,3 +105,4 @@ core/backup/*
 test.py
 core/monitor.py
 dump.rdb
+redis.conf
