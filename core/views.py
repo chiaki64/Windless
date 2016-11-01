@@ -128,13 +128,7 @@ class LogoutView(AbsWebView):
 class BackendIndexView(AbsWebView):
     @aiohttp_jinja2.template('backend/index.html')
     async def get(self):
-        # 数据监控 服务器数据、文章情况等
-        import psutil
-        import platform
-        system = platform.uname().system
-        release = platform.uname().release
-        cpu_used = psutil.cpu_percent()
-        memory_used = psutil.virtual_memory().percent
+        # 数据监控 文章情况等
         article_count = await self.redis.count('Article')
         try:
             publish_count = (await self.redis.get('Archive'))['list'].__len__()
@@ -145,14 +139,7 @@ class BackendIndexView(AbsWebView):
         for cat in category:
             category_count[cat] = (await self.redis.lget('Category.' + cat)).__len__()
 
-        # print(category_count)
         return {
-            'system': {
-                'version': system,
-                'release': release,
-                'cpu_used': cpu_used,
-                'memory_used': memory_used
-            },
             'articles': {
                 'count': article_count,
                 'publish': publish_count,

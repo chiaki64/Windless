@@ -1,13 +1,6 @@
 {% extends "base_backend.html" %}
 {% block content %}
 <div class="card">
-    <p>System: {{ system.version }} <br>
-        Release: {{ system.release }} <br>
-        CPU Used: {{ system.cpu_used }} <br>
-        Memory Used: {{  system.memory_used }}
-    </p>
-
-    <hr>
     <p>当前文章数: {{ articles.count }} <br>
         已发布文章数：{{ articles.publish }} <br>
         {% for cat in articles.category %}
