@@ -188,7 +188,7 @@ class BackendArticleEditView(AbsWebView):
         # 更新字数统计
         await self.redis.set('Data.WordCount', await word_count(self.redis), many=False)
         # 备份
-        await create_backup(self.redis, env=config.get('dev'))
+        await create_backup(self.redis, dev=config.get('dev'))
         return web.HTTPFound('/')
 
 

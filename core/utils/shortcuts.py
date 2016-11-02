@@ -36,7 +36,7 @@ def load_config(path=''):
     return dict(default, **config)
 
 
-async def create_backup(redis, *, env=True):
+async def create_backup(redis, *, dev=True):
 
     articles = await redis.get_list('Article', isauth=True)
     links = await redis.lget('Link', isdict=True)
@@ -51,10 +51,13 @@ async def create_backup(redis, *, env=True):
     name = time.strftime('%Y_%m_%d_%H%M%S', time.localtime(time.time()))
     import os
     print(os.path.abspath(os.curdir))
-    if env:
-        file = open('./backup/windless_' + name + '.json', 'w')
+    if dev:
+        path = './backup/'
     else:
-        file = open('/code/core/backup/windless_' + name + '.json', 'w')
+        path = '/code/core/backup/'
+    if not os.path.isdir(path):
+        os.mkdir(path)
+    file = open(path+'windless_' + name + '.json', 'w')
     data = json.dumps(data)
     file.write(data)
     file.close()
