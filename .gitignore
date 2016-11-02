@@ -99,7 +99,7 @@ rubbish/
 .idea/
 app/
 docs/
-core/backup/*
+core/backup/
 
 # My Files
 test.py

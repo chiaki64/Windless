@@ -30,9 +30,9 @@ async def init(loop):
     # Middleware
     middlewares = [
         session_middleware(EncryptedCookieStorage(os.urandom(
-        32) if not dev else config.get('tk'))),
-                   auth.auth_middleware(policy),
-                   error_middleware
+            32) if not dev else config.get('tk'))),
+        auth.auth_middleware(policy),
+        error_middleware
     ]
     if dev:
         middlewares.append(toolbar_middleware_factory)
@@ -65,9 +65,10 @@ async def init(loop):
         app.router.add_route(route[0], route[1], route[2], name=route[3])
 
     # For Dev only
-    app.router.add_static('/static/',
-                          path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
-                          name='static')
+    if dev:
+        app.router.add_static('/static/',
+                              path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
+                              name='static')
 
     # Debug
     if dev:
@@ -79,6 +80,7 @@ async def init(loop):
     return _srv, _handler, app
 
     # return app
+
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 loop = asyncio.get_event_loop()

@@ -99,7 +99,7 @@ class RSS(BaseXML):
 
         handler.endElement("channel")
         handler.endElement("rss")
-        print(handler)
+        # print(handler)
 
 
 class RSSItem(BaseXML):
