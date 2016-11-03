@@ -16,6 +16,7 @@ from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
+from components import auth as wind_auth
 from utils.middlewares import error_middleware
 from utils.shortcuts import load_config
 
@@ -25,8 +26,8 @@ dev = config.get('dev')
 
 async def init(loop):
     # Auth
-    policy = auth.CookieTktAuthentication(os.urandom(
-        32) if not dev else config.get('tk'), 7200, include_ip=True)
+    policy = wind_auth.CookieTktAuthentication(os.urandom(
+        32) if not dev else config.get('tk'), 7200, include_ip=True, cookie_name='WIND_TK')
     # Middleware
     middlewares = [
         session_middleware(EncryptedCookieStorage(os.urandom(
