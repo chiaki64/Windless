@@ -58,3 +58,17 @@
     typeof ($) === "undefined" ? $ = i: NaN;
     return i;
 }(window, document, true);
+
+Title=document.title,
+document.addEventListener(
+    "visibilitychange",
+    function(){
+        var e=[
+            "╭(′▽`)╯","( ͡° ͜ʖ ͡°)", "(ÒܫÓױ)", "ヽ( ^∀^)ﾉ",
+            "(╯°□°)╯︵","(´・ω・`)","(`皿´)",
+            "(¬_¬)","(￣▽￣)\"","(〒︿〒)"];
+        document.hidden?
+            (document.title=e[parseInt(10*Math.random(),10)]+" "+document.title,clearTimeout(2e3)):
+            document.title=Title;
+    }
+);

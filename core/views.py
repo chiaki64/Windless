@@ -82,7 +82,12 @@ class LinkView(AbsWebView):
         if data is None:
             data = []
         identifier = self.request.app.router['links'].url()
-        return {'friends': data, 'PAGE_IDENTIFIER': identifier}
+        return {'friends': data,
+                'blog': {
+                    'name': config['admin']['username'],
+                    'link': config['blog']['link']
+                },
+                'PAGE_IDENTIFIER': identifier}
 
 
 class ProfileView(AbsWebView):

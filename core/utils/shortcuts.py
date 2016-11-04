@@ -20,11 +20,6 @@ async def word_count(redis):
 def load_config(path=''):
     import socket
     try:
-        default = yaml.load(open('./eternity_default.yaml'))
-    except FileNotFoundError:
-        path = '/code/core'
-        default = yaml.load(open(path + '/eternity_default.yaml'))
-    try:
         config = yaml.load(open(path + ('./eternity.yaml' if path == '' else '/eternity.yaml')))
     except TypeError:
         config = {}
@@ -33,7 +28,7 @@ def load_config(path=''):
         config['dev'] = True
     else:
         config['dev'] = False
-    return dict(default, **config)
+    return dict({}, **config)
 
 
 async def create_backup(redis, *, dev=True):
