@@ -274,7 +274,7 @@ class BackendProfileView(AbsWebView):
         return {'profile': {
             'name': data['name'],
             'avatar': '/static/img/avatar.jpg',
-            'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n')
+            'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
         }}
 
     async def post(self):
