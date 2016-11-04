@@ -270,10 +270,11 @@ class BackendProfileView(AbsWebView):
         data = await self.redis.get('Profile')
         if data is None:
             data = dict(name='', text='')
+
         return {'profile': {
             'name': data['name'],
             'avatar': '/static/img/avatar.jpg',
-            'text': data['text'].replace('\r\n', '\\n')
+            'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n')
         }}
 
     async def post(self):
