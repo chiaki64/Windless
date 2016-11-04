@@ -106,3 +106,4 @@ test.py
 core/monitor.py
 dump.rdb
 redis.conf
+eternity.yaml
