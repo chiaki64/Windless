@@ -3,6 +3,7 @@
 # Views
 
 import datetime
+import re
 import time
 import aiohttp_jinja2
 import misaka
@@ -49,10 +50,16 @@ class ArticleView(AbsWebView):
         data = await self.redis.get('Article', id)
         if data is None:
             return web.HTTPNotFound()
+        if len(re.findall('[$]{2}', data['text'])) > 0:
+            math = True
+        else:
+            math = False
         identifier = self.request.app.router['article'].url(
             parts={'id': self.request.match_info['id']}
         )
-        return {"article": data, 'PAGE_IDENTIFIER': identifier}
+        return {"article": data,
+                'math': math,
+                'PAGE_IDENTIFIER': identifier}
 
 
 class ArchiveView(AbsWebView):
