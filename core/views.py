@@ -68,7 +68,7 @@ class ArchiveView(AbsWebView):
                 dit[month] = []
             i['day'] = date.split('|')[1]
             dit[month].append(i)
-        identifier = self.request.app.router['about'].url()
+        identifier = self.request.app.router['archive'].url()
         return {'archive': dit,
                 'profile': await self.redis.get('Profile'),
                 'PAGE_IDENTIFIER': identifier}
@@ -90,9 +90,11 @@ class ProfileView(AbsWebView):
     async def get(self):
         data = await self.redis.get('Profile')
         words = await self.redis.get('Data.WordCount')
+        identifier = self.request.app.router['about'].url()
         return {
             'profile': data,
-            'word_count': words
+            'word_count': words,
+            'PAGE_IDENTIFIER': identifier
         }
 
 
