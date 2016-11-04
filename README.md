@@ -34,7 +34,7 @@ Ubuntu:
 
 构建镜像
 
-`$ docker build -t="windless/v1" .`
+`$ docker build -t="windless/server:v1" .`
 
 如构建镜像时速度依旧很慢, 依然可以使用上面所提及的 Daocloud 进行镜像加速, 按下不表
 
