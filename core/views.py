@@ -77,7 +77,7 @@ class ArchiveView(AbsWebView):
 class LinkView(AbsWebView):
     @aiohttp_jinja2.template('static/links.html')
     async def get(self):
-        data = await self.redis.lget('Link', isdict=True)
+        data = await self.redis.lget('Link', isdict=True, reverse=False)
         print(data)
         if data is None:
             data = []
@@ -285,18 +285,14 @@ class BackendConfigView(AbsWebView):
 class BackendLinksView(AbsWebView):
     @aiohttp_jinja2.template('backend/link.html')
     async def get(self):
-        data = await self.redis.lget('Link', isdict=True)
+        data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
             data = []
         print(data)
         return {'friends': data}
 
     async def post(self):
-        exist = await self.redis.lget('Link', isdict=True)
-        if exist is None:
-            exist = []
-        data = dict({'id': str(len(exist) + 1)}, **await self.request.post())
-
+        data = dict({}, **await self.request.post())
         await self.redis.lpush('Link', data, isdict=True)
         return web.HTTPFound('/manage/links')
 
@@ -305,8 +301,6 @@ class BackendLinksView(AbsWebView):
 class BackendLinksUpdateView(AbsWebView):
     @aiohttp_jinja2.template('backend/simple_link.html')
     async def get(self):
-        await self.redis.ldelete('Link', isdict=True)
-        return web.json_response({'status': 'success'})
         id = self.request.match_info['id']
         data = await self.redis.lget('Link', isdict=True)
         print(data)

@@ -66,17 +66,17 @@ class RedisFilter:
             data = str(data, encoding='utf-8')
         return data
 
-    async def lget(self, table, isdict=False):
+    async def lget(self, table, isdict=False, reverse=True):
         data = await self.get(table)
         if data is not None:
             li = data['list']
             if isdict is False:
-                li.sort(key=lambda x: int(x), reverse=True)
+                li.sort(key=lambda x: int(x), reverse=reverse)
             else:
                 try:
-                    li.sort(key=lambda x: int(x['id']), reverse=True)
+                    li.sort(key=lambda x: int(x['id']), reverse=reverse)
                 except ValueError:
-                    li.sort(key=lambda x: x['id'], reverse=True)
+                    li.sort(key=lambda x: x['id'], reverse=reverse)
                 except KeyError:
                     pass
             return li
