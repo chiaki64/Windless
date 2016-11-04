@@ -119,7 +119,12 @@ class ProfileView(AbsWebView):
 class LoginView(AbsWebView):
     @aiohttp_jinja2.template('static/login.html')
     async def get(self):
-        pass
+        from aiohttp_auth import auth
+        user = await auth.get_auth(self.request)
+        if user is None:
+            pass
+        else:
+            return web.HTTPFound('/manage')
 
     async def post(self):
         data = await self.request.post()
