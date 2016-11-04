@@ -4,6 +4,7 @@
     var _p = document.querySelector('.container')
     var _e = document.querySelector('#card-content')
     _p.removeChild(_e)
+
 </script>
 <card-content class="card card-content mdl-cell mdl-cell--8-col" style="padding:0">
 
@@ -31,9 +32,15 @@
 
     </div>
 
+</card-content>
+<script>
+    document.title = "邻舍 - Wind.moe"
+</script>
+<!-- 需要评论框-->
+<card-content  class="card card-content mdl-cell mdl-cell--8-col" style="padding:0">
     <card class="card">
-    <div id="disqus_thread"></div>
-    <script>
+        <div id="disqus_thread"></div>
+        <script>
             /**
              * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
              * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
@@ -56,15 +63,13 @@
             })();
 
 
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
-        powered by Disqus.</a></noscript>
 
-</card>
-<script id="dsq-count-scr" src="//windcore.disqus.com/count.js" async></script>
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript>
+
+    </card>
+    <script id="dsq-count-scr" src="//windcore.disqus.com/count.js" async></script>
+
 </card-content>
-<script>
-    document.title = "邻舍 - Wind.moe"
-</script>
-<!-- 需要评论框-->
 {% endblock %}
