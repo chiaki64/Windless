@@ -292,9 +292,22 @@ class BackendLinksView(AbsWebView):
 
     async def post(self):
         data = dict({}, **await self.request.post())
-        data['id'] = data['name']
+        # data['id'] = data['name']
         await self.redis.lpush('Link', data, isdict=True)
         return web.HTTPFound('/manage/links')
+
+
+@auth.auth_required
+class BackendLinksUpdateView(AbsWebView):
+    @aiohttp_jinja2.template('backend/simple_link.html')
+    async def get(self):
+        await self.redis.ldelete('Link', isdict=True)
+        pass
+
+    async def post(self):
+        data = dict({}, **await self.redis.post())
+        return web.HTTPFound('/links')
+
 
 
 # RSS View

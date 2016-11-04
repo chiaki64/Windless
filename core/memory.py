@@ -42,6 +42,19 @@ class RedisFilter:
             data.append(value)
         await self._connection.set(key, json.dumps({'list': data}))
 
+    async def lset(self, table, id, value, isdict=False):
+        key = self.prefix(table)
+        data = await self.lget(table, isdict)
+        if data is None:
+            data = []
+        else:
+            for item in data:
+                if item['id'] == id:
+                    data.remove(item)
+                    data.append(value)
+                    break
+        await self._connection.set(key, json.dumps({'list': data}))
+
     async def get(self, table, id=None):
         key = self.prefix(table) + ('.' + str(id) if id is not None else '')
         data = await self._connection.get(key)
@@ -142,11 +155,16 @@ async def fun():
     # await redis.lpush('Test', {'id': '1'}, isdict=True)
     # await redis.lpush('Test', {'id': '5'}, isdict=True)
     # await redis.lpush('Test', {'id': '3'}, isdict=True)
-    # await redis.lpush('Test', {'id': '21'}, isdict=True)
-    #
-    # print(await redis.lget('Test', isdict=True))
+    # await redis.lpush('Test', {'id': '15'}, isdict=True)
+
+    print(await redis.lget('Test', isdict=True))
+
+    # await redis.lset('Test', '16', {'id': '17'},isdict=True)
+    await redis.ldelete('Test', isdict=True)
+    print(await redis.lget('Test', isdict=True))
 
     print('finish')
+
     await redis.close()
 
 
