@@ -288,8 +288,7 @@ class BackendLinksView(AbsWebView):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
             data = []
-        print(data)
-        return {'friends': data}
+        return {'friends': data, 'len': len(data)+1}
 
     async def post(self):
         data = dict({}, **await self.request.post())
