@@ -288,11 +288,15 @@ class BackendLinksView(AbsWebView):
         data = await self.redis.lget('Link', isdict=True)
         if data is None:
             data = []
+        print(data)
         return {'friends': data}
 
     async def post(self):
-        data = dict({}, **await self.request.post())
-        # data['id'] = data['name']
+        exist = await self.redis.lget('Link', isdict=True)
+        if exist is None:
+            exist = []
+        data = dict({'id': str(len(exist) + 1)}, **await self.request.post())
+
         await self.redis.lpush('Link', data, isdict=True)
         return web.HTTPFound('/manage/links')
 
@@ -303,16 +307,19 @@ class BackendLinksUpdateView(AbsWebView):
     async def get(self):
         id = self.request.match_info['id']
         data = await self.redis.lget('Link', isdict=True)
+        print(data)
         if data is None:
             return http_400_response('Data Error')
         for item in data:
             if item['id'] == id:
                 return {'link': item}
-        return http_400_response('DataError')
+        return http_400_response('Data Error')
 
     async def post(self):
         data = dict({}, **await self.request.post())
-        await self.redis.lset('Link', data['id'], data, isdict=True)
+        _id = data['_id']
+        data.pop('_id')
+        await self.redis.lset('Link', _id, data, isdict=True)
         return web.HTTPFound('/manage/links')
 
     async def delete(self):

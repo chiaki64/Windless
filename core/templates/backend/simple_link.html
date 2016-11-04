@@ -18,9 +18,13 @@
         </div>
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label for="id" class="mdl-textfield__label">ID</label>
-            <input class="form-control mdl-textfield__input" name="id" type="text" id="id"
-            value="{{ link.id }}" readonly="readonly">
+            <label for="uuid" class="mdl-textfield__label">ID</label>
+            <input class="form-control mdl-textfield__input" name="uuid" type="text" id="uuid"
+            value="{{ link.id }}">
+        </div>
+
+        <div style="display:none;">
+            <input type="text" name="_id" value="{{ link.id }}" readonly="readonly">
         </div>
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:500px">
