@@ -301,13 +301,23 @@ class BackendLinksView(AbsWebView):
 class BackendLinksUpdateView(AbsWebView):
     @aiohttp_jinja2.template('backend/simple_link.html')
     async def get(self):
-        await self.redis.ldelete('Link', isdict=True)
-        pass
+        id = self.request.match_info['id']
+        data = await self.redis.lget('Link', isdict=True)
+        if data is None:
+            return http_400_response('Data Error')
+        for item in data:
+            if item['id'] == id:
+                return {'link': item}
+        return http_400_response('DataError')
 
     async def post(self):
-        data = dict({}, **await self.redis.post())
-        return web.HTTPFound('/links')
+        data = dict({}, **await self.request.post())
+        await self.redis.lset('Link', data['id'], data, isdict=True)
+        return web.HTTPFound('/manage/links')
 
+    async def delete(self):
+        await self.redis.ldelete('Link', isdict=True)
+        return web.json_response({'status': 'success'})
 
 
 # RSS View

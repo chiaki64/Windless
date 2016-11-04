@@ -27,7 +27,7 @@ routes = [
     ('*', '/manage/article/{id}/edit', views.BackendArticleUpdateView, '_article-update'),
     ('*', '/manage/profile', views.BackendProfileView, '_profile'),
     ('*', '/manage/links', views.BackendLinksView, '_links'),
-    ('*', '/manage/link-del', views.BackendLinksUpdateView, '_link_del'),
+    ('*', '/manage/link/{id}', views.BackendLinksUpdateView, '_link-update'),
     ('*', '/manage/config', views.BackendConfigView, '_config'),
     # API
     ('GET', '/api/article', api_handle.paginate, 'api_article')

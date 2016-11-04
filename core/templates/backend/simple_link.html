@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_backend.html" %}
+{% block content %}
 
-</body>
-</html>
+<div class="card">
+
+    <form method="POST" action="/manage/link/{{ link.id }}" accept-charset="UTF-8">
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="name" class="mdl-textfield__label">Name</label>
+            <input class="form-control mdl-textfield__input" name="name" type="text" id="name"
+            value="{{ link.name }}">
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="url" class="mdl-textfield__label">URL</label>
+            <input class="form-control mdl-textfield__input" name="url" type="text" id="url"
+            value="{{ link.url }}">
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="id" class="mdl-textfield__label">ID</label>
+            <input class="form-control mdl-textfield__input" name="id" type="text" id="id"
+            value="{{ link.id }}" readonly="readonly">
+        </div>
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:500px">
+            <img src="" alt="" class="avatar" style="width:48px;height:48px;">
+            <label for="avatar" class="mdl-textfield__label">Avatar</label>
+            <input class="form-control mdl-textfield__input" name="avatar" type="text" id="avatar"
+            value="{{ link.avatar }}">
+        </div>
+
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%">
+            <label for="desc" class="mdl-textfield__label">Description</label>
+            <input class="form-control mdl-textfield__input" name="desc" type="text" id="desc"
+            value="{{ link.desc }}">
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <input class="btn btn-primary form-control  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                   type="submit" value="Add Links">
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
