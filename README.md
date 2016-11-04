@@ -53,6 +53,7 @@ Ubuntu:
 
 ### 运行
 
+首先需要修改 docker-compose.yml 的volumes，将其修改为本地需要挂载的 Redis 数据文件夹以及 Windless 数据文件夹
 使用 docker-compose 运行
 
 `$ docker-compose up -d`
