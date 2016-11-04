@@ -305,6 +305,8 @@ class BackendLinksView(AbsWebView):
 class BackendLinksUpdateView(AbsWebView):
     @aiohttp_jinja2.template('backend/simple_link.html')
     async def get(self):
+        await self.redis.ldelete('Link', isdict=True)
+        return web.json_response({'status': 'success'})
         id = self.request.match_info['id']
         data = await self.redis.lget('Link', isdict=True)
         print(data)
