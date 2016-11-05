@@ -11,7 +11,8 @@ from aiohttp import web
 from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
-from utils.response import http_400_response
+from utils.response import (http_400_response,
+                            http_401_response)
 from utils.shortcuts import (load_config,
                              word_count,
                              create_backup)
@@ -50,6 +51,11 @@ class ArticleView(AbsWebView):
         data = await self.redis.get('Article', id)
         if data is None:
             return web.HTTPNotFound()
+        elif data['open'] is '1':
+            user = await auth.get_auth(self.request)
+            if user is None:
+                return http_401_response('Not Allow')
+
         if len(re.findall('[$]{2}', data['text'])) > 0:
             math = True
         else:
@@ -119,7 +125,6 @@ class ProfileView(AbsWebView):
 class LoginView(AbsWebView):
     @aiohttp_jinja2.template('static/login.html')
     async def get(self):
-        from aiohttp_auth import auth
         user = await auth.get_auth(self.request)
         if user is None:
             pass
