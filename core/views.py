@@ -54,7 +54,7 @@ class ArticleView(AbsWebView):
         elif data['open'] is '1':
             user = await auth.get_auth(self.request)
             if user is None:
-                return http_401_response('Not Allow')
+                return await http_401_response('Not Allow')
 
         if len(re.findall('[$]{2}', data['text'])) > 0:
             math = True
@@ -327,11 +327,11 @@ class BackendLinksUpdateView(AbsWebView):
         data = await self.redis.lget('Link', isdict=True)
         print(data)
         if data is None:
-            return http_400_response('Data Error')
+            return await http_400_response('Data Error')
         for item in data:
             if item['id'] == id:
                 return {'link': item}
-        return http_400_response('Data Error')
+        return await http_400_response('Data Error')
 
     async def post(self):
         data = dict({}, **await self.request.post())
