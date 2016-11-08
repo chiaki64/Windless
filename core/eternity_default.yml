@@ -15,6 +15,7 @@ admin:
   username: '稗田千秋'
   email: 'i@wind.moe'
   password: '123456'
+  csa: true
 blog:
   author: '稗田千秋'
   name: 'Windless'
