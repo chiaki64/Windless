@@ -8,7 +8,7 @@ import time
 import aiohttp_jinja2
 import misaka
 from aiohttp import web
-from aiohttp_auth import auth
+# from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
@@ -52,9 +52,9 @@ class ArticleView(AbsWebView):
         if data is None:
             return web.HTTPNotFound()
         elif data['open'] is '1':
-            user = await auth.get_auth(self.request)
-            if user is None:
-                return await http_401_response('Not Allow')
+            # user = await auth.get_auth(self.request)
+            # if user is None:
+            return await http_401_response('Not Allow')
 
         if len(re.findall('[$]{2}', data['text'])) > 0:
             math = True
@@ -125,31 +125,31 @@ class ProfileView(AbsWebView):
 class LoginView(AbsWebView):
     @aiohttp_jinja2.template('static/login.html')
     async def get(self):
-        user = await auth.get_auth(self.request)
-        if user is None:
-            pass
-        else:
-            return web.HTTPFound('/manage')
+        # user = await auth.get_auth(self.request)
+        # if user is None:
+        pass
+        # else:
+        #    return web.HTTPFound('/manage')
 
     async def post(self):
-        data = await self.request.post()
+        # data = await self.request.post()
         # _token email otp password remember
-        account = await self.redis.get('User')
-        if account['email'] == data['email'] \
-                and account['password'] == data['password']:
-            await auth.remember(self.request, account['username'])
+        # account = await self.redis.get('User')
+        # if account['email'] == data['email'] \
+        #        and account['password'] == data['password']:
+        #    await auth.remember(self.request, account['username'])
             return web.HTTPFound('/manage')
-        return web.HTTPFound('/auth/login')
+        # return web.HTTPFound('/auth/login')
 
 
-@auth.auth_required
+# @auth.auth_required
 class LogoutView(AbsWebView):
     async def get(self):
-        await auth.forget(self.request)
+        # await auth.forget(self.request)
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendIndexView(AbsWebView):
     @aiohttp_jinja2.template('backend/index.html')
     async def get(self):
@@ -173,7 +173,7 @@ class BackendIndexView(AbsWebView):
         }
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendArticleEditView(AbsWebView):
     @aiohttp_jinja2.template('backend/edit.html')
     async def get(self):
@@ -217,7 +217,7 @@ class BackendArticleEditView(AbsWebView):
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendArticleUpdateView(AbsWebView):
     @aiohttp_jinja2.template('backend/update.html')
     async def get(self):
@@ -260,7 +260,7 @@ class BackendArticleUpdateView(AbsWebView):
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendArticleListView(AbsWebView):
     @aiohttp_jinja2.template('backend/articles.html')
     async def get(self):
@@ -268,7 +268,7 @@ class BackendArticleListView(AbsWebView):
         return {'articles': data}
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendProfileView(AbsWebView):
     @aiohttp_jinja2.template('backend/profile.html')
     async def get(self):
@@ -297,14 +297,14 @@ class BackendProfileView(AbsWebView):
         return web.HTTPFound('/manage/profile')
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendConfigView(AbsWebView):
     @aiohttp_jinja2.template('backend/config.html')
     async def get(self):
         pass
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendLinksView(AbsWebView):
     @aiohttp_jinja2.template('backend/link.html')
     async def get(self):
@@ -319,7 +319,7 @@ class BackendLinksView(AbsWebView):
         return web.HTTPFound('/manage/links')
 
 
-@auth.auth_required
+# @auth.auth_required
 class BackendLinksUpdateView(AbsWebView):
     @aiohttp_jinja2.template('backend/simple_link.html')
     async def get(self):
