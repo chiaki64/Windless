@@ -225,7 +225,7 @@ class BackendArticleUpdateView(AbsWebView):
         data = await self.redis.get('Article', article_id)
         print(data['text'])
 
-        data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n')
+        data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
         return {'article': data}
 
     async def post(self):
