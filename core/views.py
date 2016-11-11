@@ -233,7 +233,9 @@ class BackendArticleUpdateView(AbsWebView):
         id = self.request.match_info['id']
         dit = await self.redis.get('Article', id)
         data = dict(dit, **data)
-        data['html'] = misaka.html(data['text'])
+        print(data['text'])
+        data['html'] = misaka.html(data['text'], extensions=('fenced-code',))
+        print(data['html'])
         data['updated_time'] = time.time()
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
