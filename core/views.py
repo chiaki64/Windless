@@ -282,10 +282,12 @@ class BackendProfileView(AbsWebView):
             'name': data['name'],
             'avatar': '/static/img/avatar.jpg',
             'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
+                .replace('<', '&lt;').replace('>', '&gt;')
         }}
 
     async def post(self):
         data = dict({}, **await self.request.post())
+        data['text'] = data['text'].replace('&lt;', '<').replace('&gt;', '>')
         data['html'] = misaka.html(data['text'])
         path = './static/img/avatar.jpg'
         if data['avatar'] != b'':

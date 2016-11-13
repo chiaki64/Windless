@@ -5,13 +5,11 @@
     <card-date class="date">
         {{ profile.name }} - {{ profile.updated_date }}
     </card-date>
-    <hr>
+    <hr><input id="word_count" type="hidden" value="{{ word_count }}">
     <article>
         {{ profile.html }}
-        服务器已存活<span id="days"></span> && 小站已记录了 {{ word_count }} 字
     </article>
 </card>
-<script>function change_time(){window.setTimeout("change_time()",1e3),B=new Date("12-05-2014 17:08:58"),T=new Date,timeold=T.getTime()-B.getTime(),sectimeold=timeold/1e3,secondsold=Math.floor(sectimeold),msPerDay=864e5,e_daysold=timeold/msPerDay,daysold=Math.floor(e_daysold),e_hrsold=-24*(daysold-e_daysold),hrsold=Math.floor(e_hrsold),e_minsold=-60*(hrsold-e_hrsold),minsold=Math.floor(-60*(hrsold-e_hrsold)),seconds=Math.floor(-60*(minsold-e_minsold));var e=document.getElementById("days");e.innerHTML=daysold+"&nbsp;天&nbsp;"+hrsold+"&nbsp;小时&nbsp;"+minsold+"&nbsp;分钟&nbsp;"+seconds+"&nbsp;秒"}change_time();</script>
 <script>
     document.title = "关于 - Wind.moe"
 </script>
