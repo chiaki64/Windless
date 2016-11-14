@@ -15,7 +15,8 @@ from utils.response import (http_400_response,
                             http_401_response)
 from utils.shortcuts import (load_config,
                              word_count,
-                             create_backup)
+                             create_backup,
+                             render)
 
 config = load_config()
 
@@ -91,7 +92,6 @@ class LinkView(AbsWebView):
     @aiohttp_jinja2.template('static/links.html')
     async def get(self):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
-        print(data)
         if data is None:
             data = []
         identifier = self.request.app.router['links'].url()
@@ -187,7 +187,7 @@ class BackendArticleEditView(AbsWebView):
         if data['id'] == '':
             data['id'] = None
 
-        data['html'] = misaka.html(data['text'])
+        data['html'] = render(data['text'])
         data['created_time'] = time.time()
 
         if data['time'] == '':
@@ -223,8 +223,6 @@ class BackendArticleUpdateView(AbsWebView):
     async def get(self):
         article_id = self.request.match_info['id']
         data = await self.redis.get('Article', article_id)
-        print(data['text'])
-
         data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
         return {'article': data}
 
@@ -233,9 +231,7 @@ class BackendArticleUpdateView(AbsWebView):
         id = self.request.match_info['id']
         dit = await self.redis.get('Article', id)
         data = dict(dit, **data)
-        print(data['text'])
-        data['html'] = misaka.html(data['text'], extensions=('fenced-code',))
-        print(data['html'])
+        data['html'] = render(data['text'])
         data['updated_time'] = time.time()
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
@@ -288,7 +284,7 @@ class BackendProfileView(AbsWebView):
     async def post(self):
         data = dict({}, **await self.request.post())
         data['text'] = data['text'].replace('&lt;', '<').replace('&gt;', '>')
-        data['html'] = misaka.html(data['text'])
+        data['html'] = render(data['text'])
         path = './static/img/avatar.jpg'
         if data['avatar'] != b'':
             file = open(path, 'wb')
@@ -329,7 +325,6 @@ class BackendLinksUpdateView(AbsWebView):
     async def get(self):
         id = self.request.match_info['id']
         data = await self.redis.lget('Link', isdict=True)
-        print(data)
         if data is None:
             return await http_400_response('Data Error')
         for item in data:

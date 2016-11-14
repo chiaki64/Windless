@@ -4,6 +4,7 @@
 import json
 import time
 import yaml
+import misaka
 
 
 async def word_count(redis):
@@ -57,3 +58,6 @@ async def create_backup(redis, *, dev=True):
     file.write(data)
     file.close()
 
+
+def render(content):
+    return misaka.html(content, extensions=('fenced-code', 'strikethrough',))
