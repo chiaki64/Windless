@@ -196,7 +196,7 @@ class BackendArticleEditView(AbsWebView):
             data['id'] = None
 
         data['html'] = render(data['text'])
-        data['created_time'] = time.time()
+        data['created_time'] = int(time.time())
 
         if data['time'] == '':
             data['date'] = time.strftime('%b.%d %Y', time.localtime(data['created_time']))
@@ -244,7 +244,7 @@ class BackendArticleUpdateView(AbsWebView):
         data = dict(dit, **data)
 
         if data['time'] != '':
-            data['created_time'] = data['time']
+            data['created_time'] = int(data['time'])
 
         data.pop('time')
 
