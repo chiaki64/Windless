@@ -6,7 +6,6 @@ import datetime
 import re
 import time
 import aiohttp_jinja2
-import misaka
 from aiohttp import web
 from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
@@ -80,7 +79,6 @@ class ArticleView(AbsWebView):
 
 
 class ArchiveView(AbsWebView):
-    # 10-03 Title
     @aiohttp_jinja2.template('static/archive.html')
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
