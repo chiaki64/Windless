@@ -6,6 +6,9 @@ import time
 import yaml
 import misaka
 
+from .exception import InvalidPage
+from .response import http_400_response
+
 
 async def word_count(redis):
     # TODO:简单的字数统计
@@ -61,3 +64,34 @@ async def create_backup(redis, *, dev=True):
 
 def render(content):
     return misaka.html(content, extensions=('fenced-code', 'strikethrough',))
+
+
+async def paginate(request, *, page=1, page_size=10):
+    try:
+        page = int(page)
+    except ValueError:
+        return {'exit': 1}
+    data = await request.app.redis.get_list('Article')
+    if page is None:
+        return data
+
+    count = len(data)
+    try:
+        left = (page - 1) * page_size
+        right = page * page_size
+        if left + 1 > count:
+            raise InvalidPage
+        elif count < right:
+            right = count
+    except InvalidPage:
+        return {'exit': 1}
+
+    publish_data = await request.app.redis.lget('Archive', isdict=True)
+    keys_array = [i['id'] for i in publish_data]
+    keys = [keys_array[i] for i in range(left, right)]
+    result = await request.app.redis.get_list('Article', keys=keys)
+
+    return {'exit': 0, 'data': result}
+
+
+

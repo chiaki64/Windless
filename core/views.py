@@ -12,11 +12,13 @@ from aiohttp_auth import auth
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
-                            http_401_response)
+                            http_401_response,
+                            http_404_response)
 from utils.shortcuts import (load_config,
                              word_count,
                              create_backup,
-                             render)
+                             render,
+                             paginate)
 
 config = load_config()
 
@@ -30,7 +32,15 @@ class AbsWebView(web.View):
 class IndexView(AbsWebView):
     @aiohttp_jinja2.template('article/articles.html')
     async def get(self):
-        data = await self.redis.get_list('Article')
+        page = self.request.GET.get('page', None)
+        if page:
+            status = await paginate(self.request, page=page)
+            if status['exit'] == 0:
+                data = status['data']
+            else:
+                return await http_404_response(self.request)
+        else:
+            data = await self.redis.get_list('Article')
         return {'articles': data}
 
 

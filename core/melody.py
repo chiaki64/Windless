@@ -49,8 +49,6 @@ async def init(loop):
         redis_ip = os.environ["REDIS_PORT_6379_TCP_ADDR"]
         template_addr = '/code/core/templates'
 
-    print('Redis server ip: %s' % redis_ip)
-
     redis = await aioredis.create_redis((redis_ip, config['memory']['port']), loop=loop)
     app.redis = RedisFilter(redis)
 
