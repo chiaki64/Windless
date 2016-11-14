@@ -21,7 +21,7 @@ routes = [
     ('*', '/auth/login', views.LoginView, 'login'),
     ('GET', '/auth/logout', views.LogoutView, 'logout'),
     # Backend Route
-    ('GET', '/manage/', views.BackendIndexView, '_index'),
+    ('GET', '/manage', views.BackendIndexView, '_index'),
     ('GET', '/manage/articles', views.BackendArticleListView, '_articles'),
     ('*', '/manage/article/edit', views.BackendArticleEditView, '_article-edit'),
     ('*', '/manage/article/{id}/edit', views.BackendArticleUpdateView, '_article-update'),
