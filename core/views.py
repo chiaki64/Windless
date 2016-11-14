@@ -196,7 +196,7 @@ class BackendArticleEditView(AbsWebView):
             data['id'] = None
 
         data['html'] = render(data['text'])
-        data['created_time'] = int(time.time())
+        data['created_time'] = int(str(time.time()).split('.')[0])
 
         if data['time'] == '':
             data['date'] = time.strftime('%b.%d %Y', time.localtime(data['created_time']))
@@ -244,12 +244,12 @@ class BackendArticleUpdateView(AbsWebView):
         data = dict(dit, **data)
 
         if data['time'] != '':
-            data['created_time'] = int(data['time'])
+            data['created_time'] = int(data['time'].split('.')[0]) if '0' in data['time'] else int(data['time'])
 
         data.pop('time')
 
         data['html'] = render(data['text'])
-        data['updated_time'] = time.time()
+        data['updated_time'] = int(str(time.time()).split('.')[0])
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
         # 删除分割线
