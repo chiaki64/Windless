@@ -7,3 +7,4 @@ aiohttp_auth==0.1.1
 aioredis==0.2.9
 misaka
 psutil==4.4.2
+pyotp==2.2.1
