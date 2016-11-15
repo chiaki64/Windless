@@ -307,7 +307,8 @@ class BackendProfileView(AbsWebView):
         data = await self.redis.get('Profile')
         if data is None:
             data = dict(name='', text='', link_desc='')
-
+        if 'link_desc' not in data:
+            data['link_desc'] = ''
         return {'profile': {
             'name': data['name'],
             'avatar': '/static/img/avatar.jpg',

@@ -9,6 +9,7 @@ import uvloop
 import aioredis
 import aiohttp_jinja2
 import aiohttp_debugtoolbar
+import pyotp
 from aiohttp import web
 from aiohttp_auth import auth
 from aiohttp_session import session_middleware
@@ -18,13 +19,19 @@ from routes import routes
 from memory import RedisFilter
 from components import auth as wind_auth
 from utils.middlewares import error_middleware
-from utils.shortcuts import load_config
+from utils.shortcuts import load_config, dump_config
 
 config = load_config()
 dev = config.get('dev')
 
 
 async def init(loop):
+    # init secret key
+    if 'secret_key' not in config['admin'] or config['admin']['secret_key'] == '':
+        config['admin']['secret_key'] = pyotp.random_base32()
+        tmp = config
+        tmp.pop('tk')
+        dump_config(tmp)
     # Auth
     policy = wind_auth.CookieTktAuthentication(os.urandom(
         32) if not dev else config.get('tk'), 7200, include_ip=True, cookie_name='WIND_TK')

@@ -35,6 +35,14 @@ def load_config(path=''):
     return dict({}, **config)
 
 
+def dump_config(data=None, path=''):
+    try:
+        yaml.dump(data, open(path + ('./eternity.yaml' if path == '' else '/eternity.yaml'), 'w'))
+    except:
+        return False
+    return True
+
+
 async def create_backup(redis, *, dev=True):
 
     articles = await redis.get_list('Article', isauth=True)

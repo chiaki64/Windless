@@ -1,8 +1,5 @@
 env:
   hostname: 'default'
-info:
-  version: '0.3.0'
-  author: 'Hieda no Chiaki'
 server:
   host: '0.0.0.0'
   port: 8080
@@ -15,6 +12,8 @@ admin:
   username: '稗田千秋'
   email: 'i@wind.moe'
   password: '123456'
+  otp: true
+  secret_key: ''
   csa: true
 blog:
   author: '稗田千秋'
