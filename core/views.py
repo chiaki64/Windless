@@ -31,15 +31,19 @@ class AbsWebView(web.View):
 class IndexView(AbsWebView):
     @aiohttp_jinja2.template('article/articles.html')
     async def get(self):
+
         page = self.request.GET.get('page', None)
-        if page:
+        if page == 'full':
+            data = await self.redis.get_list('Article')
+        else:
+            if page is None:
+                page = 1
             status = await paginate(self.request, page=page)
             if status['exit'] == 0:
                 data = status['data']
             else:
                 return await http_404_response(self.request)
-        else:
-            data = await self.redis.get_list('Article')
+
         return {'articles': data}
 
 
