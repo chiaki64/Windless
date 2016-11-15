@@ -11,6 +11,12 @@
                    value="{{ profile.name }}" required>
         </div>
 
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="link" class="mdl-textfield__label">介绍</label>
+            <input class="form-control mdl-textfield__input" name="link_desc" type="text" id="link"
+                   value="{{ profile.link_desc }}" required>
+        </div>
+
         <div class="form-group">
             <img src="{{ profile.avatar }}" alt="" style="height:200px;width:200px">
             <input type="file" name="avatar">

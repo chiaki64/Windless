@@ -2,9 +2,6 @@
 {% block content %}
 <card class="card">
     <card-title class="title mdl-color-text--grey-500">About</card-title>
-    <card-date class="date">
-        {{ profile.name }} - {{ profile.updated_date }}
-    </card-date>
     <hr><input id="word_count" type="hidden" value="{{ word_count }}">
     <article>
         {{ profile.html }}

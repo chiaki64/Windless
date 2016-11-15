@@ -106,7 +106,8 @@ class LinkView(AbsWebView):
         return {'friends': data,
                 'blog': {
                     'name': config['admin']['username'],
-                    'link': config['blog']['link']
+                    'link': config['blog']['link'],
+                    'desc': (await self.redis.get('Profile'))['link_desc']
                 },
                 'PAGE_IDENTIFIER': identifier}
 
@@ -289,7 +290,7 @@ class BackendProfileView(AbsWebView):
     async def get(self):
         data = await self.redis.get('Profile')
         if data is None:
-            data = dict(name='', text='')
+            data = dict(name='', text='', link_desc='')
 
         return {'profile': {
             'name': data['name'],
