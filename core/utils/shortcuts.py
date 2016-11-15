@@ -66,16 +66,18 @@ def render(content):
     return misaka.html(content, extensions=('fenced-code', 'strikethrough',))
 
 
-async def paginate(request, *, page=1, page_size=10):
+async def paginate(request, *, page=1, page_size=10, keys_array=None):
     try:
         page = int(page)
+        if page < 1:
+            page = 1
     except ValueError:
         return {'exit': 1}
     data = await request.app.redis.get_list('Article')
     if page is None:
         return data
 
-    count = len(data)
+    count = len(data) if keys_array is None else len(keys_array)
     try:
         left = (page - 1) * page_size
         right = page * page_size
@@ -87,8 +89,10 @@ async def paginate(request, *, page=1, page_size=10):
         return {'exit': 1}
 
     publish_data = await request.app.redis.lget('Archive', isdict=True)
-    keys_array = [i['id'] for i in publish_data]
+    keys_array = [i['id'] for i in publish_data] if keys_array is None else keys_array
+    print(keys_array)
     keys = [keys_array[i] for i in range(left, right)]
+    print(keys)
     result = await request.app.redis.get_list('Article', keys=keys)
 
     return {'exit': 0, 'data': result}
