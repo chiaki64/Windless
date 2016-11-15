@@ -295,6 +295,7 @@ class BackendProfileView(AbsWebView):
         return {'profile': {
             'name': data['name'],
             'avatar': '/static/img/avatar.jpg',
+            'link_desc': data['link_desc'],
             'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
                 .replace('<', '&lt;').replace('>', '&gt;')
         }}
