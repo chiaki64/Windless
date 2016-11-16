@@ -27,10 +27,10 @@
             <li>
                 <img src="{{ friend.avatar }}">
                 <a href="{{ friend.url }}" target="_blank">
-                    <p id="chiaki" class="nickname">{{ friend.name }}</p>
+                    <p id="{{ friend.id }}" class="nickname">{{ friend.name }}</p>
                     <p>{{ friend.desc }}</p>
                 </a>
-                <div class="mdl-tooltip" for="chiaki">
+                <div class="mdl-tooltip" for="{{ friend.id }}">
                     {{ friend.url }}
                 </div>
             </li>
