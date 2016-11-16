@@ -31,18 +31,28 @@ class AbsWebView(web.View):
 class IndexView(AbsWebView):
     @aiohttp_jinja2.template('article/articles.html')
     async def get(self):
-
         page = self.request.GET.get('page', None)
         if page == 'full':
+            # 返回全部文章
             data = await self.redis.get_list('Article')
         else:
-            if page is None:
-                page = 1
-            status = await paginate(self.request, page=page)
-            if status['exit'] == 0:
-                data = status['data']
+            key = self.request.GET.get('search', None)
+            # 若匹配到 search 参数则不分页
+            if key is None:
+                if page is None:
+                    page = 1
+                status = await paginate(self.request, page=page)
+                if status['exit'] == 0:
+                    data = status['data']
+                else:
+                    return await http_404_response(self.request)
             else:
-                return await http_404_response(self.request)
+                data = []
+                result = await self.redis.get_list('Article')
+                for item in result:
+                    if re.search(key, item['text']) or re.search(key, item['title']) or re.search(key, item['tags']):
+                        data.append(item)
+                        print(item['id'])
 
         return {'articles': data}
 

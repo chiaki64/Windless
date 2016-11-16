@@ -31,7 +31,11 @@ async def init(loop):
         config['admin']['secret_key'] = pyotp.random_base32()
         tmp = config
         tmp.pop('tk')
-        dump_config(tmp)
+        if dump_config(tmp) is False:
+            tmp = config
+            tmp.pop('tk')
+            dump_config(tmp)
+        del tmp
     # Auth
     policy = wind_auth.CookieTktAuthentication(os.urandom(
         32) if not dev else config.get('tk'), 7200, include_ip=True, cookie_name='WIND_TK')
