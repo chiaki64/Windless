@@ -31,9 +31,11 @@ async def init(loop):
         config['admin']['secret_key'] = pyotp.random_base32()
         tmp = config
         tmp.pop('tk')
+        tmp.pop('dev')
         if dump_config(tmp) is False:
             tmp = config
             tmp.pop('tk')
+            tmp.pop('dev')
             dump_config(tmp)
         del tmp
     # Auth
