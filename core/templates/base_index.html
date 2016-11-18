@@ -33,6 +33,7 @@
           <!--onload="if(media!='all')media='all'">-->
     <link rel="stylesheet" href="/static/css/material.min.css" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="/static/css/windless.css" onload="if(media!='all')media='all'">
+    <link rel="stylesheet" href="#" id="theme">
 </head>
 
 <body>
@@ -93,12 +94,12 @@
             <!--</button>-->
             <!--<span class="mdl-tooltip" for="mbtn">音乐/Music</span>-->
             <!--</div>-->
-            <!--<div class="header-button">-->
-            <!--<button id="snow_btn" class="mdl-button mdl-js-button mdl-button&#45;&#45;icon" onclick="">-->
-            <!--<i class="material-icons" id="snow_icon">sync</i>-->
-            <!--</button>-->
-            <!--<span class="mdl-tooltip" for="snow_btn" id="snow_tooltip">主题/Theme</span>-->
-            <!--</div>-->
+            <div class="header-button">
+                <button id="theme_btn" class="mdl-button mdl-js-button mdl-button--icon" onclick="theme();">
+                    <i class="material-icons" id="snow_icon">sync</i>
+                </button>
+                <span class="mdl-tooltip" for="btn_theme" id="theme_tooltip">主题/Theme</span>
+            </div>
             <div class="header-button">
                 <button id="rss_btn" class="mdl-button mdl-js-button mdl-button--icon"
                         onclick="window.location.href='/feed'">
@@ -190,4 +191,13 @@
 </layout>
 </body>
 <script src="/static/js/material.js"></script>
+<script>
+    function theme(){
+         if($('#theme').getAttribute('href') == "#"){
+              $('#theme').setAttribute('href', '/static/css/windless-night.css');
+                    else{
+              $('#theme').setAttribute('href', '#');
+         }
+    }
+            </script>
 </html>

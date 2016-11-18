@@ -1,0 +1,36 @@
+body::before, .header{
+    background-image: url('/static/img/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.header .mdl-navigation__link{
+    color: #fff!important;
+}
+
+.header .material-icons {
+    color: #eee!important;
+}
+
+.card-content {
+    opacity: .85;
+}
+
+.card{
+    background-color: #2a2a2a;;
+    color:#eee !important;
+}
+article p span{
+    color:#eee !important;
+}
+.date a {
+    color:#eee;
+}
+pre, pre code{
+    background: #aaa;
+}
+.card ul{
+    background-color: #2a2a2a !important;
+}
