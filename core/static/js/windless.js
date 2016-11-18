@@ -82,3 +82,11 @@ function theme(){
         $('#theme').setAttribute('href', '#');
     }
 }
+
+document.onkeydown = function(e){
+    if (e || (e = window.event), 13 == (e.keyCode || e.which)) {
+		if (0 == $("#search-field").value.length)
+		    return !1;
+		window.location.href = "/?search=" + $("#search-field").value
+	}
+}

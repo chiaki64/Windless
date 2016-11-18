@@ -52,7 +52,6 @@ class IndexView(AbsWebView):
                 for item in result:
                     if re.search(key, item['text']) or re.search(key, item['title']) or re.search(key, item['tags']):
                         data.append(item)
-                        print(item['id'])
 
         return {'articles': data}
 
