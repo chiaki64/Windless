@@ -628,3 +628,6 @@ pre img {
   padding-left: 40px;
 }
 
+.header .is-focused {
+    margin-right: 50px;
+}
