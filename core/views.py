@@ -65,6 +65,8 @@ class ArticleListView(AbsWebView):
 
         if page == 'full':
             data = await self.redis.get_list('Article', data_list)
+        elif len(data_list) == 0:
+            data = []
         else:
             if page is None:
                 page = 1
