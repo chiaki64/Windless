@@ -18,7 +18,8 @@ from utils.shortcuts import (load_config,
                              create_backup,
                              render,
                              paginate,
-                             otp_url)
+                             otp_url,
+                             verify)
 
 config = load_config()
 
@@ -173,7 +174,7 @@ class LoginView(AbsWebView):
         # _token email otp password remember
         account = await self.redis.get('User')
         if account['email'] == data['email'] \
-                and account['password'] == data['password']:
+                and account['password'] == data['password'] and verify(config['admin']['secret_key'], data['otp']):
             await auth.remember(self.request, account['username'])
             return web.HTTPFound('/manage')
         return web.HTTPFound('/auth/login')
