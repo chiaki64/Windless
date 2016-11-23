@@ -354,7 +354,8 @@ class BackendConfigView(AbsWebView):
     async def get(self):
         key = config['admin']['secret_key']
         return {'secret': key,
-                'otp_url': otp_url(key, config['admin']['email'], config['admin']['username'])}
+                'otp_url': otp_url(key, config['admin']['email'], config['admin']['username']),
+                'otp': config['admin']['otp']}
 
     async def post(self):
         data = await self.request.post()

@@ -8,13 +8,18 @@
     </p>
     <p>
         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="otp">
-        <input type="checkbox" id="otp" class="mdl-switch__input" checked>
+            {% if otp %}
+                <input type="checkbox" id="otp" class="mdl-switch__input" checked>
+            {% else %}
+                <input type="checkbox" id="otp" class="mdl-switch__input">
+            {% endif %}
         <span class="mdl-switch__label"></span>
         </label>
     </p>
 </div>
 
 <script>
+window.onload = function(){
     var otp = $('#otp');
     otp.addEventListener('change', function(){
         var status = "close";
@@ -37,6 +42,7 @@
         })
 
     })
+}
 </script>
 
 {% endblock %}
