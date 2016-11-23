@@ -12,7 +12,7 @@ admin:
   username: '稗田千秋'
   email: 'i@wind.moe'
   password: '123456'
-  otp: true
+  otp: false
   secret_key: ''
   csa: true
 blog:

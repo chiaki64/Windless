@@ -5,6 +5,7 @@ import json
 import time
 import yaml
 import misaka
+import pyotp
 
 from .exception import InvalidPage
 from .response import http_400_response
@@ -72,6 +73,16 @@ async def create_backup(redis, *, dev=True):
 
 def render(content):
     return misaka.html(content, extensions=('fenced-code', 'strikethrough',))
+
+
+def verify(secret, passwd):
+    totp = pyotp.TOTP(secret)
+    return totp.verify(passwd)
+
+
+def otp_url(secret, mail, name):
+    totp = pyotp.TOTP(secret)
+    return totp.provisioning_uri(mail, name)
 
 
 async def paginate(request, *, page=1, page_size=10, keys_array=None):

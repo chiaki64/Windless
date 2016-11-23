@@ -17,7 +17,8 @@ from utils.shortcuts import (load_config,
                              word_count,
                              create_backup,
                              render,
-                             paginate)
+                             paginate,
+                             otp_url)
 
 config = load_config()
 
@@ -348,7 +349,9 @@ class BackendProfileView(AbsWebView):
 class BackendConfigView(AbsWebView):
     @aiohttp_jinja2.template('backend/config.html')
     async def get(self):
-        pass
+        key = config['admin']['secret_key']
+        return {'secret': key,
+                'otp_url': otp_url(key, config['admin']['email'], config['admin']['username'])}
 
 
 @auth.auth_required
