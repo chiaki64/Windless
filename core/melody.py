@@ -19,7 +19,7 @@ from routes import routes
 from memory import RedisFilter
 from components import auth as wind_auth
 from utils.middlewares import error_middleware
-from utils.shortcuts import load_config, dump_config
+from utils.shortcuts import load_config, merge_config
 
 config = load_config()
 dev = config.get('dev')
@@ -29,15 +29,7 @@ async def init(loop):
     # init secret key
     if 'secret_key' not in config['admin'] or config['admin']['secret_key'] == '':
         config['admin']['secret_key'] = pyotp.random_base32()
-        tmp = config
-        tmp.pop('tk')
-        tmp.pop('dev')
-        if dump_config(tmp) is False:
-            tmp = config
-            tmp.pop('tk')
-            tmp.pop('dev')
-            dump_config(tmp)
-        del tmp
+        merge_config(config)
     # Auth
     policy = wind_auth.CookieTktAuthentication(os.urandom(
         32) if not dev else config.get('tk'), 7200, include_ip=True, cookie_name='WIND_TK')

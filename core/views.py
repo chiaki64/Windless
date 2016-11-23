@@ -14,7 +14,7 @@ from utils.response import (http_400_response,
                             http_401_response,
                             http_404_response)
 from utils.shortcuts import (load_config,
-                            dump_config,
+                             merge_config,
                              word_count,
                              create_backup,
                              render,
@@ -363,17 +363,11 @@ class BackendConfigView(AbsWebView):
         if 'otp' in data:
             if data['otp'] == 'open':
                 config['admin']['otp'] = True
-                tmp = config
-                tmp.pop('tk')
-                tmp.pop('dev')
-                dump_config(tmp)
+                merge_config(config)
                 return web.json_response({'status': 100})
             elif data['otp'] == 'close':
                 config['admin']['otp'] = False
-                tmp = config
-                tmp.pop('tk')
-                tmp.pop('dev')
-                dump_config(tmp)
+                merge_config(config)
                 return web.json_response({'status': 200})
 
 

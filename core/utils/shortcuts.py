@@ -40,15 +40,17 @@ def dump_config(data=None, path=''):
     try:
         yaml.dump(data, open(path + ('./eternity.yaml' if path == '' else '/eternity.yaml'), 'w'))
     except:
+        pass
+
+
+def merge_config(config, path=''):
+    try:
+        config.pop('tk')
+        config.pop('dev')
+        dump_config(config)
+    except:
         return False
     return True
-
-
-def merge_config(config, data, path=''):
-    try:
-        pass
-    except:
-        pass
 
 
 async def create_backup(redis, *, dev=True):
