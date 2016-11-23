@@ -6,5 +6,37 @@
         Secret Key: {{ secret }} <br>
         Secret URL: {{ otp_url }}
     </p>
+    <p>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="otp">
+        <input type="checkbox" id="otp" class="mdl-switch__input" checked>
+        <span class="mdl-switch__label"></span>
+        </label>
+    </p>
 </div>
+
+<script>
+    var otp = $('#otp');
+    otp.addEventListener('change', function(){
+        var status = "close";
+        if(this.checked){
+            status = "open";
+        }
+        fetch('/manage/config', {
+            credentials: 'include',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "otp="+status
+        }).then(function(res) {
+            if(res.ok){
+                console.log(res.data);
+            }
+        }, function(e){
+            console.log(e);
+        })
+
+    })
+</script>
+
 {% endblock %}

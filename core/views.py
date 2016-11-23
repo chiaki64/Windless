@@ -14,6 +14,7 @@ from utils.response import (http_400_response,
                             http_401_response,
                             http_404_response)
 from utils.shortcuts import (load_config,
+                            dump_config,
                              word_count,
                              create_backup,
                              render,
@@ -174,7 +175,8 @@ class LoginView(AbsWebView):
         # _token email otp password remember
         account = await self.redis.get('User')
         if account['email'] == data['email'] \
-                and account['password'] == data['password'] and verify(config['admin']['secret_key'], data['otp']):
+                and account['password'] == data['password'] \
+                and verify(config, data['otp']):
             await auth.remember(self.request, account['username'])
             return web.HTTPFound('/manage')
         return web.HTTPFound('/auth/login')
@@ -183,7 +185,7 @@ class LoginView(AbsWebView):
 @auth.auth_required
 class LogoutView(AbsWebView):
     async def get(self):
-        # await auth.forget(self.request)
+        await auth.forget(self.request)
         return web.HTTPFound('/')
 
 
@@ -353,6 +355,25 @@ class BackendConfigView(AbsWebView):
         key = config['admin']['secret_key']
         return {'secret': key,
                 'otp_url': otp_url(key, config['admin']['email'], config['admin']['username'])}
+
+    async def post(self):
+        data = await self.request.post()
+
+        if 'otp' in data:
+            if data['otp'] == 'open':
+                config['admin']['otp'] = True
+                tmp = config
+                tmp.pop('tk')
+                tmp.pop('dev')
+                dump_config(tmp)
+                return web.json_response({'status': 100})
+            elif data['otp'] == 'close':
+                config['admin']['otp'] = False
+                tmp = config
+                tmp.pop('tk')
+                tmp.pop('dev')
+                dump_config(tmp)
+                return web.json_response({'status': 200})
 
 
 @auth.auth_required

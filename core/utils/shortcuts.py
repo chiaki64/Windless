@@ -44,6 +44,13 @@ def dump_config(data=None, path=''):
     return True
 
 
+def merge_config(config, data, path=''):
+    try:
+        pass
+    except:
+        pass
+
+
 async def create_backup(redis, *, dev=True):
 
     articles = await redis.get_list('Article', isauth=True)
@@ -75,8 +82,10 @@ def render(content):
     return misaka.html(content, extensions=('fenced-code', 'strikethrough',))
 
 
-def verify(secret, passwd):
-    totp = pyotp.TOTP(secret)
+def verify(config, passwd):
+    if 'otp' in config['admin'] and config['admin']['otp'] is False:
+        return True
+    totp = pyotp.TOTP(config['admin']['secret_key'])
     return totp.verify(passwd)
 
 
