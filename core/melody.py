@@ -8,12 +8,10 @@ import os
 import uvloop
 import aioredis
 import aiohttp_jinja2
-import aiohttp_debugtoolbar
 import pyotp
 from aiohttp import web
 from aiohttp_auth import auth
 from aiohttp_session import session_middleware
-from aiohttp_debugtoolbar import toolbar_middleware_factory
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
@@ -40,8 +38,7 @@ async def init(loop):
         auth.auth_middleware(policy),
         error_middleware
     ]
-    if dev:
-        middlewares.append(toolbar_middleware_factory)
+
     # 初始化
     app = web.Application(loop=loop,
                           middlewares=middlewares)
@@ -73,10 +70,6 @@ async def init(loop):
         app.router.add_static('/static/',
                               path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
                               name='static')
-
-    # Debug
-    if dev:
-        aiohttp_debugtoolbar.setup(app)
 
     _handler = app.make_handler()
     _srv = await loop.create_server(_handler, config['server']['host'], config['server']['port'])
