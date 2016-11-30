@@ -12,7 +12,8 @@ from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
                             http_401_response,
-                            http_404_response)
+                            http_404_response,
+                            geass)
 from utils.shortcuts import (load_config,
                              merge_config,
                              word_count,
@@ -32,7 +33,7 @@ class AbsWebView(web.View):
 
 
 class IndexView(AbsWebView):
-    @aiohttp_jinja2.template('article/articles.html')
+    @geass('article/articles.html')
     async def get(self):
         page = self.request.GET.get('page', None)
         if page == 'full':
@@ -60,7 +61,7 @@ class IndexView(AbsWebView):
 
 
 class ArticleListView(AbsWebView):
-    @aiohttp_jinja2.template('article/articles.html')
+    @geass('article/articles.html')
     async def get(self):
         page = self.request.GET.get('page', None)
         category = self.request.match_info['category'].lower()
@@ -83,7 +84,7 @@ class ArticleListView(AbsWebView):
 
 
 class ArticleView(AbsWebView):
-    @aiohttp_jinja2.template('article/article.html')
+    @geass('article/article.html')
     async def get(self):
         id = self.request.match_info['id']
         if id.isdigit() is False:
@@ -109,7 +110,7 @@ class ArticleView(AbsWebView):
 
 
 class ArchiveView(AbsWebView):
-    @aiohttp_jinja2.template('static/archive.html')
+    @geass('static/archive.html')
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
         dit = {}
@@ -127,7 +128,7 @@ class ArchiveView(AbsWebView):
 
 
 class LinkView(AbsWebView):
-    @aiohttp_jinja2.template('static/links.html')
+    @geass('static/links.html')
     async def get(self):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
@@ -143,7 +144,7 @@ class LinkView(AbsWebView):
 
 
 class ProfileView(AbsWebView):
-    @aiohttp_jinja2.template('static/about.html')
+    @geass('static/about.html')
     async def get(self):
         data = await self.redis.get('Profile')
         words = await self.redis.get('Data.WordCount')
@@ -156,13 +157,13 @@ class ProfileView(AbsWebView):
 
 
 # class BookView(AbsWebView):
-#    @aiohttp_jinja2.template('static/book.html')
+#    @geass('static/book.html')
 #    async def get(self):
 #        pass
 
 
 class LoginView(AbsWebView):
-    @aiohttp_jinja2.template('static/login.html')
+    @geass('static/login.html')
     async def get(self):
         user = await auth.get_auth(self.request)
         if user is None:
@@ -191,7 +192,7 @@ class LogoutView(AbsWebView):
 
 @auth.auth_required
 class BackendIndexView(AbsWebView):
-    @aiohttp_jinja2.template('backend/index.html')
+    @geass('backend/index.html')
     async def get(self):
         # 数据监控 文章情况等
         article_count = await self.redis.count('Article')
@@ -215,7 +216,7 @@ class BackendIndexView(AbsWebView):
 
 @auth.auth_required
 class BackendArticleEditView(AbsWebView):
-    @aiohttp_jinja2.template('backend/edit.html')
+    @geass('backend/edit.html')
     async def get(self):
         pass
 
@@ -262,7 +263,7 @@ class BackendArticleEditView(AbsWebView):
 
 @auth.auth_required
 class BackendArticleUpdateView(AbsWebView):
-    @aiohttp_jinja2.template('backend/update.html')
+    @geass('backend/update.html')
     async def get(self):
         article_id = self.request.match_info['id']
         data = await self.redis.get('Article', article_id)
@@ -309,7 +310,7 @@ class BackendArticleUpdateView(AbsWebView):
 
 @auth.auth_required
 class BackendArticleListView(AbsWebView):
-    @aiohttp_jinja2.template('backend/articles.html')
+    @geass('backend/articles.html')
     async def get(self):
         data = await self.redis.get_list('Article', isauth=True)
         return {'articles': data}
@@ -317,7 +318,7 @@ class BackendArticleListView(AbsWebView):
 
 @auth.auth_required
 class BackendProfileView(AbsWebView):
-    @aiohttp_jinja2.template('backend/profile.html')
+    @geass('backend/profile.html')
     async def get(self):
         data = await self.redis.get('Profile')
         if data is None:
@@ -350,7 +351,7 @@ class BackendProfileView(AbsWebView):
 
 @auth.auth_required
 class BackendConfigView(AbsWebView):
-    @aiohttp_jinja2.template('backend/config.html')
+    @geass('backend/config.html')
     async def get(self):
         key = config['admin']['secret_key']
         return {'secret': key,
@@ -373,7 +374,7 @@ class BackendConfigView(AbsWebView):
 
 @auth.auth_required
 class BackendLinksView(AbsWebView):
-    @aiohttp_jinja2.template('backend/link.html')
+    @geass('backend/link.html')
     async def get(self):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
@@ -388,7 +389,7 @@ class BackendLinksView(AbsWebView):
 
 @auth.auth_required
 class BackendLinksUpdateView(AbsWebView):
-    @aiohttp_jinja2.template('backend/simple_link.html')
+    @geass('backend/simple_link.html')
     async def get(self):
         id = self.request.match_info['id']
         data = await self.redis.lget('Link', isdict=True)

@@ -74,7 +74,7 @@ async def create_backup(redis, *, dev=True):
 
     name = time.strftime('%Y_%m_%d_%H%M%S', time.localtime(time.time()))
     import os
-    print(os.path.abspath(os.curdir))
+    # print(os.path.abspath(os.curdir))
     if dev:
         path = './backup/'
     else:
@@ -127,9 +127,9 @@ async def paginate(request, *, page=1, page_size=10, keys_array=None):
 
     publish_data = await request.app.redis.lget('Archive', isdict=True)
     keys_array = [i['id'] for i in publish_data] if keys_array is None else keys_array
-    print(keys_array)
+    # print(keys_array)
     keys = [keys_array[i] for i in range(left, right)]
-    print(keys)
+    # print(keys)
     result = await request.app.redis.get_list('Article', keys=keys)
 
     return {'exit': 0, 'data': result}
