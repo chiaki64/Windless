@@ -17,7 +17,7 @@ from routes import routes
 from memory import RedisFilter
 from components import auth as wind_auth
 from utils.middlewares import error_middleware
-from utils.shortcuts import load_config, merge_config
+from utils.shortcuts import (load_config, merge_config, compass)
 
 config = load_config()
 dev = config.get('dev')
@@ -61,8 +61,9 @@ async def init(loop):
                          loader=jinja2.FileSystemLoader(template_addr))
 
     # 注册路由及静态路由
-    for route in routes:
-        print('Add route %s %s => %s' % (route[0], route[1], route[2].__name__))
+    route_list = await compass(routes)
+    for route in route_list:
+        # print('Add route %s %s => %s' % (route[0], route[1], route[2].__name__))
         app.router.add_route(route[0], route[1], route[2], name=route[3])
 
     # For Dev only

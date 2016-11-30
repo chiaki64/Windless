@@ -8,7 +8,15 @@ import misaka
 import pyotp
 
 from .exception import InvalidPage
-from .response import http_400_response
+
+
+async def compass(data):
+    route_list = []
+    for cat in data:
+        for method in data[cat]['data']:
+            for item in data[cat]['data'][method]:
+                route_list.append((method,) + (data[cat]['prefix'] + item[0],) + item[1:])
+    return route_list
 
 
 async def word_count(redis):
@@ -18,7 +26,6 @@ async def word_count(redis):
     for i in li:
         length += len(i['text'])
     s = str(round(length / 1000, 2)) + 'k'
-    # print(s)
     return s
 
 
