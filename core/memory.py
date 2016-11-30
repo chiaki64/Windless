@@ -227,7 +227,6 @@ class RedisFilter:
     async def close(self):
         """
         关闭数据库连接，暂时无用
-        :return:
         """
         self._connection.close()
 
