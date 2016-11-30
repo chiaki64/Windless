@@ -48,13 +48,13 @@ def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
             else:
                 request = args[-1]
 
+            if context is None:
+                 context = {}
             if (await get_auth(request)) is None:
                 # 未登录的
-                if context is not None:
-                    context['isauth'] = False
+                context['isauth'] = False
             else:
-                if context is not None:
-                    context['isauth'] = True
+                context['isauth'] = True
 
             response = render_template(template_name, request, context,
                                        app_key=app_key, encoding=encoding)
