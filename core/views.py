@@ -5,9 +5,9 @@
 import datetime
 import re
 import time
-import aiohttp_jinja2
 from aiohttp import web
 from aiohttp_auth import auth
+from aiohttp_jinja2 import template
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
@@ -163,7 +163,7 @@ class ProfileView(AbsWebView):
 
 
 class LoginView(AbsWebView):
-    @geass('static/login.html')
+    @template('static/login.html')
     async def get(self):
         user = await auth.get_auth(self.request)
         if user is None:
