@@ -72,7 +72,7 @@ class ArticleListView(AbsWebView):
         else:
             if page is None:
                 page = 1
-            status = await paginate(self.request, page=page, page_size=2, keys_array=data_list)
+            status = await paginate(self.request, page=page, keys_array=data_list)
             if status['exit'] == 0:
                 data = status['data']
             else:
@@ -271,6 +271,7 @@ class BackendArticleUpdateView(AbsWebView):
     async def post(self):
         data = await self.request.post()
         id = self.request.match_info['id']
+        new_id = data['id']
         dit = await self.redis.get('Article', id)
         data = dict(dit, **data)
 
@@ -285,18 +286,21 @@ class BackendArticleUpdateView(AbsWebView):
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
         # 删除分割线
         data['html'] = data['html'].replace('<hr>', '', 1)
-        await self.redis.set('Article', data, id=id)
+
+        if id != new_id:
+            await self.redis.delete('Article', id=id)
+        await self.redis.set('Article', data, id=new_id)
         # 修改Category
-        if dit['category'] != data['category']:
+        if dit['category'] != data['category'] or new_id != id:
             await self.redis.ldelete('Category.' + dit['category'], id)
-            await self.redis.lpush('Category.' + data['category'], id)
+            await self.redis.lpush('Category.' + data['category'], new_id)
         # 修改Archive
         await self.redis.ldelete('Archive', id, isdict=True)
-        if (dit['open'] != data['open'] and dit['open'] is '0') or (data['open'] is '1'):
+        if ((dit['open'] != data['open'] and dit['open'] is '0') or (data['open'] is '1')) and new_id == id:
             pass
         else:
             await self.redis.lpush('Archive', {
-                'id': id,
+                'id': new_id,
                 'title': data['title'],
                 'category': data['category'],
                 'created_time': data['created_time']
