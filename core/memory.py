@@ -5,9 +5,10 @@
 import asyncio
 import aioredis
 import json
-from utils.shortcuts import load_config
+from utils.config import config
+# from utils.shortcuts import load_config
 
-config = load_config()
+# config = load_config()
 
 
 class RedisFilter:

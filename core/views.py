@@ -10,21 +10,20 @@ from components.auth import auth
 from components.auth.auth import auth_required
 from aiohttp_jinja2 import template
 from components.rss import RSS, RSSItem
+from utils.config import config, merge_config
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
                             http_401_response,
                             http_404_response,
                             geass)
-from utils.shortcuts import (load_config,
-                             merge_config,
-                             word_count,
+from utils.shortcuts import (word_count,
                              create_backup,
                              render,
                              paginate,
                              otp_url,
                              verify)
 
-config = load_config()
+# config = load_config()
 
 
 class AbsWebView(web.View):

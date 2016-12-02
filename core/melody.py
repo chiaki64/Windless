@@ -15,11 +15,12 @@ from aiohttp_session import session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
+from utils.config import config, dev, merge_config
 from utils.middlewares import error_middleware
-from utils.shortcuts import (load_config, merge_config, compass)
+from utils.shortcuts import (compass)
 
-config = load_config()
-dev = config.get('dev')
+# config = load_config()
+# dev = config.get('dev')
 
 
 async def init(loop):

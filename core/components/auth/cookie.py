@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from components.auth.ticket import TktAuthentication
-from utils.shortcuts import load_config
+from utils.config import config, dev
+# from utils.shortcuts import load_config
 
 COOKIE_AUTH_KEY = 'auth.cookie'
 
-config = load_config()
-dev = config.get('dev')
+# config = load_config()
+# dev = config.get('dev')
 
 
 class CookieTktAuthentication(TktAuthentication):
