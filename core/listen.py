@@ -9,10 +9,6 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from utils.config import dev
-# from utils.shortcuts import load_config
-
-# config = load_config()
-# dev = config.get('dev')
 
 
 def log(s):

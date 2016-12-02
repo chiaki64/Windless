@@ -11,16 +11,11 @@ import aiohttp_jinja2
 import pyotp
 from aiohttp import web
 from components.auth import auth, cookie
-from aiohttp_session import session_middleware
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
 from utils.config import config, dev, merge_config
 from utils.middlewares import error_middleware
 from utils.shortcuts import (compass)
-
-# config = load_config()
-# dev = config.get('dev')
 
 
 async def init(loop):
@@ -35,8 +30,6 @@ async def init(loop):
 
     # Middleware
     middlewares = [
-        # session_middleware(EncryptedCookieStorage(os.urandom(
-        #     32) if not dev else config.get('tk'))),
         auth.auth_middleware(policy),
         error_middleware
     ]

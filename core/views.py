@@ -23,8 +23,6 @@ from utils.shortcuts import (word_count,
                              otp_url,
                              verify)
 
-# config = load_config()
-
 
 class AbsWebView(web.View):
     def __init__(self, request):
