@@ -6,7 +6,8 @@ import datetime
 import re
 import time
 from aiohttp import web
-from aiohttp_auth import auth
+from components.auth import auth
+from components.auth.auth import auth_required
 from aiohttp_jinja2 import template
 from components.rss import RSS, RSSItem
 from utils.exception import InvalidPage
@@ -183,14 +184,14 @@ class LoginView(AbsWebView):
         return web.HTTPFound('/auth/login')
 
 
-@auth.auth_required
+@auth_required
 class LogoutView(AbsWebView):
     async def get(self):
         await auth.forget(self.request)
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+@auth_required
 class BackendIndexView(AbsWebView):
     @geass('backend/index.html')
     async def get(self):
@@ -214,7 +215,7 @@ class BackendIndexView(AbsWebView):
         }
 
 
-@auth.auth_required
+@auth_required
 class BackendArticleEditView(AbsWebView):
     @geass('backend/edit.html')
     async def get(self):
@@ -261,7 +262,7 @@ class BackendArticleEditView(AbsWebView):
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+@auth_required
 class BackendArticleUpdateView(AbsWebView):
     @geass('backend/update.html')
     async def get(self):
@@ -308,7 +309,7 @@ class BackendArticleUpdateView(AbsWebView):
         return web.HTTPFound('/')
 
 
-@auth.auth_required
+@auth_required
 class BackendArticleListView(AbsWebView):
     @geass('backend/articles.html')
     async def get(self):
@@ -316,7 +317,7 @@ class BackendArticleListView(AbsWebView):
         return {'articles': data}
 
 
-@auth.auth_required
+@auth_required
 class BackendProfileView(AbsWebView):
     @geass('backend/profile.html')
     async def get(self):
@@ -349,7 +350,7 @@ class BackendProfileView(AbsWebView):
         return web.HTTPFound('/manage/profile')
 
 
-@auth.auth_required
+@auth_required
 class BackendConfigView(AbsWebView):
     @geass('backend/config.html')
     async def get(self):
@@ -372,7 +373,7 @@ class BackendConfigView(AbsWebView):
                 return web.json_response({'status': 200})
 
 
-@auth.auth_required
+@auth_required
 class BackendLinksView(AbsWebView):
     @geass('backend/link.html')
     async def get(self):
@@ -387,7 +388,7 @@ class BackendLinksView(AbsWebView):
         return web.HTTPFound('/manage/links')
 
 
-@auth.auth_required
+@auth_required
 class BackendLinksUpdateView(AbsWebView):
     @geass('backend/simple_link.html')
     async def get(self):

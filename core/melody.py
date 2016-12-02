@@ -10,12 +10,11 @@ import aioredis
 import aiohttp_jinja2
 import pyotp
 from aiohttp import web
-from aiohttp_auth import auth
+from components.auth import auth, cookie
 from aiohttp_session import session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from routes import routes
 from memory import RedisFilter
-from components import auth as wind_auth
 from utils.middlewares import error_middleware
 from utils.shortcuts import (load_config, merge_config, compass)
 
@@ -28,13 +27,15 @@ async def init(loop):
     if 'secret_key' not in config['admin'] or config['admin']['secret_key'] == '':
         config['admin']['secret_key'] = pyotp.random_base32()
         merge_config(config)
+
     # Auth
-    policy = wind_auth.CookieTktAuthentication(os.urandom(
+    policy = cookie.CookieTktAuthentication(os.urandom(
         32) if not dev else config.get('tk'), 7200, include_ip=True, cookie_name='WIND_TK')
+
     # Middleware
     middlewares = [
-        session_middleware(EncryptedCookieStorage(os.urandom(
-            32) if not dev else config.get('tk'))),
+        # session_middleware(EncryptedCookieStorage(os.urandom(
+        #     32) if not dev else config.get('tk'))),
         auth.auth_middleware(policy),
         error_middleware
     ]
@@ -56,6 +57,7 @@ async def init(loop):
 
     # 初始化管理员帐号
     await app.redis.set('User', config['admin'], many=False)
+
     # 初始化 jinja2
     aiohttp_jinja2.setup(app,
                          loader=jinja2.FileSystemLoader(template_addr))

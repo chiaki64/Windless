@@ -3,10 +3,9 @@
 
 import asyncio
 import functools
-# import aiohttp_jinja2
 from aiohttp import web
 from aiohttp.abc import AbstractView
-from aiohttp_auth.auth import get_auth
+from components.auth.auth import get_auth
 from aiohttp_jinja2 import APP_KEY, render_template
 
 async def http_400_response(error_reason):
@@ -39,9 +38,6 @@ def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
             else:
                 coro = asyncio.coroutine(func)
             context = await coro(*args)
-
-            # if isinstance(context, web.StreamResponse):
-            #     return context
 
             if isinstance(args[0], AbstractView):
                 request = args[0].request

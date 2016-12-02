@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from aiohttp_auth.auth.ticket_auth import TktAuthentication
+from components.auth.ticket import TktAuthentication
 from utils.shortcuts import load_config
 
-COOKIE_AUTH_KEY = 'aiohttp_auth.auth.CookieTktAuthentication'
+COOKIE_AUTH_KEY = 'auth.cookie'
 
 config = load_config()
 dev = config.get('dev')
