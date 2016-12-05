@@ -615,6 +615,12 @@ pre img {
 .pic-card {
   padding: 0
 }
+.pic-card card-title{
+  padding-top: 30px;
+}
+.pic-card card-link {
+  padding-bottom: 40px;
+}
 .pic-card_in {
   padding-left: 40px;
   padding-right: 30px

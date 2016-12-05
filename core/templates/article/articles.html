@@ -1,6 +1,8 @@
 {% extends "base_index.html" %}
 {% block content %}
 {% for article in articles %}
+
+{% if article['pic'] == '0' %}
 <card class="card">
     <card-title class="title mdl-color-text--grey-500">
         <a href="/article/{{ article.id }}">{{ article.title }}</a>
@@ -21,8 +23,33 @@
     <card-link>
         <a href="/article/{{ article.id }}">Continued Reading...</a>
     </card-link>
-
 </card>
+{% else %}
+<card class="card pic-card">
+    <a class="entry-cover" href="/article/{{ article.id }}">
+        <img src="{{ article.pic_address }}" data-src="" style="max-height:300px;width:100%" class="lazyload">
+    </a>
+    <card-title class="title mdl-color-text--grey-500 pic-card_in">
+        <a href="/article/{{ article.id }}">{{ article.title }}</a>
+    </card-title>
+
+    <card-date class="date pic-card_in">
+        <i class="material-icons">event_note</i> {{ article.date }} &nbsp;
+        <i class="material-icons">person_outline</i> {{ article.author }} &nbsp;
+        <i class="material-icons">folder_open</i><a href="/category/{{ article.category }}">{{ article.category }}</a>
+    </card-date>
+
+    <hr>
+
+    <article class="pic-card_in">
+        {{ article.desc }}
+    </article>
+
+    <card-link class="pic-card_in">
+        <a href="/article/{{ article.id }}">Continued Reading...</a>
+    </card-link>
+</card>
+{% endif %}
 {% endfor %}
 
 <script>

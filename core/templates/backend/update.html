@@ -47,9 +47,6 @@
             ~function(){
                 document.querySelector('#cat').value = '{{ article.category }}'
             }()
-
-
-
         </script>
 
         <div class="form-group">
@@ -90,8 +87,6 @@
                     document.querySelector('#open_y').setAttribute('checked', 'checked');
                 }
             }();
-
-
         </script>
 
         <div class="form-group">
@@ -136,7 +131,13 @@
                 }
               }
 
-
+              ~function(){
+                if({{ article.pic }} == 1){
+                    document.querySelector('#pic_n').setAttribute('checked', '');
+                    document.querySelector('#pic_y').setAttribute('checked', 'checked');
+                    address();
+                }
+            }();
         </script>
 
 
