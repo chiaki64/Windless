@@ -90,11 +90,11 @@ class ArticleView(AbsWebView):
         data = await self.redis.get('Article', id)
         if data is None:
             return web.HTTPNotFound()
+
         elif data['open'] is '1':
             user = await auth.get_auth(self.request)
             if user is None:
                 return await http_401_response('Not Allow')
-
         if len(re.findall('[$]{2}', data['text'])) > 0:
             math = True
         else:

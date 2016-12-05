@@ -39,6 +39,8 @@ def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
                 coro = asyncio.coroutine(func)
             context = await coro(*args)
 
+            if isinstance(context, web.StreamResponse):
+                return context
             if isinstance(args[0], AbstractView):
                 request = args[0].request
             else:
@@ -53,7 +55,7 @@ def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
                 else:
                     context['isauth'] = True
             except:
-                context = {}
+                context = await coro(*args)
 
             response = render_template(template_name, request, context,
                                        app_key=app_key, encoding=encoding)
