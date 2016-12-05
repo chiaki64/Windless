@@ -277,7 +277,7 @@ class BackendArticleUpdateView(AbsWebView):
 
         if data['time'] != '':
             data['created_time'] = int(data['time'].split('.')[0]) if '0' in data['time'] else int(data['time'])
-
+            data['date'] = time.strftime('%b.%d %Y', time.localtime(int(data['time'].strip())))
         data.pop('time')
 
         data['html'] = render(data['text'])
