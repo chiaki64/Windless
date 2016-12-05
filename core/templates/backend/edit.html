@@ -74,6 +74,13 @@
             <input class="form-control mdl-textfield__input" name="pic_address" type="text" id="pic_address">
         </div>
 
+        <div id="p_axis" class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="axis_y" class="mdl-textfield__label">垂直位移</label>
+            <input class="form-control mdl-textfield__input" name="axis_y" type="text" id="axis_y">
+        </div>
+
+        <br>
+
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="id" class="mdl-textfield__label">迁移id</label>
             <input class="form-control mdl-textfield__input" name="id" type="text" id="id">
@@ -92,9 +99,11 @@
         <script>
               function address(s) {
                 if (s == 1) {
-                  document.querySelector("#p_address").setAttribute("style", "display:none;")
+                  document.querySelector("#p_address").setAttribute("style", "display:none;");
+                  document.querySelector("#p_axis").setAttribute("style", "display:none;");
                 } else {
-                  document.querySelector("#p_address").setAttribute("style", "display:block;")
+                  document.querySelector("#p_address").setAttribute("style", "display:inline-block;");
+                  document.querySelector("#p_axis").setAttribute("style", "display:inline-block;");
                 }
               }
 
