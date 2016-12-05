@@ -161,7 +161,7 @@ class ProfileView(AbsWebView):
 
 
 class LoginView(AbsWebView):
-    @template('static/login.html')
+    @geass('static/login.html')
     async def get(self):
         user = await auth.get_auth(self.request)
         if user is None:
