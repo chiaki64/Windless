@@ -8,7 +8,6 @@ import time
 from aiohttp import web
 from components.auth import auth
 from components.auth.auth import auth_required
-from aiohttp_jinja2 import template
 from components.rss import RSS, RSSItem
 from utils.config import config, merge_config
 from utils.exception import InvalidPage
@@ -21,7 +20,9 @@ from utils.shortcuts import (word_count,
                              render,
                              paginate,
                              otp_url,
-                             verify)
+                             verify,
+                             timezone,
+                             todate)
 
 
 class AbsWebView(web.View):
@@ -112,13 +113,14 @@ class ArchiveView(AbsWebView):
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
         dit = {}
-        for i in data:
-            date = time.strftime('%Y年%m月|%d日', time.localtime(i['created_time']))
-            month = date.split('|')[0]
-            if month not in dit:
-                dit[month] = []
-            i['day'] = date.split('|')[1]
-            dit[month].append(i)
+        data.sort(key=lambda x: int(datetime.datetime.fromtimestamp(float(x['created_time']), timezone()).strftime('%Y%m%d')), reverse=True)
+        print(data)
+        for item in data:
+            date = todate(item['created_time'], '%Y年|%m月%d日')
+            year, item['day'] = date.split('|')
+            if year not in dit:
+                dit[year] = []
+            dit[year].append(item)
         identifier = self.request.app.router['archive'].url()
         return {'archive': dit,
                 'profile': await self.redis.get('Profile'),
@@ -227,13 +229,13 @@ class BackendArticleEditView(AbsWebView):
             data['id'] = None
 
         data['html'] = render(data['text'])
-        data['created_time'] = int(str(time.time()).split('.')[0])
+        data['created_time'] = str(time.time())
 
         if data['time'] == '':
-            data['date'] = time.strftime('%b.%d %Y', time.localtime(data['created_time']))
+            data['date'] = todate(data['created_time'], '%b.%d %Y')
         else:
             data['created_time'] = data['time']
-            data['date'] = time.strftime('%b.%d %Y', time.localtime(int(data['time'].strip())))
+            data['date'] = todate(data['created_time'], '%b.%d %Y')
         data.pop('time')
 
         # 分割文章
@@ -276,8 +278,8 @@ class BackendArticleUpdateView(AbsWebView):
         data = dict(dit, **data)
 
         if data['time'] != '':
-            data['created_time'] = int(data['time'].split('.')[0]) if '0' in data['time'] else int(data['time'])
-            data['date'] = time.strftime('%b.%d %Y', time.localtime(int(data['time'].strip())))
+            data['created_time'] = data['time']
+            data['date'] = todate(data['created_time'], '%b.%d %Y')
         data.pop('time')
 
         data['html'] = render(data['text'])
@@ -425,7 +427,8 @@ async def rss_view(request):
                 parts={'id': item['id']}
             ),
             description=item['desc'],
-            pubDate=datetime.datetime.fromtimestamp(item['created_time']),
+            pubDate=todate(item['created_time']),
+            # pubDate=todate(item['created_time'],''),
             content=item['html']
         )
         item_list.append(rss_item)
@@ -435,7 +438,7 @@ async def rss_view(request):
         link=config['blog']['link'],
         description=config['blog']['description'],
         items=item_list,
-        lastBuildDate=datetime.datetime.fromtimestamp(
+        lastBuildDate=todate(
             (await request.app.redis.get('Article', await request.app.redis.last('Article')))['created_time'])
     )
     data = rss.result()
