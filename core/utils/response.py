@@ -46,11 +46,15 @@ def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
             else:
                 request = args[-1]
 
-            # if context is None:
-            #      context = {}
             try:
+                if 'identifier' in context:
+                    # if isinstance(context['identifier'], tuple):
+                    #     context['PAGE_IDENTIFIER'] = request.app.router[context['identifier'][0]].url(
+                    #         parts={'id': context['identifier'][1]}
+                    #     )
+                    context['PAGE_IDENTIFIER'] = request.app.router[context['identifier']].url()
+
                 if (await get_auth(request)) is None:
-                    # 未登录的
                     context['isauth'] = False
                 else:
                     context['isauth'] = True

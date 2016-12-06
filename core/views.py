@@ -29,17 +29,19 @@ class AbsWebView(web.View):
     def __init__(self, request):
         super(AbsWebView, self).__init__(request)
         self.redis = self.request.app.redis
+        self._get = self.request.GET.get
+        self.match = self.request.match_info
 
 
 class IndexView(AbsWebView):
     @geass('article/articles.html')
     async def get(self):
-        page = self.request.GET.get('page', None)
+        page = self._get('page', None)
         if page == 'full':
             # 返回全部文章
             data = await self.redis.get_list('Article')
         else:
-            key = self.request.GET.get('search', None)
+            key = self._get('search', None)
             # 若匹配到 search 参数则不分页
             if key is None:
                 if page is None:
@@ -62,8 +64,8 @@ class IndexView(AbsWebView):
 class ArticleListView(AbsWebView):
     @geass('article/articles.html')
     async def get(self):
-        page = self.request.GET.get('page', None)
-        category = self.request.match_info['category'].lower()
+        page = self._get('page', None)
+        category = self.match['category'].lower()
         data_list = await self.redis.lget('Category.' + category)
 
         if page == 'full':
@@ -85,7 +87,7 @@ class ArticleListView(AbsWebView):
 class ArticleView(AbsWebView):
     @geass('article/article.html')
     async def get(self):
-        id = self.request.match_info['id']
+        id = self.match['id']
         if id.isdigit() is False:
             return web.HTTPNotFound()
         data = await self.redis.get('Article', id)
@@ -100,12 +102,12 @@ class ArticleView(AbsWebView):
             math = True
         else:
             math = False
-        identifier = self.request.app.router['article'].url(
-            parts={'id': self.request.match_info['id']}
-        )
         return {"article": data,
                 'math': math,
-                'PAGE_IDENTIFIER': identifier}
+                'PAGE_IDENTIFIER': self.request.app.router['article'].url(
+                    parts={'id': id}
+                )
+                }
 
 
 class ArchiveView(AbsWebView):
@@ -113,18 +115,16 @@ class ArchiveView(AbsWebView):
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
         dit = {}
-        data.sort(key=lambda x: int(datetime.datetime.fromtimestamp(float(x['created_time']), timezone()).strftime('%Y%m%d')), reverse=True)
-        print(data)
+        data.sort(key=lambda x: int(todate(x['created_time'], '%Y%m%d')), reverse=True)
         for item in data:
             date = todate(item['created_time'], '%Y年|%m月%d日')
             year, item['day'] = date.split('|')
             if year not in dit:
                 dit[year] = []
             dit[year].append(item)
-        identifier = self.request.app.router['archive'].url()
         return {'archive': dit,
                 'profile': await self.redis.get('Profile'),
-                'PAGE_IDENTIFIER': identifier}
+                'identifier': 'archive'}
 
 
 class LinkView(AbsWebView):
@@ -133,14 +133,13 @@ class LinkView(AbsWebView):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
             data = []
-        identifier = self.request.app.router['links'].url()
         return {'friends': data,
                 'blog': {
                     'name': config['admin']['username'],
                     'link': config['blog']['link'],
                     'desc': (await self.redis.get('Profile'))['link_desc']
                 },
-                'PAGE_IDENTIFIER': identifier}
+                'identifier': 'links'}
 
 
 class ProfileView(AbsWebView):
@@ -148,18 +147,11 @@ class ProfileView(AbsWebView):
     async def get(self):
         data = await self.redis.get('Profile')
         words = await self.redis.get('Data.WordCount')
-        identifier = self.request.app.router['about'].url()
         return {
             'profile': data,
             'word_count': words,
-            'PAGE_IDENTIFIER': identifier
+            'identifier': 'about'
         }
-
-
-# class BookView(AbsWebView):
-#    @geass('static/book.html')
-#    async def get(self):
-#        pass
 
 
 class LoginView(AbsWebView):
@@ -173,7 +165,6 @@ class LoginView(AbsWebView):
 
     async def post(self):
         data = await self.request.post()
-        # _token email otp password remember
         account = await self.redis.get('User')
         if account['email'] == data['email'] \
                 and account['password'] == data['password'] \
@@ -265,14 +256,14 @@ class BackendArticleEditView(AbsWebView):
 class BackendArticleUpdateView(AbsWebView):
     @geass('backend/update.html')
     async def get(self):
-        article_id = self.request.match_info['id']
+        article_id = self.match['id']
         data = await self.redis.get('Article', article_id)
         data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
         return {'article': data}
 
     async def post(self):
         data = await self.request.post()
-        id = self.request.match_info['id']
+        id = self.match['id']
         new_id = data['id']
         dit = await self.redis.get('Article', id)
         data = dict(dit, **data)
@@ -395,7 +386,7 @@ class BackendLinksView(AbsWebView):
 class BackendLinksUpdateView(AbsWebView):
     @geass('backend/simple_link.html')
     async def get(self):
-        id = self.request.match_info['id']
+        id = self.match['id']
         data = await self.redis.lget('Link', isdict=True)
         if data is None:
             return await http_400_response('Data Error')
@@ -428,7 +419,6 @@ async def rss_view(request):
             ),
             description=item['desc'],
             pubDate=todate(item['created_time']),
-            # pubDate=todate(item['created_time'],''),
             content=item['html']
         )
         item_list.append(rss_item)
