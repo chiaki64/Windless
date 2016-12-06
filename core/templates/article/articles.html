@@ -29,15 +29,14 @@
     <style>
         .post-pic{
             height:calc(300px);
-            width:100%;
         }
         @media (max-width: 479px){
             .post-pic{
-                height:calc(120px);
+                height:calc(200px);
             }
         }
     </style>
-    <div class="post-pic" style="background:url({{ article.pic_address }});background-size:100%;background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;">
+    <div class="post-pic" style="background:url({{ article.pic_address }});background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;">
     </div>
 
     <card-title class="title mdl-color-text--grey-500 pic-card_in">
