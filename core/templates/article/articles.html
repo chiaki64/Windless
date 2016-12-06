@@ -26,10 +26,18 @@
 </card>
 {% else %}
 <card class="card pic-card">
-    <!--<a class="entry-cover" href="/article/{{ article.id }}">-->
-        <!--<img src="" data-src="" style="max-height:300px;width:100%" class="lazyload">-->
-    <!--</a>-->
-    <div style="height:300px;width:100%;background:url({{ article.pic_address }});background-size:100%;background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;">
+    <style>
+        .post-pic{
+            height:calc(300px);
+            width:100%;
+        }
+        @media (max-width: 479px){
+            .post-pic{
+                height:calc(170px);
+            }
+        }
+    </style>
+    <div class="post-pic" style="background:url({{ article.pic_address }});background-size:100%;background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;">
     </div>
 
     <card-title class="title mdl-color-text--grey-500 pic-card_in">
