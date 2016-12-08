@@ -151,7 +151,7 @@ window.onload = function () {
             }()
         }
         $('.container').addEventListener("scroll", lazyload);
-
+        lazyload();
     }
 
 
