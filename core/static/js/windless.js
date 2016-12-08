@@ -128,8 +128,3 @@ document.onkeydown = function(e){
 	}
 }
 
-window.onload = function () {
-    if (typeof (comment) == 'function'){
-        comment()
-    }
-}
