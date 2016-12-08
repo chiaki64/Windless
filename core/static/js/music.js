@@ -151,6 +151,7 @@
 
     function playIndex(index) {
         index = parseInt(index);
+        console.log(index, typeof index);
         initPlayer(index);
         audio.load();
         audio.addEventListener('canplay', bufferBar, false);
