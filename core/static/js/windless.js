@@ -8,6 +8,10 @@
 
 ~ function (window, docunment, debug, i) {
 
+    var _exist = function (value, _default) {
+		return value ? value : _default ? _default : false;
+	};
+
     /* Selector */
 
     i = function (ele) {
@@ -52,7 +56,36 @@
 
     }
 
+    i.img = {
+        lazyload: function (high) {
 
+			function getTop(ele) {
+				var top = ele.offsetTop;
+				while (ele = ele.offsetParent) {
+					top += ele.offsetTop;
+				}
+				return top;
+			}
+
+			var imgs = document.body.querySelectorAll('.lazyload'),
+				H = window.innerHeight,
+				high = _exist(high, 500);
+
+			function lazyload() {
+				var S = i('.container').scrollTop;
+						[].forEach.call(imgs, function (img) {
+					if (!img.getAttribute('data-src')) {
+						return;
+					}
+					if (H + S + high > getTop(img)) {
+						img.src = img.getAttribute("data-src");
+						img.removeAttribute("data-src");
+					}
+				});
+			}
+			i('.container').addEventListener("scroll", lazyload);
+		},
+    }
 
     window.Chiaki = i;
     typeof ($) === "undefined" ? $ = i: NaN;
@@ -74,12 +107,6 @@ document.addEventListener(
 );
 
 !function(e){"use strict";var n=function(n,t,o){var l,r=e.document,i=r.createElement("link");if(t)l=t;else{var a=(r.body||r.getElementsByTagName("head")[0]).childNodes;l=a[a.length-1]}var d=r.styleSheets;i.rel="stylesheet",i.href=n,i.media="only x",l.parentNode.insertBefore(i,t?l:l.nextSibling);var f=function(e){for(var n=i.href,t=d.length;t--;)if(d[t].href===n)return e();setTimeout(function(){f(e)})};return i.onloadcssdefined=f,f(function(){i.media=o||"all"}),i};"undefined"!=typeof module?module.exports=n:e.loadCSS=n}("undefined"!=typeof global?global:this);
-
-window.onload = function(){
-    if(window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme')=='stardust'){
-        $('#theme').setAttribute('href', '/static/css/windless-night.css');
-    }
-}
 
 function theme(){
     if($('#theme').getAttribute('href') == "#"){

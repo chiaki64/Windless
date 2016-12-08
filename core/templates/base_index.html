@@ -27,10 +27,10 @@
     <meta http-equiv="cache-control" content="no-siteapp"/>
     <meta http-equiv="cache-control" content="no-ca"/>
 
-    <script src="/static/js/windless.js"></script>
+
     <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">-->
     <!--<link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons" media="none"-->
-          <!--onload="if(media!='all')media='all'">-->
+    <!--onload="if(media!='all')media='all'">-->
     <link rel="stylesheet" href="/static/css/material.min.css" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="/static/css/windless.css" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="#" id="theme">
@@ -88,12 +88,12 @@
             <!-- Mobile Title -->
             <span class="mobile-title mdl-layout-title"></span>
             <!-- Button Gruop -->
-            <!--<div class="header-button">-->
-            <!--<button id="mbtn" class="mdl-button mdl-js-button mdl-button&#45;&#45;icon" onclick="">-->
-            <!--<i class="material-icons" id="micon">music_note</i>-->
-            <!--</button>-->
-            <!--<span class="mdl-tooltip" for="mbtn">音乐/Music</span>-->
-            <!--</div>-->
+            <div class="header-button">
+                <button id="mbtn" class="mdl-button mdl-js-button mdl-button--icon" onclick="">
+                    <i class="material-icons" id="micon">music_note</i>
+                </button>
+                <span class="mdl-tooltip" for="mbtn">音乐/Music</span>
+            </div>
             <div class="header-button">
                 <button id="theme_btn" class="mdl-button mdl-js-button mdl-button--icon" onclick="theme();">
                     <i class="material-icons" id="snow_icon">sync</i>
@@ -120,7 +120,7 @@
     </header>
 
     <!-- Component: Drawer -->
-    <wind-drawer class="drawer mdl-layout__drawer">
+    <drawer class="drawer mdl-layout__drawer">
         <!--<span class="mdl-layout-title">-->
         <!--<img class="drawer-avatar" src="/static/img/avatar_summer.jpg">-->
         <!--<h5 style="width:100%;margin-top:8px;text-align: center;">稗田千秋</h5>-->
@@ -146,8 +146,7 @@
             <a class="mdl-navigation__link" href="/about">About</a>
         </nav>
 
-        </div>
-    </wind-drawer>
+    </drawer>
 
 
     <!-- Component: Container -->
@@ -168,18 +167,76 @@
         <footer class="mdl-mini-footer">
             <footer class="footer-default mdl-mini-footer">
                 <p>CopyRight © 2016 Chiaki.</p>
-                <p>Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"> CC BY-NC-SA 4.0</a>
+                <p>Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"> CC
+                    BY-NC-SA 4.0</a>
                 </p>
-                <p>Proudly powered by <a href="https://github.com/forblackking/Windless" title="稗田千秋" target="_blank" class="">Windless</a>.
+                <p>Proudly powered by <a href="https://github.com/forblackking/Windless" title="稗田千秋" target="_blank"
+                                         class="">Windless</a>.
                 </p>
             </footer>
         </footer>
 
-
     </container>
 
+    <div class="music_wrap hidden" id="music">
+        <button class="dialog-close-button mdl-button mdl-js-button mdl-button--icon"></button>
+        <div id="music_drap" style="height:25px;width: 100%;"></div>
+        <div class="track">
+            <div class="song">歌曲</div>
+            <div class="album"></div>
+        </div>
+
+        <div class="control">
+            <div class="progress_bar" id="bar">
+                <div class="progress"></div>
+                <div class="buffer"></div>
+            </div>
+
+            <div class="option">
+                <div class="volume">
+                    <p><i class="material-icons">volume_up</i></p>
+                </div>
+
+                <div class="volume_wrap hidden">
+                    <div class="volume_bar">
+                        <div class="volume_now"></div>
+                    </div>
+                </div>
+                <div class="time">0:00/0:00</div>
+                <ul id="option_list">
+                    <li class="shuffle" id="btn_shuffle"><i class="material-icons">shuffle</i></li>
+                    <div class="mdl-tooltip" for="btn_shuffle">随机播放</div>
+
+                    <li>
+                        <div class="next"><i class="material-icons" id="btn_next">skip_next</i></div>
+                    </li>
+                    <li>
+                        <div class="play"><i class="material-icons">play_arrow</i></div>
+                    </li>
+                    <li>
+                        <div class="pause hidden"><i class="material-icons">pause</i></div>
+                    </li>
+                    <li>
+                        <div class="prev"><i class="material-icons" id="btn_prev">skip_previous</i></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <audio id="audio"></audio>
+    </div>
 
 </layout>
 </body>
+<script src="/static/js/windless.js"></script>
+<script src="/static/js/music.js"></script>
 <script src="/static/js/material.js"></script>
+<script>
+    window.onload = function(){
+        if(window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme')=='stardust'){
+            $('#theme').setAttribute('href', '/static/css/windless-night.css');
+        }
+    }
+    $.img.lazyload();
+</script>
 </html>

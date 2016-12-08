@@ -9,7 +9,7 @@ from aiohttp import web
 from components.auth import auth
 from components.auth.auth import auth_required
 from components.rss import RSS, RSSItem
-from utils.config import config, merge_config
+from utils.config import config, merge_config, dev
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
                             http_401_response,
@@ -102,11 +102,13 @@ class ArticleView(AbsWebView):
             math = True
         else:
             math = False
+        print(dev)
         return {"article": data,
                 'math': math,
                 'PAGE_IDENTIFIER': self.request.app.router['article'].url(
                     parts={'id': id}
-                )
+                ),
+                'dev': not dev
                 }
 
 

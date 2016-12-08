@@ -26,6 +26,7 @@
 {% endblock %}
 
 {% block disqus %}
+{% if dev %}
 <card class="card">
     <div id="disqus_thread"></div>
     <script>
@@ -57,4 +58,5 @@
 
 </card>
 <script id="dsq-count-scr" src="//windcore.disqus.com/count.js" async></script>
+{% endif %}
 {% endblock %}
