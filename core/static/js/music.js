@@ -1,6 +1,3 @@
-
-
-
 ~ function () {
     var musicList = [
     {
@@ -279,7 +276,7 @@
             addClass($('#music'), 'hidden')
         }
     }
-
+    se.setItem('mode', 'list')
 	if(se.getItem('index')){
         var musicIndex = se.getItem('index')
     }else {
@@ -290,7 +287,7 @@
 
      if (se.getItem('volume')) {
 		audio.volume = se.getItem('volume');
-		$('#volume_now').style.height = se.getItem('volume') * 80 + "px";
+		$('.volume_now').style.height = se.getItem('volume') * 80 + "px";
 	} else {
 		audio.volume = .5
 	};
