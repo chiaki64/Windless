@@ -281,7 +281,7 @@
     }
     se.setItem('mode', 'list')
 	if(se.getItem('index')){
-        var musicIndex = se.getItem('index')
+        var musicIndex = parseInt(se.getItem('index'))
     }else {
         var musicIndex = 1;
         se.setItem('index', musicIndex)
