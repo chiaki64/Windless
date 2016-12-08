@@ -34,6 +34,11 @@
     <link rel="stylesheet" href="/static/css/material.min.css" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="/static/css/windless.css" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="#" id="theme">
+    <script>
+        if (window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme') == 'stardust') {
+            $('#theme').setAttribute('href', '/static/css/windless-night.css');
+        }
+    </script>
 </head>
 
 <body>
@@ -231,9 +236,4 @@
 <script src="/static/js/windless.js"></script>
 <script src="/static/js/music.js"></script>
 <script src="/static/js/material.js"></script>
-<script>
-    if(window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme')=='stardust'){
-        $('#theme').setAttribute('href', '/static/css/windless-night.css');
-    }
-</script>
 </html>
