@@ -127,3 +127,9 @@ document.onkeydown = function(e){
 		window.location.href = "/?search=" + $("#search-field").value
 	}
 }
+
+window.onload = function () {
+    if (typeof (comment) == 'function'){
+        comment()
+    }
+}

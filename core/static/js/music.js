@@ -1,4 +1,8 @@
-var musicList = [
+
+
+
+~ function () {
+    var musicList = [
     {
         'Artist': 'Suara',
         'Album': '「Pure -AQUAPLUS LEGEND OF ACOUSTICS-」',
@@ -14,8 +18,6 @@ var musicList = [
 		}
 	];
 
-
-window.onload = function () {
     var se = sessionStorage;
     var audio = $('#audio');
 
@@ -306,7 +308,7 @@ window.onload = function () {
 		$(".volume").style.color = '#A1A1A1';
 		audio.muted = !0;
 	};
-}
+}();
 
 
 var oDiv=$("#music_drap"),
