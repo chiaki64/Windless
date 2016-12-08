@@ -129,7 +129,6 @@ document.onkeydown = function(e){
 }
 
 window.onload = function () {
-    var display = false;
     if(typeof (comment) == 'function'){
         function getTop(ele) {
 				var top = ele.offsetTop;
@@ -146,9 +145,8 @@ window.onload = function () {
             var S = $('.container').scrollTop;
 
             ~function () {
-                if(!display && H+S+1000 > getTop(disqus_thread)){
+                if(H+S+1000 > getTop(disqus_thread)){
                     comment();
-                    display = true
                 }
             }()
         }

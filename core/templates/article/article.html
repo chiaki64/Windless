@@ -30,6 +30,7 @@
 <card class="card">
     <div id="disqus_thread"></div>
     <script>
+            var display = false;
             var disqus_config = function () {
                 PAGE_URL = 'https://' + window.location.host + '{{ PAGE_IDENTIFIER }}';
                 PAGE_IDENTIFIER = '{{ PAGE_IDENTIFIER }}';
@@ -37,6 +38,8 @@
                 this.page.identifier = PAGE_IDENTIFIER;
             }
             function comment() {
+                if(display==true)
+                    return;
                 var d = document, s = d.createElement('script');
                 s.src = '//windcore.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
@@ -46,6 +49,7 @@
                 t.src = '//windcore.disqus.com/count.js';
                 t.setAttribute('id', "dsq-count-scr");
                 (d.head || d.body).appendChild(t);
+                display=true;
             }
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
