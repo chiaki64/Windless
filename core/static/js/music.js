@@ -150,6 +150,7 @@
     }
 
     function playIndex(index) {
+        index = parseInt(index);
         initPlayer(index);
         audio.load();
         audio.addEventListener('canplay', bufferBar, false);
