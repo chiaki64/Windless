@@ -232,11 +232,8 @@
 <script src="/static/js/music.js"></script>
 <script src="/static/js/material.js"></script>
 <script>
-    window.onload = function(){
-        if(window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme')=='stardust'){
-            $('#theme').setAttribute('href', '/static/css/windless-night.css');
-        }
+    if(window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme')=='stardust'){
+        $('#theme').setAttribute('href', '/static/css/windless-night.css');
     }
-
 </script>
 </html>

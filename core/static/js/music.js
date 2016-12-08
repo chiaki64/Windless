@@ -16,9 +16,6 @@ var musicList = [
 
 
 window.onload = function () {
-    function $(ele) {
-        return document.querySelector(ele);
-    }
     var se = sessionStorage;
     var audio = $('#audio');
 
