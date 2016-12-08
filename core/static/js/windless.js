@@ -86,7 +86,7 @@
 			i('.container').addEventListener("scroll", lazyload);
 		}
     }
-    if(window.location.href.indexOf('manage') >= 0) {
+    if(window.location.href.indexOf('manage') == -1) {
         i.img.lazyload();
     }
     window.Chiaki = i;
