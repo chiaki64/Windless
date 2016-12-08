@@ -51,14 +51,14 @@ class IndexView(AbsWebView):
                     data = status['data']
                 else:
                     return await http_404_response(self.request)
+                return {'articles': data, 'page': int(page), 'total': status['total']}
             else:
                 data = []
                 result = await self.redis.get_list('Article')
                 for item in result:
                     if re.search(key, item['text']) or re.search(key, item['title']) or re.search(key, item['tags']):
                         data.append(item)
-
-        return {'articles': data}
+        return {'articles': data, 'page': 1, 'total': 1}
 
 
 class ArticleListView(AbsWebView):
@@ -69,6 +69,7 @@ class ArticleListView(AbsWebView):
         data_list = await self.redis.lget('Category.' + category)
 
         if page == 'full':
+            # TODO: Error
             data = await self.redis.get_list('Article', data_list)
         elif len(data_list) == 0:
             data = []
@@ -80,8 +81,9 @@ class ArticleListView(AbsWebView):
                 data = status['data']
             else:
                 return await http_404_response(self.request)
-
-        return {'articles': data}
+            print(int(page), status['total'], type(status['total']))
+            return {'articles': data, 'page': int(page), 'total': status['total'], 'category': category}
+        return {'articles': data, 'page': 1}
 
 
 class ArticleView(AbsWebView):

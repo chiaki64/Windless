@@ -26,31 +26,8 @@
 </card>
 {% else %}
 <card class="card pic-card">
-    <style>
-        .post-pic{
-            height:calc(300px);
-            background-size: 100%!important;
-            display:block;
-            transition:0.5s;
-        }
-        .post-pic:hover{
-            opacity:0.9;
-            background-size:102%!important;
-        }
-
-        @media (max-width: 1024px){
-            .post-pic{
-                height:calc(200px);
-                background-size: inherit!important;
-            }
-            .post-pic:hover{
-                background-size: inherit!important;
-            }
-        }
-
-    </style>
     <div class="post-pic"
-         style="background:url({{ article.pic_address }});background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;"></div>
+         style="background:url('{{ article.pic_address }}');background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;"></div>
 
     <card-title class="title mdl-color-text--grey-500 pic-card_in">
         <a href="/article/{{ article.id }}">{{ article.title }}</a>
@@ -75,13 +52,42 @@
 {% endif %}
 {% endfor %}
 
-<script>
-     var cate = {'essay': '随笔', 'daily': '日常', 'code': '代码', 'algorithm': '算法', 'acgn': 'ACGN','web':'Web'};
-     if (location.href.indexOf("category") > 0) {
-         var nt = location.href.split("category/")[1].toLowerCase();
-         document.title = cate[nt] + " - Wind.moe";
-     }
 
+<nav class="material-nav mdl-cell mdl-cell--12-col">
+    {% if page != 1 %}
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--icon">
+        {% if category %}
+            <a class="prev-page" href="/category/{{ category }}?page={{ page - 1 }}">
+        {% else %}
+            <a class="prev-page" href="/?page={{ page - 1 }}">
+        {% endif %}
+                <i class="material-icons">arrow_back</i>
+            </a>
+    </button>
+    {% endif %}
+
+    <span class="current">{{ page }}</span>
+
+    {% if page != total and total != 1 %}
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--icon">
+        {% if category %}
+            <a class="next-page" href="/category/{{ category }}?page={{ page + 1 }}">
+        {% else %}
+            <a class="next-page" href="/?page={{ page + 1 }}">
+        {% endif %}
+            <i class="material-icons">arrow_forward</i>
+        </a>
+        {% endif %}
+    </button>
+
+</nav>
+
+<script>
+    var cate = {'essay': '随笔', 'daily': '日常', 'code': '代码', 'algorithm': '算法', 'acgn': 'ACGN', 'web': 'Web'};
+    if (location.href.indexOf("category") > 0) {
+        var nt = location.href.split("category/")[1].toLowerCase();
+        document.title = cate[nt] + " - Wind.moe";
+    }
 
 
 </script>

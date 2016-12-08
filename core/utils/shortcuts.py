@@ -85,6 +85,10 @@ async def paginate(request, *, page=1, page_size=10, keys_array=None):
         return data
 
     count = len(data) if keys_array is None else len(keys_array)
+    publish_data = await request.app.redis.lget('Archive', isdict=True)
+    length = len(publish_data if keys_array is None else keys_array)
+    total = int(length / page_size) + (0 if int(length / page_size) == (length / page_size) else 1)
+
     try:
         left = (page - 1) * page_size
         right = page * page_size
@@ -93,16 +97,13 @@ async def paginate(request, *, page=1, page_size=10, keys_array=None):
         elif count < right:
             right = count
     except InvalidPage:
-        return {'exit': 1}
+        return {'exit': 1, 'total': total}
 
-    publish_data = await request.app.redis.lget('Archive', isdict=True)
     keys_array = [i['id'] for i in publish_data] if keys_array is None else keys_array
-    # print(keys_array)
     keys = [keys_array[i] for i in range(left, right)]
-    # print(keys)
     result = await request.app.redis.get_list('Article', keys=keys)
 
-    return {'exit': 0, 'data': result}
+    return {'exit': 0, 'data': result, 'total': total}
 
 
 def timezone(local='Asia/Shanghai'):
