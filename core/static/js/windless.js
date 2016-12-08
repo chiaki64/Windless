@@ -84,9 +84,10 @@
 				});
 			}
 			i('.container').addEventListener("scroll", lazyload);
-		},
+		}
     }
 
+    i.img.lazyload();
     window.Chiaki = i;
     typeof ($) === "undefined" ? $ = i: NaN;
     return i;
