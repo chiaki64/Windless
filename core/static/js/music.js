@@ -86,6 +86,7 @@
     audio.addEventListener('canplay', bufferBar, false);
 
     function initPlayer(index) {
+        console.log(index)
         audio.setAttribute('src', musicList[index].Source);
         $('.song').innerHTML = musicList[index].Title;
         $('.album').innerHTML = musicList[index].Album;
