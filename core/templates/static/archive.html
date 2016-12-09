@@ -18,34 +18,3 @@
     document.title = "归档 - Wind.moe"
 </script>
 {% endblock %}
-
-{% block disqus %}
-<card class="card">
-    <div style="font-family:Monaco">Comment</div>
-    <div id="disqus_thread"></div>
-    <script>
-        var display = false;
-        var disqus_config = function () {
-            PAGE_URL = 'https://' + window.location.host + '{{ PAGE_IDENTIFIER }}';
-            PAGE_IDENTIFIER = '{{ PAGE_IDENTIFIER }}';
-            this.page.url = PAGE_URL;
-            this.page.identifier = PAGE_IDENTIFIER;
-        }
-        function comment() {
-            if (display == true)
-                return;
-            var d = document, s = d.createElement('script');
-            s.src = '//windcore.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-
-            var t = d.createElement('script');
-            t.src = '//windcore.disqus.com/count.js';
-            t.setAttribute('id', "dsq-count-scr");
-            (d.head || d.body).appendChild(t);
-            display = true;
-        }
-    </script>
-</card>
-<script id="dsq-count-scr" src="//windcore.disqus.com/count.js" async></script>
-{% endblock %}

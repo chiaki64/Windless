@@ -3,6 +3,7 @@ env:
 server:
   host: '0.0.0.0'
   port: 8080
+  maintain: false
 memory:
   host: '127.0.0.1'
   port: 6379

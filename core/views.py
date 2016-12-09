@@ -81,7 +81,6 @@ class ArticleListView(AbsWebView):
                 data = status['data']
             else:
                 return await http_404_response(self.request)
-            print(int(page), status['total'], type(status['total']))
             return {'articles': data, 'page': int(page), 'total': status['total'], 'category': category}
         return {'articles': data, 'page': 1}
 
@@ -104,7 +103,6 @@ class ArticleView(AbsWebView):
             math = True
         else:
             math = False
-        print(dev)
         return {"article": data,
                 'math': math,
                 'PAGE_IDENTIFIER': self.request.app.router['article'].url(
@@ -355,20 +353,25 @@ class BackendConfigView(AbsWebView):
         key = config['admin']['secret_key']
         return {'secret': key,
                 'otp_url': otp_url(key, config['admin']['email'], config['admin']['username']),
-                'otp': config['admin']['otp']}
+                'otp': config['admin']['otp'],
+                'maintain': config['server']['maintain']}
 
     async def post(self):
         data = await self.request.post()
 
-        if 'otp' in data:
-            if data['otp'] == 'open':
-                config['admin']['otp'] = True
+        def control(name, group):
+            if name in data:
+                print(data[name])
+                if data[name] == 'open':
+                    config[group][name] = True
+                elif data[name] == 'close':
+                    config[group][name] = False
                 merge_config(config)
-                return web.json_response({'status': 100})
-            elif data['otp'] == 'close':
-                config['admin']['otp'] = False
-                merge_config(config)
-                return web.json_response({'status': 200})
+
+        control('otp', 'admin')
+        control('maintain', 'server')
+
+        return web.json_response({'status': 200})
 
 
 @auth_required

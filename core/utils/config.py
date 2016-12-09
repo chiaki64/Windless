@@ -5,11 +5,12 @@ import yaml
 
 config = {}
 dev = False
+maintain = True
 
 
 def load(path=''):
     import socket
-    global config, dev
+    global config, dev, maintain
     try:
         config = yaml.load(open(path + ('./eternity.yaml' if path == '' else '/eternity.yaml')))
     except TypeError:
@@ -20,6 +21,10 @@ def load(path=''):
         dev = True
     else:
         config['dev'] = False
+    if 'maintain' not in config['server']:
+        config['server']['maintain'] = False
+        merge_config(config)
+    maintain = config['server']['maintain']
     return dict({}, **config)
 
 

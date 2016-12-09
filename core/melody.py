@@ -14,7 +14,7 @@ from components.auth import auth, cookie
 from routes import routes
 from memory import RedisFilter
 from utils.config import config, dev, merge_config
-from utils.middlewares import error_middleware
+from utils.middlewares import error_middleware, maintain_middleware
 from utils.shortcuts import (compass)
 
 
@@ -31,7 +31,8 @@ async def init(loop):
     # Middleware
     middlewares = [
         auth.auth_middleware(policy),
-        error_middleware
+        error_middleware,
+        maintain_middleware,
     ]
 
     # 初始化

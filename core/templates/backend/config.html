@@ -13,20 +13,30 @@
             {% else %}
                 <input type="checkbox" id="otp" class="mdl-switch__input">
             {% endif %}
-        <span class="mdl-switch__label"></span>
+        <span class="mdl-switch__label">OTP</span>
+        </label>
+    </p>
+    <p>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="maintain">
+            {% if maintain %}
+                <input type="checkbox" id="maintain" class="mdl-switch__input" checked>
+            {% else %}
+                <input type="checkbox" id="maintain" class="mdl-switch__input">
+            {% endif %}
+        <span class="mdl-switch__label">Maintain</span>
         </label>
     </p>
 </div>
 
 <script>
-window.onload = function(){
-    var otp = $('#otp');
+~function(){
+    var otp = document.querySelector('#otp');
     otp.addEventListener('change', function(){
         var status = "close";
         if(this.checked){
             status = "open";
         }
-        fetch('/manage/config', {
+        window.fetch('/manage/config', {
             credentials: 'include',
             method: "POST",
             headers: {
@@ -41,8 +51,31 @@ window.onload = function(){
             console.log(e);
         })
 
-    })
-}
+    });
+
+    var maintain = document.querySelector('#maintain');
+    maintain.addEventListener('change', function(){
+        var status = "close";
+        if(this.checked){
+            status = "open";
+        }
+        window.fetch('/manage/config', {
+            credentials: 'include',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "maintain="+status
+        }).then(function(res) {
+            if(res.ok){
+                console.log(res.data);
+            }
+        }, function(e){
+            console.log(e);
+        })
+
+    });
+}();
 </script>
 
 {% endblock %}

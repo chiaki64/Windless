@@ -28,6 +28,13 @@ async def http_404_response(request, msg='Page Not Found!'):
     return res
 
 
+async def http_503_response():
+    return web.json_response({
+        'status': 'error',
+        'content': 'Service Temporarily Unavailable'
+    }, status=503)
+
+
 def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
 
     def wrapper(func):

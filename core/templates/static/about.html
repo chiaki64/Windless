@@ -32,14 +32,8 @@
             s.src = '//windcore.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-
-            var t = d.createElement('script');
-            t.src = '//windcore.disqus.com/count.js';
-            t.setAttribute('id', "dsq-count-scr");
-            (d.head || d.body).appendChild(t);
             display = true;
         }
     </script>
 </card>
-<script id="dsq-count-scr" src="//windcore.disqus.com/count.js" async></script>
 {% endblock %}
