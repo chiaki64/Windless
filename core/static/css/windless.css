@@ -629,8 +629,6 @@ code {
 }
 
 pre code {
-    /*!*  font-size: inherit;*!*/
-    /*!*white-space: pre-wrap;*!*/
     background-color: #f8f8f8
 }
 
@@ -656,7 +654,6 @@ pre code {
 .links a {
     border-radius: .5em;
     height: 90px;
-    /*width: 140px;*/
     float: left;
     padding: 0 10px 0 90px;
     color: #222
@@ -1046,10 +1043,6 @@ img {
     align-items: flex-end;
     cursor: pointer;
 }
-
-/*.media a {*/
-/*color: #aaa;*/
-/*}*/
 
 .title a {
     word-wrap: break-word;
