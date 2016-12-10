@@ -327,6 +327,9 @@ if (se.getItem("muted") == 1) {
 //封装播放函数供直接调用
 function playMusic(obj) {
     toPlay('pause');
+    if (hasClass($('#music'), 'hidden')) {
+        removeClass($('#music'), 'hidden')
+    }
     audio.setAttribute('src', obj.Source);
     $('.song').innerHTML = obj.Title;
     $('.album').innerHTML = obj.Album;
