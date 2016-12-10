@@ -8,14 +8,6 @@
         <a href="/article/{{ article.id }}">{{ article.title }}</a>
     </card-title>
 
-    <card-date class="date">
-        <i class="material-icons">event_note</i> {{ article.date }} &nbsp;
-        <i class="material-icons">person_outline</i> {{ article.author }} &nbsp;
-        <i class="material-icons">folder_open</i><a href="/category/{{ article.category }}">{{ article.category }}</a>
-    </card-date>
-
-    <hr>
-
     <article>
         {{ article.desc }}
     </article>
@@ -23,31 +15,43 @@
     <card-link>
         <a href="/article/{{ article.id }}">Continued Reading...</a>
     </card-link>
+
+    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
+        <div class="minilogo"></div>
+        <div class="minidate">
+            <strong>{{ article.author }}</strong>
+            <span>{{ article.date }}</span>
+            <span><a href="/category/{{ article.category }}" class="datelink">{{ article.category }}</a></span>
+        </div>
+    </div>
 </card>
 {% else %}
 <card class="card pic-card">
-    <div class="post-pic"
-         style="background:url('{{ article.pic_address }}');background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;"></div>
+    <div class="post-pic media"
+         style="background:url('{{ article.pic_address }}');background-repeat:no-repeat;background-position-y:{{ article.axis_y }}px;">
+        <card-title class="title mdl-color-text--grey-500 pic-card_in">
+            <a href="/article/{{ article.id }}">{{ article.title }}</a>
+        </card-title>
 
-    <card-title class="title mdl-color-text--grey-500 pic-card_in">
-        <a href="/article/{{ article.id }}">{{ article.title }}</a>
-    </card-title>
+    </div>
 
-    <card-date class="date pic-card_in">
-        <i class="material-icons">event_note</i> {{ article.date }} &nbsp;
-        <i class="material-icons">person_outline</i> {{ article.author }} &nbsp;
-        <i class="material-icons">folder_open</i><a href="/category/{{ article.category }}">{{ article.category }}</a>
-    </card-date>
-
-    <hr>
 
     <article class="pic-card_in">
         {{ article.desc }}
     </article>
 
-    <card-link class="pic-card_in">
+    <card-link>
         <a href="/article/{{ article.id }}">Continued Reading...</a>
     </card-link>
+
+    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
+        <div class="minilogo"></div>
+        <div class="minidate">
+            <strong>{{ article.author }}</strong>
+            <span>{{ article.date }}</span>
+            <span><a href="/category/{{ article.category }}" class="datelink">{{ article.category }}</a></span>
+        </div>
+    </div>
 </card>
 {% endif %}
 {% endfor %}
@@ -57,10 +61,10 @@
     {% if page != 1 %}
     <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--icon">
         {% if category %}
-            <a class="prev-page" href="/category/{{ category }}?page={{ page - 1 }}">
-        {% else %}
+        <a class="prev-page" href="/category/{{ category }}?page={{ page - 1 }}">
+            {% else %}
             <a class="prev-page" href="/?page={{ page - 1 }}">
-        {% endif %}
+                {% endif %}
                 <i class="material-icons">arrow_back</i>
             </a>
     </button>
@@ -71,13 +75,13 @@
     {% if page != total and total != 1 %}
     <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--icon">
         {% if category %}
-            <a class="next-page" href="/category/{{ category }}?page={{ page + 1 }}">
-        {% else %}
+        <a class="next-page" href="/category/{{ category }}?page={{ page + 1 }}">
+            {% else %}
             <a class="next-page" href="/?page={{ page + 1 }}">
-        {% endif %}
-            <i class="material-icons">arrow_forward</i>
-        </a>
-        {% endif %}
+                {% endif %}
+                <i class="material-icons">arrow_forward</i>
+            </a>
+            {% endif %}
     </button>
 
 </nav>
@@ -88,8 +92,5 @@
         var nt = location.href.split("category/")[1].toLowerCase();
         document.title = cate[nt] + " - Wind.moe";
     }
-
-
 </script>
-
 {% endblock %}

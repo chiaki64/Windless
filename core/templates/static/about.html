@@ -4,7 +4,7 @@
     <card-title class="title mdl-color-text--grey-500">About</card-title>
     <hr>
     <input id="word_count" type="hidden" value="{{ word_count }}">
-    <article>
+    <article class="main">
         {{ profile.html }}
     </article>
 </card>
@@ -15,7 +15,7 @@
 
 {% block disqus %}
 <card class="card">
-    <div style="font-family:Monaco">Comment</div>
+    <div style="font-family:Monaco;padding: 20px 30px;">Comment</div>
     <div id="disqus_thread"></div>
     <script>
         var display = false;

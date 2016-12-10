@@ -3,14 +3,22 @@
 
 <card class="card">
     <card-title class="title mdl-color-text--grey-500">{{ article.title }}</card-title>
-    <card-date class="date">
-        <i class="material-icons">event_note</i> {{ article.date }}
-        <i class="material-icons">person_outline</i> {{ article.author }}
-        <i class="material-icons">folder_open</i> <a href="/articles/Essay">{{ article.category }}</a> &nbsp;
-        <i class="material-icons">label_outline</i> {{ article.tags }}
-    </card-date>
-    <hr>
-    <article>
+    <!--<card-date class="date">-->
+    <!--<i class="material-icons">event_note</i> {{ article.date }}-->
+    <!--<i class="material-icons">person_outline</i> {{ article.author }}-->
+    <!--<i class="material-icons">folder_open</i> <a href="/articles/Essay">{{ article.category }}</a> &nbsp;-->
+    <!--<i class="material-icons">label_outline</i> {{ article.tags }}-->
+    <!--</card-date>-->
+    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600 main">
+        <div class="minilogo"></div>
+        <div class="minidate">
+            <strong>{{ article.author }}</strong>
+            <span>{{ article.date }}</span>
+            <span><a href="/category/{{ article.category }}" class="datelink">{{ article.category }}</a></span>
+        </div>
+    </div>
+
+    <article class="main">
         {{ article.html }}
     </article>
 </card>
@@ -26,7 +34,7 @@
 
 {% block disqus %}
 <card class="card">
-    <div style="font-family:Monaco">Comment</div>
+    <div style="font-family:Monaco;padding: 20px 30px;">Comment</div>
     <div id="disqus_thread"></div>
     <script>
         var display = false;
