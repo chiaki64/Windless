@@ -490,7 +490,8 @@ card-title {
 }
 
 .container {
-    width: calc(100% - 16px);
+    /*width: calc(100% - 16px);*/
+    width: 100%;
     margin: 0 0 0 auto;
     padding-bottom: 0;
     padding-top: 65px;
@@ -517,6 +518,19 @@ card-title {
 @media screen and (min-width: 600px) and (max-width: 900px) {
     .card-content {
         width: calc(80% - 16px)
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .card-content {
+        width: 100%;
+    }
+
+    .mdl-grid {
+        padding-left: 0;
+    }
+    ::-webkit-scrollbar{
+        width:0;
     }
 }
 
