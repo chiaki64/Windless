@@ -1057,3 +1057,7 @@ article {
     border-top: 0;
     padding: 20px 30px;
 }
+
+disqus_thread {
+    padding: 0 30px;
+}
