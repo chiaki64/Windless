@@ -3,16 +3,18 @@
 
 <card class="card archive">
     <card-title class="title mdl-color-text--grey-500">Archive</card-title>
-    <hr>
-    <br>
-    {% for info in archive %}
-    <strong>{{ info }}</strong>
-    <ul>
-        {% for article in archive[info] %}
-        <li>{{ article.day }} &nbsp;<a href="/article/{{ article.id }}">{{ article.title }}</a></li>
+
+    <article class="main">
+        <br>
+        {% for info in archive %}
+        <strong>{{ info }}</strong>
+        <ul>
+            {% for article in archive[info] %}
+            <li>{{ article.day }} &nbsp;<a href="/article/{{ article.id }}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
         {% endfor %}
-    </ul>
-    {% endfor %}
+    </article>
 </card>
 <script>
     document.title = "归档 - Wind.moe"
