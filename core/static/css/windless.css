@@ -490,8 +490,7 @@ card-title {
 }
 
 .container {
-    /*width: calc(100% - 16px);*/
-    width: 100%;
+    width: calc(100% - 16px);
     margin: 0 0 0 auto;
     padding-bottom: 0;
     padding-top: 65px;
@@ -529,9 +528,17 @@ card-title {
     .mdl-grid {
         padding-left: 0;
     }
+
     ::-webkit-scrollbar{
-        width:0;
+        width: 0;
     }
+
+    .container {
+    width: 100%;
+    margin: 0 0 0 auto;
+    padding-bottom: 0;
+    padding-top: 65px;
+}
 }
 
 .card {
