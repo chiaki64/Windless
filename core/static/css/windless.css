@@ -511,7 +511,7 @@ card-title {
 
 @media screen and (min-width: 900px) and (max-width: 1500px) {
     .card-content {
-        width: calc(65% - 16px)
+        width: calc(75% - 16px)
     }
 }
 
