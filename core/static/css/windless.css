@@ -529,16 +529,16 @@ card-title {
         padding-left: 0;
     }
 
-    ::-webkit-scrollbar{
+    ::-webkit-scrollbar {
         width: 0;
     }
 
     .container {
-    width: 100%;
-    margin: 0 0 0 auto;
-    padding-bottom: 0;
-    padding-top: 65px;
-}
+        width: 100%;
+        margin: 0 0 0 auto;
+        padding-bottom: 0;
+        padding-top: 65px;
+    }
 }
 
 .card {
@@ -686,7 +686,7 @@ pre code {
 
 .links > li .title {
     font-size: 2.1em;
-    padding: 10px
+    padding: 20px 10px 10px 0;
 }
 
 .links p {
@@ -694,6 +694,18 @@ pre code {
     line-height: 15px;
     color: #999;
     font-size: .8em
+}
+
+.links-title {
+    clear: both;
+    float: none !important;
+    width: 100% !important;
+    margin: 0 0 0 -10px !important;
+}
+
+.links-desc {
+    margin-top: 0;
+    padding: 20px 30px;
 }
 
 pre img {
