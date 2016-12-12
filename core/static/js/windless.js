@@ -154,5 +154,6 @@ window.onload = function () {
         lazyload();
     }
 
-
+    // 延迟加载背景
+    document.styleSheets[1].addRule('body::before', 'background-image: url(https://dn-wind-moe.qbox.me/static/img/manage_background.jpg);')
 }
