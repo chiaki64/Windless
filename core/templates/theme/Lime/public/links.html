@@ -10,7 +10,7 @@
         </li>
         {% for friend in friends %}
         <li>
-            <img src="/static/img/avatar.jpg">
+            <img src="{{ friend.avatar }}">
             <a href="{{ friend.url }}" target="_blank">
                 <p id="{{ friend.id }}" class="nickname">{{ friend.name }}</p>
                 <p>{{ friend.desc }}</p>
