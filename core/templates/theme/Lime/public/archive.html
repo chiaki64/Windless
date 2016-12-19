@@ -1,10 +1,9 @@
-{% extends "base_index.html" %}
+{% extends "index.html" %}
 {% block content %}
+<article class="archive mdl-card mdl-cell mdl-cell--12-col">
+    <div class="title mdl-color-text--grey-500">Archive</div>
 
-<card class="card archive">
-    <card-title class="title mdl-color-text--grey-500">Archive</card-title>
-
-    <article class="main">
+    <div class="main">
         <br>
         {% for info in archive %}
         <strong>{{ info }}</strong>
@@ -14,8 +13,8 @@
             {% endfor %}
         </ul>
         {% endfor %}
-    </article>
-</card>
+    </div>
+</article>
 <script>
     document.title = "归档 - Wind.moe"
 </script>

@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block content %}
+
+<article class="mdl-card mdl-cell mdl-cell--12-col">
+    <ul class="links">
+        <li class="links-title">
+            <div class="title mdl-color-text--grey-500">
+                Friends Links
+            </div>
+        </li>
+        {% for friend in friends %}
+        <li>
+            <img src="/static/img/avatar.jpg">
+            <a href="{{ friend.url }}" target="_blank">
+                <p id="{{ friend.id }}" class="nickname">{{ friend.name }}</p>
+                <p>{{ friend.desc }}</p>
+            </a>
+            <div class="mdl-tooltip" for="{{ friend.id }}">
+                {{ friend.url }}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="descrption" style="padding:20px 40px;">
+        欢迎交换友链 <br>
+        日常或技术向皆可，能保证博客的存活
+        <br><br>
+        小站信息：
+        <blockquote style="font-style: normal;">
+            <p>
+                名称: {{ blog.name }}<br> 地址: {{ blog.link }}<br> 描述: {{ blog.desc }} / 或您对我的评价
+            </p>
+        </blockquote>
+    </div>
+
+    <section class="comment">
+        <div class="title">Comment</div>
+        <div id="disqus_thread"></div>
+    </section>
+</article>
+<script>
+    document.title = "邻舍 - Wind.moe"
+</script>
+{% endblock %}

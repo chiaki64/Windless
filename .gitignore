@@ -100,6 +100,8 @@ rubbish/
 app/
 docs/
 core/backup/
+core/templates/backup/
+core/static/backup/
 
 # My Files
 test.py

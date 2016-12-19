@@ -1,15 +1,16 @@
-{% extends "base_backend.html" %}
+{% extends "backend.html" %}
 {% block content %}
 
 <div class="card">
-    <h4>Edit Article</h4>
+    <h4>Update Article</h4>
     <hr/>
-    <form method="POST" action="/manage/article/edit" accept-charset="UTF-8">
+    <form method="POST" action="/manage/article/{{ article.id }}/edit" accept-charset="UTF-8">
         <!--            <input name="_token" type="hidden" value="Nc8bQf5kM2DohNhqQ0ssWwAgrHdrrMRyINKlIM7T">-->
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
             <label for="title" class="mdl-textfield__label">Title:</label>
-            <input class="form-control mdl-textfield__input" name="title" type="text" id="title" required >
+            <input class="form-control mdl-textfield__input" name="title" type="text" id="title"
+                   value="{{ article.title }}">
         </div>
 
         <div id="add_id" class="form-group">
@@ -19,16 +20,20 @@
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="tags" class="mdl-textfield__label">Tags</label>
-            <input class="form-control mdl-textfield__input" name="tags" type="text" id="tags" required>
+            <input class="form-control mdl-textfield__input" name="tags" type="text" id="tags"
+                   value="{{ article.tags }}">
         </div>
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="author" class="mdl-textfield__label">Author</label>
-            <input class="form-control mdl-textfield__input" name="author" type="text" id="author" required>
+            <input class="form-control mdl-textfield__input" name="author" type="text" id="author"
+                   value="{{ article.author }}">
         </div>
 
-        <div class="form-group" style="width:100px;display: inline-block;">
-            <select name="category">
+        <div class="form-group mdl-textfield" style="width:100px;display: inline-block;">
+            <label for="cat" class="mdl-textfield__label select"
+                   style="color:#3f51b5;font-size:12px;top:-6px;visibility:visible;">Category</label>
+            <select name="category" id="cat">
                 <option value="algorithm">Algorithm</option>
                 <option value="acgn">ACGN</option>
                 <option value="code">Code</option>
@@ -37,6 +42,12 @@
                 <option value="web">Web</option>
             </select>
         </div>
+
+        <script>
+            ~function(){
+                document.querySelector('#cat').value = '{{ article.category }}'
+            }()
+        </script>
 
         <div class="form-group">
             <div>Top?</div>
@@ -48,6 +59,16 @@
             </label>
         </div>
 
+        <script>
+            ~function(){
+                if({{ article.top }} == 1){
+                    console.log('1');
+                    document.querySelector('#top_n').setAttribute('checked', '');
+                    document.querySelector('#top_y').setAttribute('checked', 'checked');
+                }
+            }();
+        </script>
+
         <div class="form-group">
             <div>Open?</div>
             <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="open_n">
@@ -57,6 +78,16 @@
                 <input class="mdl-radio__button" id="open_y" name="open" type="radio" value="1">Hide
             </label>
         </div>
+
+        <script>
+            ~function(){
+                if({{ article.open }} == 1){
+                    console.log('1');
+                    document.querySelector('#open_n').setAttribute('checked', '');
+                    document.querySelector('#open_y').setAttribute('checked', 'checked');
+                }
+            }();
+        </script>
 
         <div class="form-group">
             <div>pic</div>
@@ -71,45 +102,52 @@
         <div id="p_address" class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
              style="display:none;">
             <label for="pic_address" class="mdl-textfield__label">Picture Address</label>
-            <input class="form-control mdl-textfield__input" name="pic_address" type="text" id="pic_address">
+            <input class="form-control mdl-textfield__input" name="pic_address" type="text" id="pic_address"
+                   value="{{ article.pic_address if article.pic_address }}">
         </div>
 
         <div id="p_axis" class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
             style="display:none;">
             <label for="axis_y" class="mdl-textfield__label">垂直位移</label>
-            <input class="form-control mdl-textfield__input" name="axis_y" type="text" id="axis_y">
+            <input class="form-control mdl-textfield__input" name="axis_y" type="text" id="axis_y"
+                   value="{{ article.axis_y }}">
         </div>
 
         <br>
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="id" class="mdl-textfield__label">迁移id</label>
-            <input class="form-control mdl-textfield__input" name="id" type="text" id="id">
+            <input class="form-control mdl-textfield__input" name="id" type="text" id="id" value="{{ article.id }}">
         </div>
 
         <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label for="time" class="mdl-textfield__label">迁移时间戳</label>
-            <input class="form-control mdl-textfield__input" name="time" type="text" id="time">
+            <input class="form-control mdl-textfield__input" name="time" type="text" id="time" value="{{ article.created_time }}">
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
             <input class="btn btn-primary form-control  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
-                   type="submit" value="Add Article">
+                   type="submit" value="Update Article">
         </div>
 
         <script>
               function address(s) {
                 if (s == 1) {
                   document.querySelector("#p_address").setAttribute("style", "display:none;");
-                  document.querySelector("#p_axis").setAttribute("style", "display:none;");
+                  document.querySelector("#p_axis").setAttribute("style", "display:none;")
                 } else {
                   document.querySelector("#p_address").setAttribute("style", "display:inline-block;");
-                  document.querySelector("#p_axis").setAttribute("style", "display:inline-block;");
+                  document.querySelector("#p_axis").setAttribute("style", "display:inline-block;")
                 }
               }
 
-
-
+              ~function(){
+                if({{ article.pic }} == 1){
+                    document.querySelector('#pic_n').setAttribute('checked', '');
+                    document.querySelector('#pic_y').setAttribute('checked', 'checked');
+                    address();
+                }
+            }();
         </script>
 
 
@@ -123,6 +161,8 @@
     overflow: hidden;
   }
 
+
+
 </style>
 <script>
   var simplemde = new SimpleMDE({
@@ -130,7 +170,7 @@
     element: document.getElementById("MyID"),
     autosave: {
       enabled: true,
-      uniqueId: "article",
+      uniqueId: "article_{{ article.id }}",
       delay: 1000,
     },
     hideIcons: ["side-by-side", "fullscreen"],
@@ -211,6 +251,10 @@
     ],
 
   });
+
+  simplemde.value("{{ article.text }}");
+
+
 
 
 </script>

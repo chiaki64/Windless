@@ -34,7 +34,7 @@ class AbsWebView(web.View):
 
 
 class IndexView(AbsWebView):
-    @geass('article/articles.html')
+    @geass('public/catalog.html')
     async def get(self):
         page = self._get('page', None)
         if page == 'full':
@@ -62,7 +62,7 @@ class IndexView(AbsWebView):
 
 
 class ArticleListView(AbsWebView):
-    @geass('article/articles.html')
+    @geass('public/catalog.html')
     async def get(self):
         page = self._get('page', None)
         category = self.match['category'].lower()
@@ -86,7 +86,7 @@ class ArticleListView(AbsWebView):
 
 
 class ArticleView(AbsWebView):
-    @geass('article/article.html')
+    @geass('public/article.html')
     async def get(self):
         id = self.match['id']
         if id.isdigit() is False:
@@ -103,17 +103,19 @@ class ArticleView(AbsWebView):
             math = True
         else:
             math = False
-        return {"article": data,
-                'math': math,
-                'PAGE_IDENTIFIER': self.request.app.router['article'].url(
-                    parts={'id': id}
-                ),
-                'dev': not dev
-                }
+        return {
+            "article": data,
+            'math': math,
+            'PAGE_IDENTIFIER': self.request.app.router['article'].url(
+                parts={'id': id}
+            ),
+            'dev': not dev,
+            'comment': True
+        }
 
 
 class ArchiveView(AbsWebView):
-    @geass('static/archive.html')
+    @geass('public/archive.html')
     async def get(self):
         data = await self.redis.lget('Archive', isdict=True)
         dit = {}
@@ -124,40 +126,45 @@ class ArchiveView(AbsWebView):
             if year not in dit:
                 dit[year] = []
             dit[year].append(item)
-        return {'archive': dit,
-                'profile': await self.redis.get('Profile'),
-                'identifier': 'archive'}
+        return {
+            'archive': dit,
+            'profile': await self.redis.get('Profile'),
+            'identifier': 'archive'}
 
 
 class LinkView(AbsWebView):
-    @geass('static/links.html')
+    @geass('public/links.html')
     async def get(self):
         data = await self.redis.lget('Link', isdict=True, reverse=False)
         if data is None:
             data = []
-        return {'friends': data,
-                'blog': {
-                    'name': config['admin']['username'],
-                    'link': config['blog']['link'],
-                    'desc': (await self.redis.get('Profile'))['link_desc']
-                },
-                'identifier': 'links'}
+        return {
+            'friends': data,
+            'blog': {
+                'name': config['admin']['username'],
+                'link': config['blog']['link'],
+                'desc': (await self.redis.get('Profile'))['link_desc']
+            },
+            'identifier': 'links',
+            'comment': True
+        }
 
 
 class ProfileView(AbsWebView):
-    @geass('static/about.html')
+    @geass('public/about.html')
     async def get(self):
         data = await self.redis.get('Profile')
         words = await self.redis.get('Data.WordCount')
         return {
             'profile': data,
             'word_count': words,
-            'identifier': 'about'
+            'identifier': 'about',
+            'comment': True
         }
 
 
 class LoginView(AbsWebView):
-    @geass('static/login.html')
+    @geass('public/login.html')
     async def get(self):
         user = await auth.get_auth(self.request)
         if user is None:

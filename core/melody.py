@@ -42,10 +42,10 @@ async def init(loop):
     # 初始化Redis / 使用Pool
     if dev:
         redis_ip = config['memory']['host']
-        template_addr = './templates'
+        template_addr = './templates/theme/Lime'
     else:
         redis_ip = os.environ["REDIS_PORT_6379_TCP_ADDR"]
-        template_addr = '/code/core/templates'
+        template_addr = '/code/core/templates/theme/Lime'
 
     redis = await aioredis.create_redis((redis_ip, config['memory']['port']), loop=loop)
     app.redis = RedisFilter(redis)

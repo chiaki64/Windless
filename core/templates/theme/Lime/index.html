@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>稗田千秋 | 聆听岁月与风吟 - Wind.moe</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>稗田千秋 > 虹の向こうへ 行きたいな - Wind.moe</title>
     <!--Description Meta-->
     <meta name="author" content="稗田千秋">
     <meta name="keywords" content="稗田千秋,Hieda no Chiaki,forblackking,个人博客,blog,algorthim,acgn,code,daily,essay,web">
@@ -27,44 +27,35 @@
     <meta http-equiv="cache-control" content="no-siteapp"/>
     <meta http-equiv="cache-control" content="no-ca"/>
 
-
-    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">-->
-    <!--<link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons" media="none"-->
-    <!--onload="if(media!='all')media='all'">-->
-    <link rel="stylesheet" href="/static/css/material.min.css" onload="if(media!='all')media='all'">
-    <link rel="stylesheet" href="/static/css/windless.css" onload="if(media!='all')media='all'">
-    <link rel="stylesheet" href="#" id="theme">
-    <script>
-        if (window.sessionStorage.getItem('theme') && window.sessionStorage.getItem('theme') == 'stardust') {
-            document.querySelector('#theme').setAttribute('href', '/static/css/windless-night.css');
-        }
-    </script>
+    <link rel="stylesheet" href="/static/lime/css/material.min.css">
+    <link rel="stylesheet" href="/static/lime/css/wind.min.css">
+    <script src="/static/lime/js/toolkit.min.js"></script>
 </head>
 
 <body>
-<layout class='layout mdl-layout mdl-js-layout mdl-layout--fixed-header'>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <!-- Component: Header -->
-    <header class="header mdl-layout__header mdl-layout__header--waterfall">
-        <header class="header-row">
+    <header class="header mdl-layout__header mdl-layout__header--scroll">
+        <div class="mdl-layout__header-row">
             <!-- Title -->
-            <!--<span class="header-title mdl-layout-title">稗田千秋</span>-->
-            <!-- Add spacer, to align navigation to the right -->
-            <spacer class="spacer"></spacer>
-            <!-- Search -->
-            <search class="search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-                <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field" style="top:19px;">
+            <span class="mdl-layout-title">Windless</span>
+
+            <div class="mdl-layout-spacer"></div>
+
+            <div class="search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
                     <i class="material-icons">search</i>
                 </label>
-                <search-textfield class="mdl-textfield__expandable-holder">
+                <div class="mdl-textfield__expandable-holder">
                     <input class="mdl-textfield__input" type="text" id="search-field">
-                </search-textfield>
-            </search>
+                </div>
+            </div>
 
-            <!-- Navigation. We hide it in small screens. -->
+            <!-- Navigation, hide in small screens. -->
             <navigation class="navigation-container">
                 <nav class="navigation mdl-navigation">
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/">Home</a>
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" id="btn_category">Category</a>
+                    <a class="mdl-navigation__link" href="/">Home</a>
+                    <a class="mdl-navigation__link" id="btn_category" style="cursor:pointer;">Category</a>
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="btn_category">
                         <a href="/category/algorithm">
                             <li class="mdl-menu__item">Algorithm</li>
@@ -85,34 +76,27 @@
                             <li class="mdl-menu__item">Web</li>
                         </a>
                     </ul>
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/archive"> Archive</a>
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/links">Links</a>
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+                    <a class="mdl-navigation__link" href="/archive"> Archive</a>
+                    <a class="mdl-navigation__link" href="/links">Links</a>
+                    <a class="mdl-navigation__link" href="/about">About</a>
                 </nav>
             </navigation>
+
             <!-- Mobile Title -->
             <span class="mobile-title mdl-layout-title"></span>
             <!-- Button Gruop -->
             <div class="header-button">
-                <button id="mbtn" class="mdl-button mdl-js-button mdl-button--icon" onclick="">
+                <button id="mbtn" class="mdl-button mdl-js-button mdl-button--icon">
                     <i class="material-icons" id="micon">music_note</i>
                 </button>
                 <span class="mdl-tooltip" for="mbtn">音乐/Music</span>
-            </div>
-            <div class="header-button">
-                <button id="theme_btn" class="mdl-button mdl-js-button mdl-button--icon" onclick="theme();">
-                    <i class="material-icons" id="snow_icon">sync</i>
-                </button>
-                <span class="mdl-tooltip" for="btn_theme" id="theme_tooltip">主题/Theme</span>
-            </div>
-            <div class="header-button">
                 <button id="rss_btn" class="mdl-button mdl-js-button mdl-button--icon"
                         onclick="window.location.href='/feed'">
                     <i class="material-icons" id="rss_icon">rss_feed</i>
                 </button>
                 <span class="mdl-tooltip" for="rss_btn" id="rss_tooltip">订阅/Feed</span>
             </div>
-            <!-- More Button -->
+
             <button class="header-menu-button mdl-button mdl-js-button mdl-button--icon" id="more-button">
                 <i class="material-icons">more_vert</i>
             </button>
@@ -121,27 +105,52 @@
                     <li class="mdl-menu__item">Login</li>
                 </a>
             </ul>
-        </header>
+
+        </div>
     </header>
 
     <!-- Component: Drawer -->
     <drawer class="drawer mdl-layout__drawer">
-        <!--<span class="mdl-layout-title">-->
-        <!--<img class="drawer-avatar" src="/static/img/avatar_summer.jpg">-->
-        <!--<h5 style="width:100%;margin-top:8px;text-align: center;">稗田千秋</h5>-->
-        <!--<p id="status">当前离线</p>-->
-        <!--<p>东方舰娘/伪前端/算法鶸<br>RPG MAKER/古典文学/代码洁癖</p>-->
-        <!--</span>-->
 
-        <nav class="mdl-navigation">
+        <!-- Drawer header -->
+        <header class="drawer-header">
+            <div style="height: 19px;"></div>
+            <div id="drawer-avatar">
+                <img src="/static/img/avatar.jpg" alt="">
+            </div>
+            <a href="javascript:void(0);" class="drawer-brand">稗田千秋(i@wind.moe)</a>
+        </header>
+
+        <!-- Drawer navigation -->
+        <nav class="drawer-nav mdl-navigation">
             <a class="mdl-navigation__link" href="/">Home</a>
-            <separator class="drawer-separator"></separator>
-            <a class="mdl-navigation__link" href="/category/acgn">ACGN</a>
-            <a class="mdl-navigation__link" href="/category/algorithm">Algorithm</a>
-            <a class="mdl-navigation__link" href="/category/code">Code</a>
-            <a class="mdl-navigation__link" href="/category/daily">Daily</a>
-            <a class="mdl-navigation__link" href="/category/essay">Essay</a>
-            <a class="mdl-navigation__link" href="/category/web">Web</a>
+
+            <div id="drop-cat">
+                <a class="mdl-navigation__link" href="javascript:void(0)" onclick="slide()">
+                    Category
+                    <b class="caret"></b>
+                </a>
+                <ul>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/acgn">ACGN</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/algorithm">Algorithm</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/code">Code</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/daily">Daily</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/essay">Essay</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/web">Web</a>
+                    </li>
+                </ul>
+            </div>
 
             <separator class="drawer-separator"></separator>
 
@@ -150,45 +159,55 @@
             <a class="mdl-navigation__link" href="/feed">Feed</a>
             <a class="mdl-navigation__link" href="/about">About</a>
         </nav>
-
     </drawer>
 
-
     <!-- Component: Container -->
-    <container class="container mdl-grid mdl-layout__content">
+    <main class="container mdl-grid mdl-layout__content">
+        <div class="content">
 
-        <card-content id="card-content" class="card-content mdl-cell mdl-cell--8-col">
-
-            {% block content %}
-            {% endblock %}
-
-            {% block disqus %}
-            {% endblock %}
-        </card-content>
-
-        {% block link %}
-        {% endblock %}
-
-        <footer class="mdl-mini-footer">
-            <footer class="footer-default mdl-mini-footer">
-                <p>CopyRight © 2016 Chiaki.</p>
-                <p>Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"> CC
-                    BY-NC-SA 4.0</a>
-                </p>
-                <p>Proudly powered by <a href="https://github.com/forblackking/Windless" title="稗田千秋" target="_blank"
-                                         class="">Windless</a>.
-                </p>
+            {% block content %}{% endblock %}
+            {% if comment %}
+            <script>
+                var display = false;
+                var disqus_config = function () {
+                    PAGE_URL = 'https://' + window.location.host + '{{ PAGE_IDENTIFIER }}';
+                    PAGE_IDENTIFIER = '{{ PAGE_IDENTIFIER }}';
+                    this.page.url = PAGE_URL;
+                    this.page.identifier = PAGE_IDENTIFIER;
+                };
+                function comment() {
+                    if (display == true)
+                        return;
+                    var d = document, s = d.createElement('script');
+                    s.src = '//windcore.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                    display = true;
+                }
+            </script>
+            {% endif %}
+            <!-- Component: Footer -->
+            <footer>
+                <div class="footer">
+                    <p>CopyRight © 2016 Chiaki.</p>
+                    <p>Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"> CC
+                        BY-NC-SA 4.0</a>
+                    </p>
+                    <p>Proudly powered by <a href="https://github.com/forblackking/Windless" title="稗田千秋"
+                                             target="_blank" class="">Windless</a>.
+                    </p>
+                </div>
             </footer>
-        </footer>
 
-    </container>
+    </main>
 
+    <!-- Component: MusicPlayer -->
     <div class="music_wrap hidden" id="music">
         <button class="dialog-close-button mdl-button mdl-js-button mdl-button--icon"></button>
         <div id="music_drap" style="height:25px;width: 100%;cursor:move;"></div>
         <div class="track">
-            <div class="song">歌曲</div>
-            <div class="album"></div>
+            <div class="song">Song</div>
+            <div class="album">Album</div>
         </div>
 
         <div class="control">
@@ -231,9 +250,8 @@
         <audio id="audio"></audio>
     </div>
 
-</layout>
+</div>
 </body>
-<script src="/static/js/windless.js"></script>
-<script src="/static/js/music.js"></script>
-<script src="/static/js/material.js"></script>
+<script src="/static/lime/js/material.min.js"></script>
+<script src="/static/lime/js/wind.min.js"></script>
 </html>

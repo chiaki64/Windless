@@ -1,41 +1,25 @@
-{% extends "base_index.html" %}
+{% extends "index.html" %}
 {% block content %}
-<style>
-.card-square.mdl-card {
-    margin: auto;
-    width: 80%;
-    min-width: 300px;
-    max-width: 380px;
-    max-height: 420px;
-}
-
-.card-square > .mdl-card__title {
-    font-size: large;
-    color: #aaa;
-}
-
-</style>
-
 
 <div class="card-square mdl-card mdl-shadow--2dp">
-    <p class="mdl-card__title" style="margin:auto;border-top:0">Welcome Login</p>
-    <form method="POST" action="/auth/login" style="padding:0px 25px 0px 25px;">
+    <p class="mdl-card__title">Welcome Login</p>
+    <form method="POST" action="/auth/login" style="">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label class="mdl-textfield__label" for="email">Email</label>
-            <input class="mdl-textfield__input" id="email" type="email" name="email" value="i@wind.moe" readonly="readonly">
+            <input class="mdl-textfield__input" id="email" type="email" name="email">
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label class="mdl-textfield__label" for="password">Password</label>
-            <input class="mdl-textfield__input" type="password" name="password" id="password" value="123456" readonly="readonly">
+            <input class="mdl-textfield__input" type="password" name="password" id="password">
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <label class="mdl-textfield__label" for="otp">OTP</label>
+            <label class="mdl-textfield__label" for="otp">One Time Password</label>
             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="otp" id="otp">
         </div>
-        <div style="padding: 20px 0 30px 0;">
+        <div>
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="remember">
                 <input type="checkbox" id="remember" class="mdl-checkbox__input" name="remember">
-                <span class="mdl-checkbox__label">Remember Me</span>
+                <span class="mdl-checkbox__label">Remember</span>
             </label>
         </div>
 
@@ -45,6 +29,12 @@
         </div>
     </form>
 </div>
+
+<style>
+    footer{
+        margin-top: 400px;
+    }
+</style>
 <script>
     document.title = "登录 - Wind.moe"
 </script>
