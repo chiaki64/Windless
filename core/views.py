@@ -99,7 +99,7 @@ class ArticleView(AbsWebView):
             user = await auth.get_auth(self.request)
             if user is None:
                 return await http_401_response('Not Allow')
-        if len(re.findall('[$]{2}', data['text'])) > 0:
+        if len(re.findall('[$]{1,2}', data['text'])) > 0:
             math = True
         else:
             math = False
