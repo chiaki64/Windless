@@ -11,6 +11,9 @@
     <meta name="keywords" content="稗田千秋,Hieda no Chiaki,forblackking,个人博客,blog,algorthim,acgn,code,daily,essay,web">
     <meta name="copyright" content="Hieda no Chiaki">
     <meta name="generator" content="Vim">
+    {% if article %}
+    <meta name="description" content="{{ article.desc_text }}">
+    {% endif %}
     <!--Favicon icon-->
     <link rel="icon" type="image/png" href="/static/icon/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/static/icon/favicon-32x32.png" sizes="32x32">

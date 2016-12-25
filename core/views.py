@@ -240,6 +240,7 @@ class BackendArticleEditView(AbsWebView):
 
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
+        data['desc_text'] = ((data['text'])[:(data['text']).find('-----', 1)]).replace('\n', ' ')
         # 删除分割线
         data['html'] = data['html'].replace('<hr>', '', 1)
 
@@ -286,6 +287,7 @@ class BackendArticleUpdateView(AbsWebView):
         data['updated_time'] = int(str(time.time()).split('.')[0])
         # 分割文章
         data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
+        data['desc_text'] = ((data['text'])[:(data['text']).find('-----', 1)]).replace('\n', '')
         # 删除分割线
         data['html'] = data['html'].replace('<hr>', '', 1)
 
