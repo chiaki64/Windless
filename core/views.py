@@ -554,7 +554,7 @@ class APIHandler:
         user['_u2f_challenge_'] = challenge.json
         res = json.loads(challenge.json)
         print(res)
-        return {'request': res['registerRequests'][0]}
+        return {'request': res}
 
     async def verify(self, request):
         username = request.GET.get('username', 'user')
