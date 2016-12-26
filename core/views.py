@@ -527,6 +527,7 @@ class APIHandler:
     async def bind(self, request):
         username = request.GET.get('username', 'user')
         data = dict(await request.post())
+        print(data)
         user = users[username]
         try:
             binding, cert = complete_register(user.pop('_u2f_enroll_'), data,
