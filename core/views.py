@@ -543,3 +543,29 @@ class APIHandler:
         except ValueError:
             return web.json_response(json.dumps(False))
         return web.json_response(json.dumps(True))
+
+    @geass('public/yubi_verify.html')
+    async def sign(self, request):
+        username = request.GET.get('username', 'user')
+        user = users[username]
+        devices = [DeviceRegistration.wrap(device)
+                   for device in user.get('_u2f_devices_', [])]
+        challenge = start_authenticate(devices)
+        user['_u2f_challenge_'] = challenge.json
+        res = json.loads(challenge.json)
+        return {'request': res['registerRequests'][0]}
+
+    async def verify(self, request):
+        username = request.GET.get('username', 'user')
+        user = users[username]
+        data = dict(await request.post())
+        data = data['tokenResponse']
+        devices = [DeviceRegistration.wrap(device)
+                   for device in user.get('_u2f_devices_', [])]
+
+        challenge = user.pop('_u2f_challenge_')
+        c, t = verify_authenticate(devices, challenge, data, [facet])
+        return web.json_response(json.dumps({
+            'touch': t,
+            'counter': c
+        }))

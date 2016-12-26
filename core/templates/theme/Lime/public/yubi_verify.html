@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Touch your U2F token to authenticate.</p>
+<form method="POST" action="/api/verify" id="form">
+    <input type="hidden" name="tokenResponse" id="tokenResponse"/>
+    <input type="hidden" name="username" id="username" value="user"/>
+</form>
+</body>
+<script src="https://demo.yubico.com/js/u2f-api.js"></script>
+<script>
+
+
+    setTimeout(function() {
+        var request = {{ request }};
+        console.log("Register: ", request);
+        var appId = request.appId;
+        var registerRequests = [{version: request.version, challenge: request.challenge}];
+        console.log(appId, registerRequests);
+        u2f.register(appId, registerRequests, [],
+            function (deviceResponse) {
+            console.log("Register callback", deviceResponse);
+                document.getElementById('tokenResponse').value = JSON.stringify(deviceResponse)
+                document.getElementById('form').submit()
+            }
+        );
+    },1000);
+
+</script>
+</html>

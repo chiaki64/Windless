@@ -55,10 +55,12 @@ routes = {
         'data': {
             'GET': [
                 ('/article', api_handle.paginate, 'api_article'),
-                ('/enroll', api_handle.enroll, 'api_enroll')
+                ('/enroll', api_handle.enroll, 'api_enroll'),
+                ('/sign', api_handle.sign, 'api_sign')
             ],
             'POST': [
-                ('/bind', api_handle.bind, 'api_bind')
+                ('/bind', api_handle.bind, 'api_bind'),
+                ('/verify', api_handle.verify, 'api_verify')
             ]
         }
     }
