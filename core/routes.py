@@ -58,7 +58,7 @@ routes = {
                 ('/enroll', api_handle.enroll, 'api_enroll')
             ],
             'POST': [
-                ('/enroll', api_handle.bind, 'api_bind')
+                ('/bind', api_handle.bind, 'api_bind')
             ]
         }
     }
