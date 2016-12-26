@@ -452,6 +452,16 @@ async def rss_view(request):
                         content_type='text/xml', charset='utf-8')
 
 
+from u2flib_server.jsapi import DeviceRegistration
+from u2flib_server.u2f import (start_register, complete_register,
+                               start_authenticate, verify_authenticate)
+from cryptography.hazmat.primitives.serialization import Encoding
+import json
+
+users = {}
+facet = 'https://wind.moe'
+
+
 class APIHandler:
     # API View
     def __init__(self):
@@ -499,3 +509,36 @@ class APIHandler:
             'limit': page_size,
             'results': result
         })
+
+    @geass('public/yubi_auth.html')
+    async def enroll(self, request):
+        username = request.GET.get('username', 'user')
+        if username not in users:
+            users[username] = {}
+
+        user = users[username]
+        devices = [DeviceRegistration.wrap(device)
+                   for device in user.get('_u2f_devices', [])]
+        enroll = start_register(facet, devices)
+        user['_u2f_enroll_'] = enroll.json
+        res = json.loads(enroll.json)
+        return {'request': res['registerRequests'][0]}
+
+    async def bind(self, request):
+        username = request.GET.get('username', 'user')
+        data = dict(await request.post())
+        user = users[username]
+        try:
+            binding, cert = complete_register(user.pop('_u2f_enroll_'), data,
+                                              [facet])
+
+            devices = [DeviceRegistration.wrap(device)
+                       for device in user.get('_u2f_devices_', [])]
+            devices.append(binding)
+
+            user['_u2f_devices_'] = [d.json for d in devices]
+            print("U2F device enrolled. Username: %s", username)
+            print("Attestation certificate:\n%s", cert.public_bytes(Encoding.PEM))
+        except ValueError:
+            return web.json_response(json.dumps(False))
+        return web.json_response(json.dumps(True))

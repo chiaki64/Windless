@@ -54,7 +54,11 @@ routes = {
         'prefix': '/api',
         'data': {
             'GET': [
-                ('/article', api_handle.paginate, 'api_article')
+                ('/article', api_handle.paginate, 'api_article'),
+                ('/enroll', api_handle.enroll, 'api_enroll')
+            ],
+            'POST': [
+                ('/enroll', api_handle.bind, 'api_bind')
             ]
         }
     }
