@@ -564,6 +564,9 @@ class APIHandler:
                    for device in user.get('_u2f_devices_', [])]
 
         challenge = user.pop('_u2f_challenge_')
-        c, t = verify_authenticate(devices, challenge, data, [facet])
-        print(c, t)
+        try:
+            c, t = verify_authenticate(devices, challenge, data, [facet])
+            print(c, t)
+        except AttributeError:
+            return web.json_response(json.dumps(False))
         return web.json_response(json.dumps(True))
