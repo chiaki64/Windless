@@ -567,5 +567,5 @@ class APIHandler:
         c, t = verify_authenticate(devices, challenge, data, [facet])
         return web.json_response({
             'touch': t,
-            'counter': c
+            'counter': str(c)
         })
