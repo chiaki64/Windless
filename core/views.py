@@ -553,8 +553,7 @@ class APIHandler:
         challenge = start_authenticate(devices)
         user['_u2f_challenge_'] = challenge.json
         res = json.loads(challenge.json)
-        print(res)
-        return {'request': res}
+        return {'request': res['authenticateRequests'][0]}
 
     async def verify(self, request):
         username = request.GET.get('username', 'user')

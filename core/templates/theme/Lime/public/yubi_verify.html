@@ -24,8 +24,8 @@
         u2f.register(appId, registerRequests, [],
             function (deviceResponse) {
             console.log("Register callback", deviceResponse);
-                //document.getElementById('tokenResponse').value = JSON.stringify(deviceResponse)
-                //document.getElementById('form').submit()
+                document.getElementById('tokenResponse').value = JSON.stringify(deviceResponse)
+                document.getElementById('form').submit()
             }
         );
     },1000);
