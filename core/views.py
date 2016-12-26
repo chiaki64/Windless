@@ -537,8 +537,8 @@ class APIHandler:
             devices.append(binding)
 
             user['_u2f_devices_'] = [d.json for d in devices]
-            print("U2F device enrolled. Username: %s", username)
-            print("Attestation certificate:\n%s", cert.public_bytes(Encoding.PEM))
+            #print("U2F device enrolled. Username: %s", username)
+            #print("Attestation certificate:\n%s", cert.public_bytes(Encoding.PEM))
         except ValueError:
             return web.json_response(json.dumps(False))
         return web.json_response(json.dumps(True))
