@@ -553,6 +553,7 @@ class APIHandler:
         challenge = start_authenticate(devices)
         user['_u2f_challenge_'] = challenge.json
         res = json.loads(challenge.json)
+        print(res)
         return {'request': res['registerRequests'][0]}
 
     async def verify(self, request):
