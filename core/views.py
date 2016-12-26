@@ -565,6 +565,5 @@ class APIHandler:
 
         challenge = user.pop('_u2f_challenge_')
         c, t = verify_authenticate(devices, challenge, data, [facet])
-        return web.json_response({
-            'touch': t
-        })
+        print(c, t)
+        return web.json_response(json.dumps(True))
