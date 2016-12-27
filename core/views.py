@@ -448,6 +448,7 @@ class U2FAuthEnrollView(AbsWebView):
 
 
 class U2FAuthVerifyView(AbsWebView):
+    @geass('public/yubi_verify.html')
     async def get(self):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
