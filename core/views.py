@@ -433,14 +433,14 @@ class U2FAuthEnrollView(AbsWebView):
         if username not in users:
             users[username] = {}
 
-        users[username], req = enroll(users[username])
+        users[username], req = await enroll(users[username])
         await self.redis.set('Auth.U2F', users, many=False)
         return {'request': req}
 
     async def post(self):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
-        users[username], ok = bind(users[username], dict(await self.request.post()))
+        users[username], ok = await bind(users[username], dict(await self.request.post()))
         if ok:
             await self.redis.set('Auth.U2F', users, many=False)
             return web.json_response(json.dumps(True))
@@ -456,7 +456,7 @@ class U2FAuthVerifyView(AbsWebView):
         except KeyError:
             return http_400_response('Auth User Not Found')
 
-        users[username], req = sign(user)
+        users[username], req = await sign(user)
         await self.redis.set('Auth.U2F', users, many=False)
         return {'request': req}
 
@@ -464,7 +464,7 @@ class U2FAuthVerifyView(AbsWebView):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
 
-        users[username], ok = verify(users[username], dict(await self.request.post()))
+        users[username], ok = await verify(users[username], dict(await self.request.post()))
         if ok:
             await self.redis.set('Auth.U2F', users, many=False)
             return web.json_response(json.dumps(True))
