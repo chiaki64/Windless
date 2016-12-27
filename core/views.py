@@ -430,7 +430,10 @@ class BackendSecurityView(AbsWebView):
     async def get(self):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
-        devices = [json.loads(d) for d in users[username]['_u2f_devices_']]
+        if username in users:
+            devices = [json.loads(d) for d in users[username]['_u2f_devices_']]
+        else:
+            devices = []
         return {
             'u2f': config['admin']['u2f'],
             'devices': devices
