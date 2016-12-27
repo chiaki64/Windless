@@ -167,20 +167,46 @@ class ProfileView(AbsWebView):
 class LoginView(AbsWebView):
     @geass('public/login.html')
     async def get(self):
+        u2f, req, method = False, [], self.request.GET.get('method', None)
+        if config['admin']['u2f'] and method is None:
+            u2f = True
+            username = config['admin']['username']
+            users = await self.redis.get('Auth.U2F') or {}
+            try:
+                user = users[username]
+                users[username], req = await sign(user)
+                await self.redis.set('Auth.U2F', users, many=False)
+            except KeyError:
+                pass
+        elif method == 'common':
+            u2f = False
         user = await auth.get_auth(self.request)
         if user is None:
-            pass
+            return {
+                'u2f': u2f,
+                'request': req
+            }
         else:
             return web.HTTPFound('/manage')
 
     async def post(self):
         data = await self.request.post()
         account = await self.redis.get('User')
-        if account['email'] == data['email'] \
-                and account['password'] == data['password'] \
-                and verify(config, data['otp']):
-            await auth.remember(self.request, account['username'])
-            return web.HTTPFound('/manage')
+        if config['admin']['u2f'] and '_method' not in data:
+            username = config['admin']['username']
+            users = await self.redis.get('Auth.U2F') or {}
+            users[username], ok = await u2f_verify(users[username], dict(await self.request.post()))
+            if ok:
+                await self.redis.set('Auth.U2F', users, many=False)
+                await auth.remember(self.request, account['username'])
+                return web.HTTPFound('/manage')
+
+        elif data['_method'] == 'common':
+            if account['email'] == data['email'] \
+                    and account['password'] == data['password'] \
+                    and verify(config, data['otp']):
+                await auth.remember(self.request, account['username'])
+                return web.HTTPFound('/manage')
         return web.HTTPFound('/auth/login')
 
 
