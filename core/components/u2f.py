@@ -12,7 +12,7 @@ __all__ = [
     'enroll',
     'bind',
     'sign',
-    'verify'
+    'u2f_verify'
 ]
 
 facet = 'https://wind.moe'
@@ -52,7 +52,7 @@ async def sign(user):
     res = json.loads(challenge.json)
     return user, res['authenticateRequests'][0]
 
-async def verify(user, data):
+async def u2f_verify(user, data):
     response = data['tokenResponse']
     devices = [DeviceRegistration.wrap(device)
                for device in user.get('_u2f_devices_', [])]

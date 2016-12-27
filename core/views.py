@@ -498,7 +498,7 @@ class U2FAuthVerifyView(AbsWebView):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
 
-        users[username], ok = await verify(users[username], dict(await self.request.post()))
+        users[username], ok = await u2f_verify(users[username], dict(await self.request.post()))
         if ok:
             await self.redis.set('Auth.U2F', users, many=False)
             # return backend

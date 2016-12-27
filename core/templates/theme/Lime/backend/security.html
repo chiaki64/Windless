@@ -16,7 +16,7 @@
     <ul class="mdl-list">
         {% for device in devices %}
         <li class="mdl-list__item">
-            <strong>device.deviceName</strong> - registered on {{ device.registerDate }}
+            <strong>{{ device.deviceName }}</strong> - registered on {{ device.registerDate }}
         </li>
         {% endfor %}
     </ul>
