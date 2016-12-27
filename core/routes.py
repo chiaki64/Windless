@@ -27,10 +27,10 @@ routes = {
             'GET': [
                 ('/logout', views.LogoutView, 'logout'),
                 ('/enroll', views.U2FAuthEnrollView, 'u2f_enroll'),
-                ('/sign', views.U2FAuthVerifyView, 'u2f_sign')
+                # ('/sign', views.U2FAuthVerifyView, 'u2f_sign')
             ], 'POST': [
                 ('/bind', views.U2FAuthEnrollView, 'u2f_bind'),
-                ('/verify', views.U2FAuthVerifyView, 'u2f_verify')
+                # ('/verify', views.U2FAuthVerifyView, 'u2f_verify')
             ], '*': [
                 ('/login', views.LoginView, 'login')
 
