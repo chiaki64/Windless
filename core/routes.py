@@ -6,7 +6,6 @@ import views
 
 api_handle = views.APIHandler()
 
-
 routes = {
     'Home': {
         'prefix': '',
@@ -26,7 +25,12 @@ routes = {
         'prefix': '/auth',
         'data': {
             'GET': [
-                ('/logout', views.LogoutView, 'logout')
+                ('/logout', views.LogoutView, 'logout'),
+                ('/enroll', views.U2FAuthEnrollView, 'u2f_enroll'),
+                ('/sign', views.U2FAuthVerifyView, 'u2f_sign')
+            ], 'POST': [
+                ('/bind', views.U2FAuthEnrollView, 'u2f_bind'),
+                ('/verify', views.U2FAuthVerifyView, 'u2f_verify')
             ], '*': [
                 ('/login', views.LoginView, 'login')
 
@@ -55,12 +59,12 @@ routes = {
         'data': {
             'GET': [
                 ('/article', api_handle.paginate, 'api_article'),
-                ('/enroll', api_handle.enroll, 'api_enroll'),
-                ('/sign', api_handle.sign, 'api_sign')
+                # ('/enroll', api_handle.enroll, 'api_enroll'),
+                # ('/sign', api_handle.sign, 'api_sign')
             ],
             'POST': [
-                ('/bind', api_handle.bind, 'api_bind'),
-                ('/verify', api_handle.verify, 'api_verify')
+                #('/bind', api_handle.bind, 'api_bind'),
+                #('/verify', api_handle.verify, 'api_verify')
             ]
         }
     }

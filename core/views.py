@@ -422,6 +422,53 @@ class BackendLinksUpdateView(AbsWebView):
         await self.redis.ldelete('Link', isdict=True)
         return web.json_response({'status': 'success'})
 
+from components.u2f import *
+
+
+class U2FAuthEnrollView(AbsWebView):
+    @geass('public/yubi_auth.html')
+    async def get(self):
+        username = config['admin']['username']
+        users = await self.redis.get('Auth.U2F') or {}
+        if username not in users:
+            users[username] = {}
+
+        users[username], req = enroll(users[username])
+        await self.redis.set('Auth.U2F', users, many=False)
+        return {'request': req}
+
+    async def post(self):
+        username = config['admin']['username']
+        users = await self.redis.get('Auth.U2F') or {}
+        users[username], ok = bind(users[username], dict(await self.request.post()))
+        if ok:
+            await self.redis.set('Auth.U2F', users, many=False)
+            return web.json_response(json.dumps(True))
+        return web.json_response(json.dumps(False))
+
+
+class U2FAuthVerifyView(AbsWebView):
+    async def get(self):
+        username = config['admin']['username']
+        users = await self.redis.get('Auth.U2F') or {}
+        try:
+            user = users[username]
+        except KeyError:
+            return http_400_response('Auth User Not Found')
+
+        users[username], req = sign(user)
+        await self.redis.set('Auth.U2F', users, many=False)
+        return {'request': req}
+
+    async def post(self):
+        username = config['admin']['username']
+        users = await self.redis.get('Auth.U2F') or {}
+
+        users[username], ok = verify(users[username], dict(await self.request.post()))
+        if ok:
+            await self.redis.set('Auth.U2F', users, many=False)
+            return web.json_response(json.dumps(True))
+        return web.json_response(json.dumps(False))
 
 # RSS View
 async def rss_view(request):
@@ -547,7 +594,10 @@ class APIHandler:
     @geass('public/yubi_verify.html')
     async def sign(self, request):
         username = request.GET.get('username', 'user')
-        user = users[username]
+        try:
+            user = users[username]
+        except KeyError:
+            return {'request': 'error'}
         devices = [DeviceRegistration.wrap(device)
                    for device in user.get('_u2f_devices_', [])]
         challenge = start_authenticate(devices)

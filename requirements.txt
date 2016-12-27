@@ -8,3 +8,4 @@ misaka
 psutil==4.4.2
 pyotp==2.2.1
 pytz
+python-u2flib-server
