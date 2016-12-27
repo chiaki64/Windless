@@ -50,7 +50,8 @@ routes = {
                 ('/profile', views.BackendProfileView, '_profile'),
                 ('/links', views.BackendLinksView, '_links'),
                 ('/link/{id}', views.BackendLinksUpdateView, '_link-update'),
-                ('/config', views.BackendConfigView, '_config')
+                ('/config', views.BackendConfigView, '_config'),
+                ('/security', views.BackendSecurityView, '_security')
             ]
         }
     },
@@ -63,8 +64,8 @@ routes = {
                 # ('/sign', api_handle.sign, 'api_sign')
             ],
             'POST': [
-                #('/bind', api_handle.bind, 'api_bind'),
-                #('/verify', api_handle.verify, 'api_verify')
+                # ('/bind', api_handle.bind, 'api_bind'),
+                # ('/verify', api_handle.verify, 'api_verify')
             ]
         }
     }

@@ -1,7 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import hashlib
+import json
 from u2flib_server.jsapi import DeviceRegistration
 from u2flib_server.u2f import (start_register, complete_register,
                                start_authenticate, verify_authenticate)
-import json
+
 
 __all__ = [
     'enroll',
@@ -13,12 +18,12 @@ __all__ = [
 facet = 'https://wind.moe'
 
 
-async def init():
-    pass
+def md5(data):
+    return hashlib.md5((data.encode('utf-8'))).hexdigest()
 
 async def enroll(user):
     devices = [DeviceRegistration.wrap(device)
-               for device in user.get('_u2f_devices', [])]
+               for device in user.get('_u2f_devices_', [])]
     enroll = start_register(facet, devices)
     user['_u2f_enroll_'] = enroll.json
     res = json.loads(enroll.json)
@@ -31,6 +36,8 @@ async def bind(user, data):
                                           [facet])
         devices = [DeviceRegistration.wrap(device)
                    for device in user.get('_u2f_devices_', [])]
+        binding['deviceName'] = data['deviceName']
+        binding['registerDate'] = data['date']
         devices.append(binding)
         user['_u2f_devices_'] = [d.json for d in devices]
     except ValueError:

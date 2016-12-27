@@ -9,6 +9,7 @@ from aiohttp import web
 from components.auth import auth
 from components.auth.auth import auth_required
 from components.rss import RSS, RSSItem
+from components.u2f import *
 from utils.config import config, merge_config, dev
 from utils.exception import InvalidPage
 from utils.response import (http_400_response,
@@ -422,9 +423,36 @@ class BackendLinksUpdateView(AbsWebView):
         await self.redis.ldelete('Link', isdict=True)
         return web.json_response({'status': 'success'})
 
-from components.u2f import *
+
+@auth_required
+class BackendSecurityView(AbsWebView):
+    @geass('backend/security.html')
+    async def get(self):
+        username = config['admin']['username']
+        users = await self.redis.get('Auth.U2F') or {}
+        devices = [json.loads(d) for d in users[username]['_u2f_devices_']]
+        return {
+            'u2f': config['admin']['u2f'],
+            'devices': devices
+        }
+
+    async def post(self):
+        data = await self.request.post()
+
+        def control(name, group):
+            if name in data:
+                print(data[name])
+                if data[name] == 'open':
+                    config[group][name] = True
+                elif data[name] == 'close':
+                    config[group][name] = False
+                merge_config(config)
+
+        control('u2f', 'admin')
+        return web.json_response({'status': 200})
 
 
+@auth_required
 class U2FAuthEnrollView(AbsWebView):
     @geass('public/yubi_auth.html')
     async def get(self):
@@ -440,7 +468,9 @@ class U2FAuthEnrollView(AbsWebView):
     async def post(self):
         username = config['admin']['username']
         users = await self.redis.get('Auth.U2F') or {}
-        users[username], ok = await bind(users[username], dict(await self.request.post()))
+        data = dict(await self.request.post())
+        data['date'] = todate(str(time.time()), '%b %d,%Y')
+        users[username], ok = await bind(users[username], data)
         if ok:
             await self.redis.set('Auth.U2F', users, many=False)
             return web.json_response(json.dumps(True))
@@ -455,7 +485,7 @@ class U2FAuthVerifyView(AbsWebView):
         try:
             user = users[username]
         except KeyError:
-            return http_400_response('Auth User Not Found')
+            return await http_400_response('Auth User Not Found')
 
         users[username], req = await sign(user)
         await self.redis.set('Auth.U2F', users, many=False)
@@ -468,6 +498,7 @@ class U2FAuthVerifyView(AbsWebView):
         users[username], ok = await verify(users[username], dict(await self.request.post()))
         if ok:
             await self.redis.set('Auth.U2F', users, many=False)
+            # return backend
             return web.json_response(json.dumps(True))
         return web.json_response(json.dumps(False))
 
@@ -503,7 +534,6 @@ async def rss_view(request):
 from u2flib_server.jsapi import DeviceRegistration
 from u2flib_server.u2f import (start_register, complete_register,
                                start_authenticate, verify_authenticate)
-from cryptography.hazmat.primitives.serialization import Encoding
 import json
 
 users = {}

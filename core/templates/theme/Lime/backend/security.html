@@ -1,0 +1,59 @@
+{% extends "backend.html" %}
+{% block content %}
+<div class="card">
+    Security
+    <p>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="u2f">
+            {% if u2f %}
+            <input type="checkbox" id="u2f" class="mdl-switch__input" checked>
+            {% else %}
+            <input type="checkbox" id="u2f" class="mdl-switch__input">
+            {% endif %}
+            <span class="mdl-switch__label">U2F</span>
+        </label>
+    </p>
+    <p>
+    <ul class="mdl-list">
+        {% for device in devices %}
+        <li class="mdl-list__item">
+            <strong>device.deviceName</strong> - registered on {{ device.registerDate }}
+        </li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>
+        <button class="mdl-button mdl-js-button" onclick="window.location.href='/auth/enroll'">
+            Add U2F Device
+        </button>
+    </p>
+</div>
+
+<script>
+    ~function () {
+        var u2f = document.querySelector('#u2f');
+        u2f.addEventListener('change', function () {
+            var status = "close";
+            if (this.checked) {
+                status = "open";
+            }
+            window.fetch('/manage/security', {
+                credentials: 'include',
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "u2f=" + status
+            }).then(function (res) {
+                if (res.ok) {
+                    console.log(res.data);
+                }
+            }, function (e) {
+                console.log(e);
+            })
+
+        });
+
+    }();
+</script>
+
+{% endblock %}

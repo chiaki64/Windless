@@ -8,10 +8,11 @@
 <p>Touch your U2F token to authenticate.</p>
 <form method="POST" action="/auth/bind" id="form">
     <input type="hidden" name="tokenResponse" id="tokenResponse"/>
-    <input type="hidden" name="username" id="username" value="user"/>
+    <input type="hidden" name="username" id="username"/>
+    <input type="text" name="deviceName" id="deviceName" value=""/>
 </form>
 </body>
-<script src="https://demo.yubico.com/js/u2f-api.js"></script>
+<script src="/static/lime/js/u2f-api.min.js"></script>
 <script>
 
 
