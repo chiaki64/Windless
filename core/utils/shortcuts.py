@@ -8,6 +8,7 @@ import misaka
 import pyotp
 import pytz
 
+from bs4 import BeautifulSoup
 from .exception import InvalidPage
 
 
@@ -115,3 +116,30 @@ def todate(stamps, formatted=None, tz=timezone()):
         return datetime.datetime.fromtimestamp(float(stamps), tz)
     return datetime.datetime.fromtimestamp(float(stamps), tz).strftime(formatted)
 
+
+def rebuild_html(html):
+    # 文章分割
+    desc = html[:html.find('<hr>', 1)]
+    # 删除分割线
+    html = html.replace('<hr>', '', 1)
+    soup = BeautifulSoup(html, 'html.parser')
+    # 增加lazyload标记
+    for img in soup.find_all('img'):
+        try:
+            src = img['data-src']
+        except KeyError:
+            try:
+                src = img['src']
+            except KeyError:
+                src = ''
+
+        try:
+            if 'lazyload' in img['class']:
+                continue
+        except KeyError:
+            img['class'] = []
+        img['class'].append('lazyload')
+        img['data-src'] = src
+        del img['src']
+
+    return str(soup), desc

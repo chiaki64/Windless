@@ -22,7 +22,7 @@ from utils.shortcuts import (word_count,
                              paginate,
                              otp_url,
                              verify,
-                             timezone,
+                             rebuild_html,
                              todate)
 
 
@@ -255,7 +255,6 @@ class BackendArticleEditView(AbsWebView):
         if data['id'] == '':
             data['id'] = None
 
-        data['html'] = render(data['text'])
         data['created_time'] = str(time.time())
 
         if data['time'] == '':
@@ -266,10 +265,8 @@ class BackendArticleEditView(AbsWebView):
         data.pop('time')
 
         # 分割文章
-        data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
         data['desc_text'] = ((data['text'])[:(data['text']).find('-----', 1)]).replace('\n', ' ')
-        # 删除分割线
-        data['html'] = data['html'].replace('<hr>', '', 1)
+        data['html'], data['desc'] = rebuild_html(render(data['text']))
 
         id = await self.redis.set('Article', data, id=data['id'])
         # 保存到Category
@@ -310,13 +307,9 @@ class BackendArticleUpdateView(AbsWebView):
             data['date'] = todate(data['created_time'], '%b.%d %Y')
         data.pop('time')
 
-        data['html'] = render(data['text'])
         data['updated_time'] = int(str(time.time()).split('.')[0])
-        # 分割文章
-        data['desc'] = (data['html'])[:(data['html']).find('<hr>', 1)]
         data['desc_text'] = ((data['text'])[:(data['text']).find('-----', 1)]).replace('\n', '').replace('\"', '\'')
-        # 删除分割线
-        data['html'] = data['html'].replace('<hr>', '', 1)
+        data['html'], data['desc'] = rebuild_html(render(data['text']))
 
         if id != new_id:
             await self.redis.delete('Article', id=id)
