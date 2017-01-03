@@ -34,11 +34,13 @@
 <article class="mdl-card mdl-cell mdl-cell--12-col">
 
     <section class="mdl-card__media"
-             style="background: url('{{ article.pic_address }}') no-repeat;background-position-y:{{ article.axis_y }}%;"></section>
+             style="background: url('{{ article.pic_address }}') no-repeat;background-position-y:{{ article.axis_y }}%;">
+        <p><a href="/article/{{ article.id }}">{{ article.title }}</a></p>
+    </section>
 
-    <header>
-        <h1><a href="/article/{{ article.id }}">{{ article.title }}</a></h1>
-    </header>
+    <!--<header>-->
+        <!--<h1><a href="/article/{{ article.id }}">{{ article.title }}</a></h1>-->
+    <!--</header>-->
 
     <section class="text">
         {{ article.desc }}
