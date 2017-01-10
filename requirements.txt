@@ -4,7 +4,7 @@ aiohttp_jinja2
 aioredis==0.2.9
 uvloop==0.7.2
 misaka
-pyotp==2.2.1
+pyotp
 pytz
 python-u2flib-server
 ticket_auth
