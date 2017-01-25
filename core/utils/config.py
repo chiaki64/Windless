@@ -13,9 +13,8 @@ def load(path=''):
     import socket
     global config, dev, maintain
     try:
+        print(os.getcwd())
         config = yaml.load(open(path + ('./eternity.yaml' if path == '' else '/eternity.yaml')))
-    except FileNotFoundError:
-        config = yaml.load(open(path + ('../eternity.yaml' if path == '' else '/eternity.yaml')))
     except TypeError:
         config = {}
     config['tk'] = b'\x9f?\x05\xb90\x01R\xb9\xc0\xa5V`\xb3\xaa\xf3\xa0]\xceN\xb0C\xcc\x9d=~\xa5U\xc2W\x88\xd2\xc4'
