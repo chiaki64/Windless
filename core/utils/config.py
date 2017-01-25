@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import yaml
 
 config = {}
@@ -16,7 +17,15 @@ def load(path=''):
     except TypeError:
         config = {}
     config['tk'] = b'\x9f?\x05\xb90\x01R\xb9\xc0\xa5V`\xb3\xaa\xf3\xa0]\xceN\xb0C\xcc\x9d=~\xa5U\xc2W\x88\xd2\xc4'
-    if config['env']['hostname'] == socket.gethostname():
+    # 临时方案
+    flag = False
+    try:
+        if os.environ['env'] == 'dev':
+            flag = True
+    except KeyError:
+        pass
+
+    if config['env']['hostname'] == socket.gethostname() or flag:
         config['dev'] = True
         dev = True
     else:

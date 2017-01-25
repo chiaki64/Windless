@@ -8,3 +8,4 @@ pytz
 python-u2flib-server
 ticket_auth
 bs4
+pytest
