@@ -12,8 +12,7 @@ install:
   - pip install -r dockerfiles/windless/requirements.txt
   - pip install -i http://pypi.douban.com/simple  -r requirements.txt --trusted-host pypi.douban.com
   - pip install -i http://pypi.douban.com/simple misaka cryptography --trusted-host pypi.douban.com
-  - cd core/
-  - python melody.py
+  - cd core && python melody.py
 
 script:
   - curl 0.0.0.0:8080
