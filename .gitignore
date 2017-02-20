@@ -111,3 +111,4 @@ redis.conf
 eternity.yaml
 core/static/img/*
 wind.css
+.travis.yml

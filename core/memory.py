@@ -12,7 +12,7 @@ class RedisFilter:
     def __init__(self, redis):
         self._connection = redis
 
-    async def set(self, table, data, many=True, id=None):
+    async def set(self, table: str, data, many=True, id=None) -> str:
         """
         封装 Set 操作，视传入数据的类型以不同形式存入 Redis
         Args:
@@ -21,14 +21,14 @@ class RedisFilter:
             many:   数据是否多处存储
             id:     数据存储的ID
         Returns:
-            *
+            str or None
         """
         key = self.prefix(table) + (
             '.' + ((str((await self.last(table)) + 1)) if id is None else str(id)) if many else '')
 
         if type(data) is dict:
             if many:
-                data['id'] = key[self.prefix(table).__len__() + 1:] if id is None else id
+                data['id'] = key[len(self.prefix(table)) + 1:] if id is None else id
             dit = json.dumps(data)
         elif type(data) is list:
             dit = json.dumps({'list': data})
@@ -38,7 +38,7 @@ class RedisFilter:
             raise TypeError
 
         await self._connection.set(key, dit)
-        return (data['id'] if 'id' in data else data) if many else True
+        return (data['id'] if 'id' in data else data) if many else None
 
     async def lpush(self, table, value, isdict=False):
         """
@@ -201,11 +201,11 @@ class RedisFilter:
         返回当前表有多少条数据
         """
         keys = await self._connection.keys(self.prefix(table) + '.*')
-        return str(keys.__len__())
+        return str(len(keys))
 
     async def last(self, table):
         """
-        计算最后一篇文章的id,用以创建新文章时自增,即计算 Windless:Articles.* 类型的最后id
+        计算最后一篇文章的id,用以创建新文章时自增,即计算类似 Windless:Articles.* 类型的最后id
         """
         id = 0
         keys = await self._connection.keys(self.prefix(table) + '.*')
