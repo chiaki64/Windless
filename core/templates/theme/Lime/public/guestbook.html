@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
-<article class="mdl-card mdl-cell mdl-cell--12-col" style="padding:20px 0 20px 0;">
+<article class="mdl-card mdl-cell mdl-cell--12-col" style="padding:20px 0 0;">
 
           <section class="notes">
             <div class="date">
@@ -9,7 +9,7 @@
               </span>
             </div>
             <section class="mood">
-              <p>这里暂且留言本，有什么想说的就在这里或者about页面说明吧～</p>
+              <p>这里暂且当作留言本，有什么想说的就在这里或者about页面说明吧～</p>
             </section>
           </section>
 
@@ -24,6 +24,11 @@
               {{ note.text }}</section>
           </section>
          {% endfor %}
+
+        <section class="comment">
+        <div class="title">Comment</div>
+        <div id="disqus_thread"></div>
+    </section>
 
         </article>
         <style>
