@@ -524,6 +524,35 @@ class U2FAuthVerifyView(AbsWebView):
             return web.json_response(json.dumps(True))
         return web.json_response(json.dumps(False))
 
+
+class GuestBookView(AbsWebView):
+    @geass('public/guestbook.html')
+    async def get(self):
+        data = await self.redis.lget('GuestBook', isdict=True, reverse=True)
+        if data is None:
+            data = []
+        return {
+            'notes': data,
+            'identifier': 'guest-book',
+            'comment': True
+        }
+
+class BackendGuestBookView(AbsWebView):
+    @geass('backend/guestbook.html')
+    async def get(self):
+        data = await self.redis.lget('GuestBook', isdict=True, reverse=False)
+        if data is None:
+            data = []
+        return {'len': len(data) + 1}
+
+    async def post(self):
+        data = dict({}, **await self.request.post())
+        data['created_time'] = str(time.time())
+        data['date'] = todate(data['created_time'], '%b.%d')
+        await self.redis.lpush('GuestBook', data, isdict=True)
+        return web.HTTPFound('/guest-book')
+
+
 # RSS View
 async def rss_view(request):
     item_list = []
@@ -638,8 +667,8 @@ class APIHandler:
             devices.append(binding)
 
             user['_u2f_devices_'] = [d.json for d in devices]
-            #print("U2F device enrolled. Username: %s", username)
-            #print("Attestation certificate:\n%s", cert.public_bytes(Encoding.PEM))
+            # print("U2F device enrolled. Username: %s", username)
+            # print("Attestation certificate:\n%s", cert.public_bytes(Encoding.PEM))
         except ValueError:
             return web.json_response(json.dumps(False))
         return web.json_response(json.dumps(True))

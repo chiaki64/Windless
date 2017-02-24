@@ -17,7 +17,8 @@ routes = {
                 ('/links', views.LinkView, 'links'),
                 ('/archive', views.ArchiveView, 'archive'),
                 ('/about', views.ProfileView, 'about'),
-                ('/feed', views.rss_view, 'rss')
+                ('/feed', views.rss_view, 'rss'),
+                ('/guest-book', views.GuestBookView, 'guest-book')
             ]
         }
     },
@@ -51,7 +52,8 @@ routes = {
                 ('/links', views.BackendLinksView, '_links'),
                 ('/link/{id}', views.BackendLinksUpdateView, '_link-update'),
                 ('/config', views.BackendConfigView, '_config'),
-                ('/security', views.BackendSecurityView, '_security')
+                ('/security', views.BackendSecurityView, '_security'),
+                ('/guest-book', views.BackendGuestBookView, '_guest-book')
             ]
         }
     },

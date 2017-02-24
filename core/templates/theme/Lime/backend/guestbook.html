@@ -1,0 +1,127 @@
+{% extends "backend.html" %}
+{% block content %}
+<div class="card">
+    <h4>Guest Book</h4>
+    <hr/>
+    <form method="POST" action="/manage/guest-book" accept-charset="UTF-8">
+
+        <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label for="id" class="mdl-textfield__label">ORDER</label>
+            <input class="form-control mdl-textfield__input" name="id" type="text" id="id" value="{{ len }}">
+        </div>
+
+        <div class="form-group" style="margin-top:20px;">
+            <textarea id="MyID" name="text"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <input class="btn btn-primary form-control  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                   type="submit" value="Add Article">
+        </div>
+
+
+    </form>
+
+</div>
+<link rel="stylesheet" href="/static/lime/css/simplemde.min.css">
+<script src="/static/lime/js/simplemde.min.js"></script>
+<style>
+  .editor-preview-active {
+    overflow: hidden;
+  }
+
+
+
+
+
+
+</style>
+<script>
+  var simplemde = new SimpleMDE({
+    autofocus: true,
+    element: document.getElementById("MyID"),
+    autosave: {
+      enabled: true,
+      uniqueId: "guest-book",
+      delay: 1000,
+    },
+    hideIcons: ["side-by-side", "fullscreen"],
+    showIcons: ["code", "table"],
+    toolbar: [{
+        name: "bold",
+        action: SimpleMDE.toggleBold,
+        className: "fa fa-bold",
+        title: "Bold",
+      }, {
+        name: "italic",
+        action: SimpleMDE.toggleItalic,
+        className: "fa fa-italic",
+        title: "Italic",
+      }, {
+        name: "strikethrough",
+        action: SimpleMDE.toggleStrikethrough,
+        className: "fa fa-strikethrough",
+        title: "Strikethrough",
+      },
+      "|", {
+        name: "code",
+        action: SimpleMDE.toggleCodeBlock,
+        className: "fa fa-code",
+        title: "Code",
+      }, {
+        name: "quote",
+        action: SimpleMDE.toggleBlockquote,
+        className: "fa fa-quote-left",
+        title: "Quote",
+      }, {
+        name: "unordered-list",
+        action: SimpleMDE.toggleUnorderedList,
+        className: "fa fa-list-ul",
+        title: "Generic List",
+      }, {
+        name: "ordered-list",
+        action: SimpleMDE.toggleOrderedList,
+        className: "fa fa-list-ol",
+        title: "Numbered List",
+      },
+      "|", {
+        name: "link",
+        action: SimpleMDE.drawLink,
+        className: "fa fa-link",
+        title: "Create Link",
+      }, {
+        name: "image",
+        action: SimpleMDE.drawImage,
+        className: "fa fa-picture-o",
+        title: "Insert Image",
+      }, {
+        name: "table",
+        action: SimpleMDE.drawTable,
+        className: "fa fa-table",
+        title: "Insert Table",
+      }, {
+        name: "horizontal-rule",
+        action: SimpleMDE.drawHorizontalRule,
+        className: "fa fa-minus",
+        title: "Insert Horizontal Line",
+      },
+      "|", {
+        name: "preview",
+        action: SimpleMDE.togglePreview,
+        className: "fa fa-eye no-disable",
+        title: "Toggle Preview",
+      },
+      "|", {
+        name: "guide",
+        action: function customFunction(editor) {
+          window.open("https://simplemde.com/markdown-guide", "_blank");
+        },
+        className: "fa fa-question-circle",
+        title: "Markdown Guide",
+      },
+      "|", // Separator
+    ],
+
+  });
+</script>
+{% endblock %}
