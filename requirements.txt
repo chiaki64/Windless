@@ -5,6 +5,7 @@ aiohttp-session
 aioredis
 beautifulsoup4
 celery
+misaka
 pyotp
 pytz
 PyYAML
