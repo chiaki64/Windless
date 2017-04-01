@@ -52,7 +52,7 @@ async def init(loop):
         }, many=False)
 
     # Security
-    setup_session(app, RedisStorage(await aioredis.create_pool((config.redis_ip, 6379)), cookie_name='Windless_Session'))
+    setup_session(app, RedisStorage(await aioredis.create_pool((config.redis_ip, 6379)), cookie_name='w'))
     setup_security(app,
                    SessionIdentityPolicy(),
                    RedisAuthorizationPolicy(redis))
