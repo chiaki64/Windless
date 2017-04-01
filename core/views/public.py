@@ -89,7 +89,10 @@ class ArticleView(AbsWebView):
         data['created_date'] = todate(data['created_time'], '%Y-%m-%d %H:%M:%S')
         data['updated_date'] = todate(data['updated_time'], '%Y-%m-%d %H:%M:%S')
         # 引用
-        data['citations'] = [render(item)[3:-5] for item in data.get('citation').split('|')]
+        try:
+            data['citations'] = [render(item)[3:-5] for item in data.get('citation').split('|')]
+        except AttributeError:
+            data['citations'] = []
         data['tags'] = [item for item in data.get('tag').split('|')]
 
         if len(re.findall('[$]{1,2}', data['text'])) > 0:
