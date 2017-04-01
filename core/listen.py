@@ -8,64 +8,61 @@ import subprocess
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from utils.config import dev
+from components.eternity import config
+from components.logger import logger
+from utils.period import todate
 
 
-def log(s):
-    print("[Monitor] %s" % s)
-
-
-class MyFileSystemEventHandler(FileSystemEventHandler):
+class Handler(FileSystemEventHandler):
     def __init__(self, fn):
-        super(MyFileSystemEventHandler, self).__init__()
+        super(Handler, self).__init__()
         self.restart = fn
 
     def on_any_event(self, event):
-        if event.src_path.endswith((".py", ".yaml")):
-            log("Python source has changed:%s" % event.src_path)
+        if event.src_path.endswith(('.py', '.yaml')):
             self.restart()
 
 
-def kill_process():
+def kill():
     global process
     if process:
-        log("Kill process %s" % process.pid)
         process.kill()
         process.wait()
-        log("Process end with %s" % process.returncode)
         process = None
 
 
-def start_process():
+def start():
     global process, command
-    log("Start process %s" % command)
     process = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
 
 
-def restart_process():
-    kill_process()
-    start_process()
+def restart():
+    kill()
+    logger.warn(
+        f"[{todate(int(time.time()), '%d/%b/%Y:%H:%M:%S +0800')}]::Status(Restarting Server)")
+
+    start()
 
 
-def start_watch(path):
+def watch(path):
     observer = Observer()
-    observer.schedule(MyFileSystemEventHandler(restart_process), path, recursive=True)
+    observer.schedule(Handler(restart), path, recursive=True)
     observer.start()
-    log("Wathching directory %s" % path)
-    start_process()
+    start()
     try:
         while True:
-            time.sleep(1)
+            time.sleep(2)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
 
 
 if __name__ == '__main__':
-    if dev:
-        command = ['python3', 'melody.py']
+    command = ['python3']
+    if config.dev:
+        command.append('melody.py')
     else:
-        command = ['python3', '/code/core/melody.py']
+        command.append('/code/core/melody.py')
 
-    path = os.path.abspath(".")
-    start_watch(path)
+    path = os.path.abspath('.')
+    watch(path)

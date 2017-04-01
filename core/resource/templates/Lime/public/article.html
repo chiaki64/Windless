@@ -1,0 +1,79 @@
+{% extends "public.html" %}
+{% block content %}
+
+<article class="mdl-card mdl-cell mdl-cell--12-col">
+    {% if article['pic'] == '1' %}
+    <section class="mdl-card__media"
+             style="background: url('{{ article.pic_address }}') no-repeat;background-position-y:{{ article.axis_y }}%;">
+        <p>{{ article.title }}</p>
+    </section>
+    {% else %}
+    <header>
+        <h1>{{ article.title }}</h1>
+    </header>
+    {% endif %}
+    <section class="meta simple">
+        <div class="info mdl-card__supporting-text mdl-color-text--grey-600">
+            <div class="minilogo"></div>
+            <div class="author">
+                <strong>{{ article.author }}</strong>
+                <div>
+                    <span>{{ article.date }}</span>
+                    <span><a href="/category/{{ article.category }}">{{ article.category }}</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="text">
+        {{ article.html }}
+
+        {% if article.citations != [''] %}
+        <div class="article-apa">
+            <div class="apa-title">引用</div>
+            <br>
+            {% for citation in article.citations %}
+            <nav class="apa">
+                [{{ loop.index }}] {{ citation }}
+            </nav>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="article-eof">--END--</div>
+
+        <div class="article-update">
+            <div class="update-title">文章创建于 <span>{{ article.created_date }}</span>,最后更新 <span>{{ article.updated_date }}</span></div>
+        </div>
+
+        <div class="article-tags">
+            <div class="tags-title">文章标签</div>
+            <br>
+            {% for tag in article.tags %}
+            <nav class="tag">
+                <a href="/tag/{{ tag }}">{{ tag }}</a>
+            </nav>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="comment">
+        <div class="title">Comment</div>
+        <div id="disqus_thread">尝试加载Disqus评论, 失败则会使用基础模式.</div>
+        <ul class="comment-posts"></ul>
+    </section>
+</article>
+<script>
+    document.title = "{{ article.title }} - Wind.moe"
+</script>
+{%- if math -%}
+<script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+
+
+</script>
+{% endif %}
+{% endblock %}

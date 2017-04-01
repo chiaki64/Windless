@@ -95,6 +95,7 @@ node_modules/
 # dir
 cores/
 _core/
+__core/
 rubbish/
 .idea/
 app/
@@ -112,3 +113,4 @@ eternity.yaml
 core/static/img/*
 wind.css
 .travis.yml
+log/

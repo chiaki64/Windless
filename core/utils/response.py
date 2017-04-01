@@ -2,11 +2,26 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
-import functools
 from aiohttp import web
-from aiohttp.abc import AbstractView
-from components.auth.auth import get_auth
 from aiohttp_jinja2 import APP_KEY, render_template
+
+
+def geass(context, request, tmpl=None, *, app_key=APP_KEY, encoding='utf-8', status=200):
+    # print('path->', request.url)
+    if tmpl is None:
+        return web.json_response(context)
+    try:
+        if 'identifier' in context:
+            context['PAGE_IDENTIFIER'] = request.app.router[context['identifier']].url()
+            # Auth
+    except:
+        raise RuntimeError
+
+    response = render_template(tmpl, request, context,
+                               app_key=app_key, encoding=encoding)
+    response.set_status(status)
+    return response
+
 
 async def http_400_response(error_reason):
     return web.json_response({
@@ -33,44 +48,3 @@ async def http_503_response():
         'status': 'error',
         'content': 'Service Temporarily Unavailable'
     }, status=503)
-
-
-def geass(template_name, *, app_key=APP_KEY, encoding='utf-8', status=200):
-
-    def wrapper(func):
-        @functools.wraps(func)
-        async def wrapped(*args):
-            if asyncio.iscoroutinefunction(func):
-                coro = func
-            else:
-                coro = asyncio.coroutine(func)
-            context = await coro(*args)
-
-            if isinstance(context, web.StreamResponse):
-                return context
-            if isinstance(args[0], AbstractView):
-                request = args[0].request
-            else:
-                request = args[-1]
-
-            try:
-                if 'identifier' in context:
-                    # if isinstance(context['identifier'], tuple):
-                    #     context['PAGE_IDENTIFIER'] = request.app.router[context['identifier'][0]].url(
-                    #         parts={'id': context['identifier'][1]}
-                    #     )
-                    context['PAGE_IDENTIFIER'] = request.app.router[context['identifier']].url()
-
-                if (await get_auth(request)) is None:
-                    context['isauth'] = False
-                else:
-                    context['isauth'] = True
-            except:
-                context = await coro(*args)
-
-            response = render_template(template_name, request, context,
-                                       app_key=app_key, encoding=encoding)
-            response.set_status(status)
-            return response
-        return wrapped
-    return wrapper

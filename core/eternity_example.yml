@@ -1,0 +1,46 @@
+env:
+  # 开发环境的 hostname
+  hostname: 'example'
+  # 无用
+  flag: false
+server:
+  # 服务运行的地址
+  host: '0.0.0.0'
+  # 服务运行的端口
+  port: 1064
+  # 是否开启维护模式
+  maintain: false
+  # 模板主题
+  template: None
+redis:
+  # Redis服务托管的地址
+  host: '127.0.0.1'
+  # Redis服务托管的端口
+  port: 6379
+  # 数据库名称，可修改
+  database: 'Windless'
+  # 数据库是否需要认证连接，暂时无用
+  auth: false
+admin:
+  # 管理员用户名
+  username: '稗田千秋'
+  # 管理员登录帐号
+  email: 'i@wind.moe'
+  # 管理员登陆密码
+  password: '123456'
+  # 搁置
+  secret_key: ''
+  # one time password
+  otp: false
+  # otp secret key
+  otp_key: ''
+  # 搁置
+  cas: false
+  # U2F
+  u2f: false
+rss:
+  # RSS 属性
+  author: '稗田千秋'
+  name: 'Windless'
+  link: 'https://wind.moe'
+  description: 'Windless是稗田千秋的个人博客,记录随笔,代码,日常,ACGN等内容'

@@ -1,0 +1,19 @@
+{% extends "public.html" %}
+{% block content %}
+
+<article class="about mdl-card mdl-cell mdl-cell--12-col">
+    <div class="title mdl-color-text--grey-500">About</div>
+    <input id="word_count" type="hidden" value="{{ word_count }}">
+    <section class="text">
+        {{ profile.html }}
+    </section>
+    <section class="comment">
+        <div class="title">Comment</div>
+        <div id="disqus_thread">尝试加载Disqus评论, 失败则会使用基础模式.</div>
+        <ul class="comment-posts"></ul>
+    </section>
+</article>
+<script>
+    document.title = "关于 - Wind.moe"
+</script>
+{% endblock %}

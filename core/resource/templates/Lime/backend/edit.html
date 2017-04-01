@@ -1,0 +1,55 @@
+{% extends "backend.html" %}
+{% block content %}
+
+{% import 'utils/form.html' as forms %}
+
+
+<div class="card">
+    <h4>Edit Article</h4>
+    <hr/>
+    <form method="POST" action="/manage/article/edit" accept-charset="UTF-8">
+
+        {{ forms.input('title', label='Title', required='required', style='width:100%') }}
+
+        {{ forms.textarea('text', id='MyID', label='Text', div_id='add_id') }}
+
+        {{ forms.input('citation', label='Citation', style='width:100%') }}
+
+        {{ forms.input('tag', label='Tag', required='required') }}
+
+        {{ forms.input('author', label='Author', required='required') }}
+
+        {{ forms.select('category', options=['Algorithm','ACGN','Code','Daily','Essay','Web'],
+        style='width:100px;display: inline-block') }}
+
+        {{ forms.checkbox('top', label='置顶文章？') }}
+
+        {{ forms.checkbox('open', label='公开文章？') }}
+
+        {{ forms.checkbox('pic', label='插入图片', pic=true) }}
+
+        {{ forms.input('pic_address', div_id='p_address', label='Picture Address', style='display:none;') }}
+
+        {{ forms.input('axis_y', div_id='p_axis', label='垂直位移', style='display:none;') }}
+
+        <br>
+
+        {{ forms.input('id', label='迁移id') }}
+
+        {{ forms.input('time', label='迁移时间戳') }}
+
+        {{ forms.submit(style='margin-top:20px') }}
+
+    </form>
+
+</div>
+<link rel="stylesheet" href="/static/lime/css/simplemde.min.css">
+<script src="/static/lime/js/simplemde.min.js"></script>
+<style>
+    .editor-preview-active {
+        overflow: hidden;
+    }
+
+</style>
+{{ forms.simplemde_conf() }}
+{% endblock %}

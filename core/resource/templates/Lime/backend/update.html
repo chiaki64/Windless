@@ -1,0 +1,65 @@
+{% extends "backend.html" %}
+{% block content %}
+
+{% import 'utils/form.html' as forms %}
+
+
+<div class="card">
+    <h4>Update Article</h4>
+    <hr/>
+    <form method="POST" action="/manage/article/{{ article.id }}/edit" accept-charset="UTF-8">
+
+        {{ forms.input('title', label='Title', value=article.title, required='required', style='width:100%') }}
+
+        {{ forms.textarea('text', id='MyID', label='Text', div_id='add_id') }}
+
+        {{ forms.input('citation', label='Citation', value=article.citation, style='width:100%') }}
+
+        {{ forms.input('tag', label='Tag', value=article.tag, required='required') }}
+
+        {{ forms.input('author', label='Author', value=article.author, required='required') }}
+
+        {{ forms.select('category', options=['Algorithm','ACGN','Code','Daily','Essay','Web'],
+        update=article.category, style='width:100px;display: inline-block') }}
+
+        {{ forms.checkbox('top', label='置顶文章？', update=article.top) }}
+
+        {{ forms.checkbox('open', label='公开文章？', update=article.open) }}
+
+        {{ forms.checkbox('update', label='更新时间戳？') }}
+
+        {{ forms.checkbox('pic', label='插入图片', pic=true) }}
+
+        {{ forms.input('pic_address', div_id='p_address', label='Picture Address',
+        value=article.pic_address, style='display:none;') }}
+
+        {{ forms.input('axis_y', div_id='p_axis', label='垂直位移',
+        value=article.axis_y, style='display:none;') }}
+
+        <br>
+
+        {{ forms.input('id', label='迁移id', value=article.id) }}
+
+        {{ forms.input('time', label='迁移时间戳', value=article.created_time) }}
+
+        {{ forms.submit(value='Update Article', style='margin-top:20px') }}
+
+        <script>
+            if ('{{ article.pic }}' == 'on') {
+                    $('#pic').setAttribute('checked', 'checked');
+                    $("#p_address").setAttribute("style", "display:inline-block;");
+                    $("#p_axis").setAttribute("style", "display:inline-block;");
+                }
+        </script>
+
+    </form>
+</div>
+<link rel="stylesheet" href="/static/lime/css/simplemde.min.css">
+<script src="/static/lime/js/simplemde.min.js"></script>
+<style>
+    .editor-preview-active {
+        overflow: hidden;
+    }
+</style>
+{{ forms.simplemde_conf(article=article) }}
+{% endblock %}

@@ -1,8 +1,8 @@
-watchdog==0.8.3
-aiohttp==1.2.0
+watchdog
+aiohttp
 aiohttp_jinja2
-aioredis==0.2.9
-uvloop==0.7.2
+aioredis
+uvloop
 misaka
 pyotp
 pytz
@@ -10,3 +10,4 @@ python-u2flib-server
 ticket_auth
 bs4
 pytest
+msgpack-python

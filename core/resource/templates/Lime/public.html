@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>稗田千秋 > 虹の向こうへ 行きたいな - Wind.moe</title>
+    <!-- Description Meta -->
+    <meta name="author" content="稗田千秋">
+    <meta name="keywords" content="稗田千秋,Hieda no Chiaki,forblackking,个人博客,blog">
+    <meta name="copyright" content="Hieda no Chiaki">
+    <meta name="generator" content="Vim">
+    {% if article %}
+    <meta name="description" content="{{ article.desc_text }}">
+    {% endif %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://wind.moe/static/icon/favicon.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="https://wind.moe/static/icon/favicon-192x192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="https://wind.moe/static/icon/favicon-192x192.png">
+    <!-- iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Windless">
+    <!-- Open Graph Protocol -->
+    <meta property="og:title" content="Chiaki's Blog">
+    <meta property="og:image" content="/static/icon/favicon-192x192.png"/>
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://wind.moe">
+    <meta property="og:description" content="稗田千秋的个人博客">
+    <!-- Other Setting -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#7AC354"/>
+    <meta name="msapplication-TileColor" content="#3372DF">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="cache-control" content="no-siteapp"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+
+    <link rel="stylesheet" href="/static/lime/css/material.min.css">
+    <link rel="stylesheet" href="/static/lime/css/wind.min.css">
+    <script src="/static/lime/js/toolkit.min.js"></script>
+</head>
+
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <!-- Component: Header -->
+    <header class="header mdl-layout__header mdl-layout__header--waterfall">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Windless</span>
+
+            <div class="mdl-layout-spacer"></div>
+
+            <div class="search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="search-field">
+                </div>
+            </div>
+
+            <!-- Navigation, hide in small screens. -->
+            <navigation class="navigation-container">
+                <nav class="navigation mdl-navigation">
+                    <a class="mdl-navigation__link" href="/">Home</a>
+                    <a class="mdl-navigation__link" href="/archive"> Archive</a>
+                    <a class="mdl-navigation__link" href="/links">Links</a>
+                    <a class="mdl-navigation__link" href="/guest-book">Guestbook</a>
+                    <a class="mdl-navigation__link" href="/about">About</a>
+                </nav>
+            </navigation>
+
+            <!-- Mobile Title -->
+            <span class="mobile-title mdl-layout-title"></span>
+            <!-- Button Gruop -->
+            <div class="header-button">
+                <!--<button id="mbtn" class="mdl-button mdl-js-button mdl-button&#45;&#45;icon">-->
+                <!--<i class="material-icons" id="micon">music_note</i>-->
+                <!--</button>-->
+                <!--<span class="mdl-tooltip" for="mbtn">音乐/Music</span>-->
+                <button id="rss_btn" class="mdl-button mdl-js-button mdl-button--icon"
+                        onclick="window.location.href='/feed'">
+                    <i class="material-icons" id="rss_icon">rss_feed</i>
+                </button>
+                <span class="mdl-tooltip" for="rss_btn" id="rss_tooltip">订阅/Feed</span>
+            </div>
+
+            <button class="header-menu-button mdl-button mdl-js-button mdl-button--icon" id="more-button">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+                <a href="/auth/login">
+                    <li class="mdl-menu__item">Login</li>
+                </a>
+            </ul>
+
+        </div>
+    </header>
+
+    <!-- Component: Drawer -->
+    <drawer class="drawer mdl-layout__drawer">
+
+        <!-- Drawer header -->
+        <header class="drawer-header">
+            <div style="height: 19px;"></div>
+            <div id="drawer-avatar">
+                <img src="/static/img/avatar.jpg" alt="">
+            </div>
+            <a href="javascript:void(0);" class="drawer-brand">稗田千秋(i@wind.moe)</a>
+        </header>
+
+        <!-- Drawer navigation -->
+        <nav class="drawer-nav mdl-navigation">
+            <a class="mdl-navigation__link" href="/">Home</a>
+
+            <div id="drop-cat">
+                <a class="mdl-navigation__link" href="javascript:void(0)" onclick="slide()">
+                    Category
+                    <b class="caret"></b>
+                </a>
+                <ul>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/acgn">ACGN</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/algorithm">Algorithm</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/code">Code</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/daily">Daily</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/essay">Essay</a>
+                    </li>
+                    <li>
+                        <a class="mdl-navigation__link" href="/category/web">Web</a>
+                    </li>
+                </ul>
+            </div>
+
+            <separator class="drawer-separator"></separator>
+
+            <a class="mdl-navigation__link" href="/links">Links</a>
+            <a class="mdl-navigation__link" href="/archive">Archive</a>
+            <a class="mdl-navigation__link" href="/guest-book">Guestbook</a>
+            <a class="mdl-navigation__link" href="/feed">Feed</a>
+            <a class="mdl-navigation__link" href="/about">About</a>
+        </nav>
+    </drawer>
+
+    <!-- Component: Container -->
+    <main class="container mdl-grid mdl-layout__content">
+        <div class="content">
+
+            {% block content %}{% endblock %}
+            {% if comment %}
+            <script>
+                var display = false;
+                var disqus_config = function () {
+                    PAGE_URL = 'https://' + window.location.host + '{{ PAGE_IDENTIFIER }}';
+                    PAGE_IDENTIFIER = '{{ PAGE_IDENTIFIER }}';
+                    this.page.url = PAGE_URL;
+                    this.page.identifier = PAGE_IDENTIFIER;
+                };
+                function comment() {
+                    if (display == true)
+                        return;
+                    var d = document, s = d.createElement('script');
+                    s.src = '//windcore.disqus.com/embed.js';
+                    s.async = true;
+                    s.onload = function () {
+                        clearTimeout(timer);
+                    }
+
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                    display = true;
+                }
+
+                function load_comment() {
+                    $('#disqus_thread').className = 'hidden';
+                    $('.comment .title').innerHTML = 'Comment - <a href="javascript:void(0)" onclick="reply()">发表新评论</a>';
+                    $.getJSON({
+                        'url': 'http://45.32.33.216/comment',
+                        'data': {
+                            'link': 'https://wind.moe' + '{{ PAGE_IDENTIFIER }}'
+                        },
+                        success: function (json) {
+                            comment_render(json['data']);
+                        }
+                    })
+                }
+                timer = setTimeout(load_comment, 3000);
+
+            </script>
+            {% endif %}
+            <!-- Component: Footer -->
+            <footer>
+                <div class="footer">
+                    <p>CopyRight © 2017 Chiaki's Blog.</p>
+                    <p>Proudly powered by <a href="https://github.com/forblackking/Windless" title="稗田千秋"
+                                             target="_blank" class="">Windless</a>.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Component: Button Group -->
+    <section class="more-section">
+        <div class="float-btn-group" id="more">
+            <button class="mdl-button mdl-js-button" id="open-btn">
+                <i class="material-icons"
+                   style="font-size:30px;">add</i>
+            </button>
+            <div class="btn-list">
+                <button class="btn-float" id="top-btn">
+                    <i class="material-icons" style="font-size: 35px;line-height: 1.8;">keyboard_arrow_up</i>
+                </button>
+
+                <div class="" id="music-more">
+                    <button class="btn-float mdl-button mdl-js-button circle" id="music-btn">
+                        <i class="material-icons" style="font-size:27px;">queue_music</i>
+                        <div class="track"></div>
+                        <div class="left transition-rotate"></div>
+                        <div class="right transition-rotate"></div>
+                        <div class="mask"></div>
+                    </button>
+                    <div class="btn-list">
+                        <div class="song"></div>
+                        <div class="album"></div>
+                        <ul id="option_list">
+
+                            <li>
+                                <div class="next">
+                                    <i class="material-icons" id="btn_next">skip_next</i>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="play">
+                                    <i class="material-icons">play_arrow</i>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="pause hidden">
+                                    <i class="material-icons">pause</i>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="prev">
+                                    <i class="material-icons" id="btn_prev">skip_previous</i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <audio id="audio"></audio>
+
+                </div>
+                <button class="btn-float" id="show-dialog">
+                    <i class="material-icons" style="padding-top:22px;">question_answer</i>
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Component: Dialog -->
+    <dialog class="mdl-dialog">
+        <h4 class="mdl-dialog__title">About this site</h4>
+        <div class="mdl-dialog__content">
+                version:1.01 Alpha
+                <br>博客主题: Lime
+                <br>联系方式: <a href="mailto:i@wind.moe">i@wind.moe</a>
+                <br>写作语言: zh_CN & en_US
+                <br>博客遵循<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"> CC
+                BY-NC-SA 4.0</a>许可进行创作
+                <br>
+                <br>此外,本博客会基于访客的Request Headers记录部分匿名数据用于统计(Logger的源码见<a href="">Github</a>),包含Referer, User-Agent & IP
+                Address.个人绝不会主动将数据泄露给第三方
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button close">Roger That</button>
+        </div>
+    </dialog>
+
+
+</div>
+</body>
+<script src="/static/lime/js/material.min.js"></script>
+<script src="/static/lime/js/dialog.min.js"></script>
+<script src="/static/lime/js/wind.min.js"></script>
+</html>
