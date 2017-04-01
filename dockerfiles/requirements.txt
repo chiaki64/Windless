@@ -1,4 +1,4 @@
-aiohttp
+aiohttp==2.0.5
 aiohttp-jinja2
 aiohttp-security
 aiohttp-session
