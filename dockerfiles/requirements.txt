@@ -8,7 +8,7 @@ celery
 pyotp
 pytz
 PyYAML
-python-u2flib-server==4.0.1
+python-u2flib-server
 simplejson
 uvloop
 watchdog

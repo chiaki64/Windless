@@ -8,10 +8,10 @@ from aiohttp_security import remember, forget, authorized_userid
 from components.eternity import config
 from components.security.auth import auth, check_credentials, check_method
 from components.security.decorators import require
-from components.security.u2f import (sign,
+from components.security.factor import (sign,
                                      enroll,
                                      bind,
-                                     u2f_verify)
+                                     verify)
 from utils.abstract import AbsWebView
 from utils.period import todate
 from utils.response import geass, http_400_response
@@ -48,7 +48,7 @@ class LoginView(AbsWebView):
 
         if config.admin['u2f'] and '_method' not in form:
             users = await self.redis.get('Auth.U2F') or {}
-            users[identity], ok = await u2f_verify(users[identity], dict(await self.request.post()))
+            users[identity], ok = await verify(users[identity], dict(await self.request.post()))
             if ok:
                 await self.redis.set('Auth.U2F', users, many=False)
                 await remember(self.request, response, identity)
