@@ -1,16 +1,16 @@
 redis:
     image: redis
     volumes:
-        - /home/chiaki/Public/data:/data
+        - /home/chiaki/iventory/data:/data
     ports:
         - "127.0.0.1:6379:6379"
 
 windless:
     image: windless/server:v1
     volumes:
-        - /home/chiaki/Public/Python/Windless:/code
+        - /srv/www:/code
     links:
         - redis:redis
     ports:
-        - "127.0.0.1:8080:8080"
-    command: bash /code/dockerfiles/windless/run.sh
+        - "127.0.0.1:1064:1064"
+    command: bash /code/dockerfiles/run.sh
