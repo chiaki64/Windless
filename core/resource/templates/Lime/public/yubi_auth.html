@@ -20,7 +20,7 @@
         var request = {{ request }};
         console.log("Register: ", request);
         var appId = request.appId;
-        var registerRequests = [{version: request.version, challenge: request.challenge}];
+        var registerRequests = request.registerRequests;
         console.log(appId, registerRequests);
         u2f.register(appId, registerRequests, [],
             function (deviceResponse) {
