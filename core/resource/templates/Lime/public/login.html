@@ -31,7 +31,7 @@ setTimeout(function () {
     console.log("sign: ", request);
     var appId = request.appId;
     var challenge = request.challenge;
-    var registeredKeys = [{version: request.version, keyHandle: request.keyHandle}];
+    var registeredKeys = request.registeredKeys;
     u2f.sign(appId, challenge, registeredKeys,
         function (deviceResponse) {
             console.log("Register callback", deviceResponse);
