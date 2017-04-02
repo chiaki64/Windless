@@ -9,9 +9,9 @@ from components.eternity import config
 from components.security.auth import auth, check_credentials, check_method
 from components.security.decorators import require
 from components.security.factor import (sign,
-                                     enroll,
-                                     bind,
-                                     verify)
+                                        enroll,
+                                        bind,
+                                        verify)
 from utils.abstract import AbsWebView
 from utils.period import todate
 from utils.response import geass, http_400_response

@@ -10,7 +10,7 @@ import aiohttp_jinja2
 from aiohttp import web
 from aiohttp_security import setup as setup_security
 from aiohttp_security import SessionIdentityPolicy
-from aiohttp_session import setup as setup_session
+from aiohttp_session import session_middleware
 from aiohttp_session.redis_storage import RedisStorage
 from components.memory import RedisFilter
 from components.eternity import config
@@ -25,6 +25,7 @@ from utils.middleware import (error_middleware,
 async def init(loop):
     # Middlewares
     middlewares = [
+        session_middleware(RedisStorage(await aioredis.create_pool((config.redis_ip, 6379)), cookie_name='w')),
         error_middleware,
         maintain_middleware,
     ]
@@ -52,7 +53,6 @@ async def init(loop):
         }, many=False)
 
     # Security
-    setup_session(app, RedisStorage(await aioredis.create_pool((config.redis_ip, 6379)), cookie_name='w'))
     setup_security(app,
                    SessionIdentityPolicy(),
                    RedisAuthorizationPolicy(redis))

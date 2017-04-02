@@ -27,10 +27,6 @@ async def error_middleware(app, handler):
 
 async def maintain_middleware(app, handler):
     async def middleware_handler(request):
-        # print('header->',request.headers)
-        # print(dir(request))
-        # print(request.path, request.url)
-        # print(request.cookies)
         if config.server['maintain'] is False or list(filter(lambda x: x in request.path, ['manage', 'auth', 'static'])) \
                 or await auth(request) is not None:
             response = await handler(request)
