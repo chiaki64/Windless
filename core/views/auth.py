@@ -27,7 +27,7 @@ class LoginView(AbsWebView):
             try:
                 user = users[identity]
                 users[identity], req = await sign(user)
-                await self.redis.set('Auth.U2F', users)
+                await self.redis.set('Auth.U2F', users, many=False)
             except KeyError:
                 pass
         elif method == 'common':

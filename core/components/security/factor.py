@@ -34,7 +34,6 @@ async def sign(user):
     return user, json.dumps(challenge.data_for_client)
 
 async def verify(user, data):
-    print(user)
     challenge = user.pop('_u2f_challenge_')
     try:
         complete_authentication(challenge, data, [facet])
