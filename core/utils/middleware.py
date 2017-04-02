@@ -28,7 +28,7 @@ async def error_middleware(app, handler):
 async def maintain_middleware(app, handler):
     async def middleware_handler(request):
         if config.server['maintain'] is False or list(filter(lambda x: x in request.path, ['manage', 'auth', 'static'])) \
-                or await auth(request) is not None:
+                or await auth(request):
             response = await handler(request)
             return response
         return await http_503_response()
