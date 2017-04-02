@@ -36,7 +36,7 @@ async def sign(user):
 async def verify(user, data):
     challenge = user.pop('_u2f_challenge_')
     try:
-        complete_authentication(challenge, data, [facet])
+        complete_authentication(challenge, data['tokenResponse'], [facet])
     except AttributeError:
         return user, False
     return user, True
