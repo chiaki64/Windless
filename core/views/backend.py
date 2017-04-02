@@ -275,7 +275,10 @@ class SecurityView(AbsWebView):
         username = config.admin['identity']
         users = await self.redis.get('Auth.U2F') or {}
         if username in users:
-            devices = [json.loads(d) for d in users[username]['_u2f_devices_']]
+            try:
+                devices = [json.loads(d) for d in users[username]['_u2f_devices_']]
+            except KeyError:
+                devices = []
         else:
             devices = []
         return geass({
