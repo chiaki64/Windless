@@ -21,10 +21,10 @@ async def bind(user, data):
     response = data['tokenResponse']
     enroll = user.pop('_u2f_enroll_')
     device, cert = complete_registration(enroll, response, [facet])
-    patch = device.json
+    patch = device
     patch['deviceName'] = data['deviceName']
     patch['registerDate'] = data['date']
-    user.setdefault('_u2f_devices_', []).append(patch)
+    user.setdefault('_u2f_devices_', []).append(json.dumps(patch))
     # cert = x509.load_der_x509_certificate(cert, default_backend())
     return user, True
 
