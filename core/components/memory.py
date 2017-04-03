@@ -122,7 +122,7 @@ class RedisFilter:
                     # 玄学
                     data.sort(key=lambda x: x['id'], reverse=reverse)
                 except KeyError:
-                    data.sort(key=lambda x: x['order'], reverse=reverse)
+                    data.sort(key=lambda x: int(x['order']), reverse=reverse)
             return data
         return []
 
