@@ -167,19 +167,19 @@
                     this.page.identifier = PAGE_IDENTIFIER;
                 };
                 function comment() {
-                    if (display == true)
-                        return;
-                    timer = setTimeout(load_comment, 3000);
-                    var d = document, s = d.createElement('script');
-                    s.src = '//windcore.disqus.com/embed.js';
-                    s.async = true;
-                    s.onload = function () {
-                        clearTimeout(timer);
-                    }
+                    if (display != true) {
+                        timer = setTimeout(load_comment, 3000);
+                        var d = document, s = d.createElement('script');
+                        s.src = '//windcore.disqus.com/embed.js';
+                        s.async = true;
+                        s.onload = function () {
+                            clearTimeout(timer);
+                        }
 
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                    display = true;
+                        s.setAttribute('data-timestamp', +new Date());
+                        (d.head || d.body).appendChild(s);
+                        display = true;
+                    }
                 }
 
                 function load_comment() {
