@@ -169,6 +169,7 @@
                 function comment() {
                     if (display == true)
                         return;
+                    timer = setTimeout(load_comment, 3000);
                     var d = document, s = d.createElement('script');
                     s.src = '//windcore.disqus.com/embed.js';
                     s.async = true;
@@ -194,7 +195,7 @@
                         }
                     })
                 }
-                timer = setTimeout(load_comment, 3000);
+
 
             </script>
             {% endif %}
