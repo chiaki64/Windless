@@ -265,6 +265,7 @@ class GuestBookView(AbsWebView):
         data = dict({}, **await self.request.post())
         data['created_time'] = str(time.time())
         data['date'] = todate(data['created_time'], '%b.%d')
+        data['html'] = render(data['text'])
         await self.redis.lpush('GuestBook', data, isdict=True)
         raise web.HTTPFound('/guest-book')
 
