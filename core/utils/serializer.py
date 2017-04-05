@@ -55,7 +55,7 @@ class ArticleSer(Serializer):
             html=form['html'],
             desc=form['desc'],
             desc_text=((form.get('text'))[:(form.get('text')).find('-----', 1)]).replace('\n', ' ').replace('\"', '\''),
-            citation=form.get('citation'),
+            citation=form['citation'] if form.get('citation') else None,
             top=form.get('top'),
             open=form.get('open'),
             pic=form.get('pic'),
