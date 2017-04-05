@@ -89,7 +89,7 @@ class ArticleUpdateView(AbsWebView):
         origin = await self.redis.get('Article', id)
         form['updated_time'] = form['time']
         if form['citation'] == 'None':
-            del form['citation']
+            form['citation'] = None
         data = dict(origin, **form)
 
         ser = ArticleSer(form=data)
