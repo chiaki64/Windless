@@ -87,7 +87,7 @@ class ArticleUpdateView(AbsWebView):
         form = dict(await self.request.post())
         (id, new_id) = (self.match['id'], form['id'])
         origin = await self.redis.get('Article', id)
-        form['updated_time'] = form['updated_time']
+        form['updated_time'] = form['created_time']
         data = dict(origin, **form)
 
         ser = ArticleSer(form=data)
