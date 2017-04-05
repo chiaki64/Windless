@@ -28,7 +28,7 @@
     <section class="text">
         {{ article.html }}
 
-        {% if article.citations != [] %}
+        {% if article.citations != [] and article.citations != 'None' %}
         <div class="article-apa">
             <div class="apa-title">引用</div>
             <br>
