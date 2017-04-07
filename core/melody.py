@@ -18,6 +18,7 @@ from components.logger import logger, formatters
 from components.router import compass
 from components.security.auth import (RedisAuthorizationPolicy,
                                       encrypt)
+from utils.constant import CONST
 from utils.middleware import (error_middleware,
                               maintain_middleware)
 
@@ -58,6 +59,7 @@ async def init(loop):
                    RedisAuthorizationPolicy(redis))
 
     await compass(app.router)
+    CONST.CATEGORY = await app.redis.get('Categories') or []
 
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(config.template_addr))
 

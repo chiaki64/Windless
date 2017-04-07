@@ -47,7 +47,7 @@
            style="color:#3f51b5;font-size:12px;top:-6px;visibility:visible;">Category</label>
     <select name="{{ name }}" id="{{ name }}">
         {% for opt in options %}
-        <option value="{{ opt | lower }}">{{ opt }}</option>
+        <option value="{{ opt.name | lower }}">{{ opt.desc }}</option>
         {% endfor %}
     </select>
 </div>

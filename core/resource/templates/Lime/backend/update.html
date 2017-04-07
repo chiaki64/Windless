@@ -19,7 +19,7 @@
 
         {{ forms.input('author', label='Author', value=article.author, required='required') }}
 
-        {{ forms.select('category', options=['Algorithm','ACGN','Code','Daily','Essay','Web'],
+        {{ forms.select('category', options=categories,
         update=article.category, style='width:100px;display: inline-block') }}
 
         {{ forms.checkbox('top', label='置顶文章？', update=article.top) }}

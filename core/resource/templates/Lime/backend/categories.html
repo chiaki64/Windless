@@ -1,0 +1,110 @@
+{% extends "backend.html" %}
+{% block content %}
+<div class="card">
+    <table class="mdl-data-table mdl-js-data-table ">
+        <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric th-center">分类</th>
+            <th class="th-center">描述</th>
+            <th class="th-center">文章数目</th>
+            <th class="th-center">编辑</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for category in categories %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">{{ category.name }}</td>
+            <td>{{ category.desc }}</td>
+            <td>0</td>
+            <td><a href="javascript:void(0);" onclick="category_dialog('{{ category.name }}')"> 修改 </a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="mdl-button mdl-js-button mdl-button--raised" id="show-dialog">
+        新增链接
+    </button>
+</div>
+<style>
+    .th-center {
+        text-align: center !important;
+    }
+</style>
+<dialog class="mdl-dialog" style="width:600px;">
+    <h4 class="mdl-dialog__title">增加分类</h4>
+    <div class="mdl-dialog__content">
+
+        <div class="mdl-textfield mdl-js-textfield" style="width: 190px;margin-right: 10px;">
+            <input class="mdl-textfield__input" type="text" id="name">
+            <label class="mdl-textfield__label" for="name">Name</label>
+        </div>
+
+        <div class="mdl-textfield mdl-js-textfield" style="width: 500px;">
+            <input class="mdl-textfield__input" type="text" id="desc">
+            <label class="mdl-textfield__label" for="desc">desc</label>
+        </div>
+
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button submit" data-method="POST" id="link-submmit">Roger That</button>
+        <button type="button" class="mdl-button close">Close</button>
+    </div>
+</dialog>
+
+<script>
+    var dialog = document.querySelector('dialog');
+    var newDialogButton = document.querySelector('#show-dialog');
+
+    if (!dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+
+    newDialogButton.addEventListener('click', function () {
+        $('#name').value = '';
+        $('#desc').value = '';
+        $('#link-submmit').dataset.method = 'POST';
+        dialog.showModal();
+    });
+
+    function category_dialog(name) {
+        $('#name').value = name;
+        $('#desc').value = '';
+        $('#link-submmit').dataset.method = 'DELETE';
+        dialog.showModal();
+    }
+
+    dialog.querySelector('.close').addEventListener('click', function () {
+        dialog.close();
+    });
+
+    dialog.querySelector('.submit').addEventListener('click', function () {
+        fetch('/manage/categories', {
+            credentials: 'include',
+            method: $('#link-submmit').dataset.method,
+            mode: 'cors',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            body: 'name=' + $('#name').value + '&desc=' + $('#desc').value
+        }).then(function (res) {
+            if (res.ok) {
+                return res.json().then(function (json) {
+                    dialog.close();
+                    location.reload();
+                });
+            } else {
+                alert("服务器错误.\nstatus:", res.status);
+                dialog.close();
+            }
+        }).catch(function (e) {
+            alert("服务器错误.");
+            dialog.close();
+        });
+    });
+
+
+
+</script>
+{% endblock %}

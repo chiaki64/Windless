@@ -171,7 +171,6 @@
     });
 
     function link_dialog(idx) {
-        componentHandler.upgradeDom();
         var data = $.all('.link-tb tr')[idx].dataset;
         $('#name').value = data.name;
         $('#url').value = data.url;

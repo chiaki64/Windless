@@ -7,7 +7,7 @@ from aiohttp import web
 from components.eternity import config
 from components.security.decorators import require
 from utils.abstract import AbsWebView
-from utils.constant import CATEGORY
+from utils.constant import CONST
 from utils.period import todate
 from utils.response import (geass,
                             http_400_response)
@@ -27,8 +27,8 @@ class IndexView(AbsWebView):
         except TypeError:
             pub_cnt = 0
         cat_cnt = {}
-        for cat in CATEGORY:
-            cat_cnt[cat] = (await self.redis.lget(f'Category.{cat}')).__len__()
+        for cat in CONST.CATEGORY:
+            cat_cnt[cat["name"]] = (await self.redis.lget(f'Category.{cat["name"].lower()}')).__len__()
         return geass({
             'articles': {
                 'count': count,
@@ -41,11 +41,12 @@ class IndexView(AbsWebView):
 @require
 class ArticleEditView(AbsWebView):
     async def get(self):
-        return geass({}, self.request, 'backend/edit.html')
+        return geass({
+            'categories': CONST.CATEGORY
+        }, self.request, 'backend/edit.html')
 
     async def post(self):
         form = dict(await self.request.post(), **{'edit': True})
-        print(form)
         ser = ArticleSer(form=form)
 
         if ser.is_valid():
@@ -78,10 +79,12 @@ class ArticleUpdateView(AbsWebView):
         # 不存在的id报错
         article_id = self.match['id']
         data = await self.redis.get('Article', article_id)
-        data['text'] = data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
+        data['text'] = data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"',
+                                                                                                                 '\\"')
 
         return geass({
-            'article': data
+            'article': data,
+            'categories': CONST.CATEGORY
         }, self.request, 'backend/update.html')
 
     async def post(self):
@@ -148,7 +151,8 @@ class ProfileView(AbsWebView):
                 'name': data['name'],
                 'avatar': '/static/img/avatar.jpg',
                 'link_desc': data['link_desc'],
-                'text': data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
+                'text': data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"',
+                                                                                                                  '\\"')
                     .replace('<', '&lt;').replace('>', '&gt;')
             }
         }, self.request, 'backend/profile.html')
@@ -224,6 +228,37 @@ class LinksView(AbsWebView):
         _id = data['_id']
         data.pop('_id')
         await self.redis.lset('Link', _id, data, isdict=True, _key='order')
+        return web.json_response({
+            'status': 200
+        })
+
+
+@require
+class CategoryView(AbsWebView):
+    async def get(self):
+        data = await self.redis.get('Categories') or []
+        return geass({
+            'categories': data
+        }, self.request, 'backend/categories.html')
+
+    async def post(self):
+        data = dict(await self.request.post())
+        value = await self.redis.get('Categories') or []
+        value.append(data)
+        await self.redis.set('Categories', value, many=False)
+        CONST.CATEGORY = value
+        return web.json_response({
+            'status': 200
+        })
+
+    async def delete(self):
+        data = dict(await self.request.post())
+        value = await self.redis.get('Categories') or []
+        for item in value:
+            if item['name'] == data['name']:
+                value.remove(item)
+                break
+        await self.redis.set('Categories', value, many=False)
         return web.json_response({
             'status': 200
         })

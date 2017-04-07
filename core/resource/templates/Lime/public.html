@@ -121,24 +121,11 @@
                     <b class="caret"></b>
                 </a>
                 <ul>
+                    {% for category in drawer_category %}
                     <li>
-                        <a class="mdl-navigation__link" href="/category/acgn">ACGN</a>
+                        <a class="mdl-navigation__link" href="/category/{{ category.name | lower }}">{{ category.desc }}</a>
                     </li>
-                    <li>
-                        <a class="mdl-navigation__link" href="/category/algorithm">Algorithm</a>
-                    </li>
-                    <li>
-                        <a class="mdl-navigation__link" href="/category/code">Code</a>
-                    </li>
-                    <li>
-                        <a class="mdl-navigation__link" href="/category/daily">Daily</a>
-                    </li>
-                    <li>
-                        <a class="mdl-navigation__link" href="/category/essay">Essay</a>
-                    </li>
-                    <li>
-                        <a class="mdl-navigation__link" href="/category/web">Web</a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 

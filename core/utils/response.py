@@ -4,6 +4,7 @@
 import asyncio
 from aiohttp import web
 from aiohttp_jinja2 import APP_KEY, render_template
+from utils.constant import CONST
 
 
 def geass(context, request, tmpl=None, *, app_key=APP_KEY, encoding='utf-8', status=200):
@@ -14,6 +15,7 @@ def geass(context, request, tmpl=None, *, app_key=APP_KEY, encoding='utf-8', sta
         if 'identifier' in context:
             context['PAGE_IDENTIFIER'] = request.app.router[context['identifier']].url()
             # Auth
+        context['drawer_category'] = CONST.CATEGORY
     except:
         raise RuntimeError
 
