@@ -98,10 +98,18 @@
 </nav>
 
 <script>
-    var cate = {'essay': '随笔', 'daily': '日常', 'code': '代码', 'algorithm': '算法', 'acgn': 'ACGN', 'web': 'Web'};
+    var cate = {{ drawer_category }};
     if (location.href.indexOf("category") > 0) {
         var nt = location.href.split("category/")[1].toLowerCase();
-        document.title = cate[nt] + " > 稗田千秋";
+        console.log(nt);
+        for (var i in cate){
+            console.log(cate[i]);
+            if (cate[i]['name'].toLowerCase() == nt){
+                console.log('true')
+                document.title = cate[i]['desc'] + " > 稗田千秋";
+            }
+        }
+
     }
 </script>
 {% endblock %}
