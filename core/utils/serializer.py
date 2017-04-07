@@ -33,7 +33,8 @@ class ArticleSer(Serializer):
 
     def serialize(self, form):
         # TODO:考虑更新和创建
-        form['created_time'] = (str(int(time.time())) if form['time'] == '' else form['time'])
+        form['created_time'] = (
+        str(int(time.time())) if form.get('time') is None or form.get('time') == '' else form['time'])
         if form.get('edit'):
             form['updated_time'] = form['created_time']
         if form.get('update') == 'on':
@@ -71,7 +72,6 @@ class ArchiveSer(Serializer):
         self.exclude = ()
 
     def serialize(self, form):
-
         return dict(
             id=form.get('id'),
             title=form.get('title'),
@@ -96,4 +96,3 @@ class ConfigSer(Serializer):
 
     def serialize(self, form):
         return dict()
-

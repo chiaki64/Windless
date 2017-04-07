@@ -45,6 +45,7 @@ class ArticleEditView(AbsWebView):
 
     async def post(self):
         form = dict(await self.request.post(), **{'edit': True})
+        print(form)
         ser = ArticleSer(form=form)
 
         if ser.is_valid():
@@ -77,7 +78,7 @@ class ArticleUpdateView(AbsWebView):
         # 不存在的id报错
         article_id = self.match['id']
         data = await self.redis.get('Article', article_id)
-        data['text'] = data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
+        data['text'] = data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('"', '\\"')
 
         return geass({
             'article': data
@@ -147,7 +148,7 @@ class ProfileView(AbsWebView):
                 'name': data['name'],
                 'avatar': '/static/img/avatar.jpg',
                 'link_desc': data['link_desc'],
-                'text': data['text'].replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
+                'text': data['text'].replace('\\', '\\\\').replace('\\r', '\\\\r').replace('\r\n', '\\n').replace('\"', '\\"')
                     .replace('<', '&lt;').replace('>', '&gt;')
             }
         }, self.request, 'backend/profile.html')
