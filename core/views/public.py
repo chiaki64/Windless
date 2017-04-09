@@ -126,7 +126,7 @@ class ArchiveView(AbsWebView):
                 dit[year][month] = {
                     'length': 0,
                     'post': [],
-                    'open': True if idx < 10 else False
+                    'open': True if idx < 12 else False
                 }
 
             item['date'] = todate(item['created_time'], '%b.%d %Y')
