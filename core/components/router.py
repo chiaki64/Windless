@@ -17,7 +17,7 @@ routes = {
                 ('/links', public.LinkView, 'links'),
                 ('/archive', public.ArchiveView, 'archive'),
                 ('/about', public.ProfileView, 'about'),
-                ('/rss', views.rss_view, 'rss'),
+                ('/rss', views.rss_view, 'feed'),
                 ('/guest-book', public.GuestBookView, 'guest-book'),
                 ('/tag/{tag}', public.TagView, 'tag')
             ],
