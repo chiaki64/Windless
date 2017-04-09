@@ -54,7 +54,6 @@ routes = {
                 ('/config', backend.ConfigView, '_config'),
                 ('/profile', backend.ProfileView, '_profile'),
                 ('/links', backend.LinksView, '_links'),
-                # ('/link/{id}', backend.LinksUpdateView, '_link-update'),
                 ('/categories', backend.CategoryView, '_categories'),
                 ('/security', backend.SecurityView, '_security'),
                 ('/guest-book', backend.GuestBookView, '_guest-book')
