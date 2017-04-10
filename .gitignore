@@ -114,3 +114,4 @@ core/static/img/*
 wind.css
 .travis.yml
 log/
+/core/resource/static/img
