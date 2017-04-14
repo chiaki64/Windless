@@ -305,8 +305,16 @@ class GuestBookView(AbsWebView):
         data['created_time'] = str(time.time())
         data['date'] = todate(data['created_time'], '%b.%d')
         data['html'] = render(data['text'])
-        await self.redis.lpush('GuestBook', data, isdict=True)
+        await self.redis.lpush('GuestBook', data, isdict=True, rem=True)
         raise web.HTTPFound('/guest-book')
+
+    async def put(self):
+        data = dict({}, **await self.request.post())
+        _order = data['order']
+        await self.redis.lset('GuestBook', _order, data, isdict=True, _key='order')
+        return web.json_response({
+            'status': 200
+        })
 
 
 @require

@@ -84,13 +84,15 @@ class RedisFilter:
                     break
         await self.set(table, data, many=False)
 
-    async def lpush(self, table: str, value, isdict: bool = False):
+    async def lpush(self, table: str, value, isdict: bool = False, rem: bool = False, _key: str = 'id'):
         """
         将数据存入list
         Args:
             table:  表名
             value:  数据
             isdict: 数据是否是字典
+            rem:    暂时添加，在添加数据时是否删除相同key的数据
+            _key:   数据键值
         Returns:
             None
         """
@@ -98,6 +100,10 @@ class RedisFilter:
         if data is None:
             data = []
         elif data.count(value) == 0:
+            if rem:
+                for item in data:
+                    if item[_key] == value[_key]:
+                        data.remove(item)
             data.append(value)
         await self.set(table, data, many=False)
 
@@ -153,7 +159,7 @@ class RedisFilter:
             data = []
         await self.set(table, data, many=False)
 
-    async def get_list(self, table: str, keys: list = None, isauth: bool = False, istop:bool=False) -> list:
+    async def get_list(self, table: str, keys: list = None, isauth: bool = False, istop: bool = False) -> list:
         """
         将非list的数据以list形式返回
         Args:
